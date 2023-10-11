@@ -20,6 +20,8 @@
 #include "bullet.h"
 #include "effect.h"
 #include "particl.h"
+#include "map.h"
+#include "collision.h"
 
 #include<stdio.h>
 #include<time.h>
@@ -471,11 +473,11 @@ void CChibi::Control(void)
 		{//Dキーだけ押した
 
 		 //移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
+			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -485,11 +487,11 @@ void CChibi::Control(void)
 		{//Aキーだけ押した
 
 		 //移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
+			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -586,7 +588,7 @@ void CChibi::Control(void)
 		//モーションをセット(出現待ち)
 		m_motion->Set(MOTIONTYPE_APPR);
 
-		PlayerRot.y = D3DX_PI;
+		PlayerRot.y = 0.0f;
 
 		m_WaitApper = true;
 	}
@@ -688,11 +690,11 @@ void CFoot::Control(void)
 		{//Dキーだけ押した
 
 		 //移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
+			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -702,11 +704,11 @@ void CFoot::Control(void)
 		{//Aキーだけ押した
 
 		 //移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
+			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -802,7 +804,7 @@ void CFoot::Control(void)
 		//モーションをセット(出現待ち)
 		m_motion->Set(MOTIONTYPE_APPR);
 
-		PlayerRot.y = D3DX_PI;
+		PlayerRot.y = 0.0f;
 
 		m_WaitApper = true;
 	}
@@ -1105,11 +1107,26 @@ void CChibi::Uninit(void)
 //=======================================================
 void CChibi::Update(void)
 {
+	//マップモデルの情報を取得
+	CObjectX **pMap = CMap::GetX();
+
+	//当たり判定の情報取得
+	CCollision *pCollision = CGame::GetCollsion();
+
 	CPlayer::Update();
 
 	if (m_bAppr == true)
 	{
 		Control();
+
+		if (pCollision != NULL && pMap != NULL)
+		{
+			if (pCollision->Map(&Getpos(), &m_posOld, pMap) == true)
+			{
+				m_bJump = false;
+				m_move.y = 0.0f;
+			}
+		}
 	}
 }
 
@@ -1190,11 +1207,26 @@ void CFoot::Uninit(void)
 //=======================================================
 void CFoot::Update(void)
 {
+	//マップモデルの情報を取得
+	CObjectX **pMap = CMap::GetX();
+
+	//当たり判定の情報取得
+	CCollision *pCollision = CGame::GetCollsion();
+
 	CPlayer::Update();
 
 	if (m_bAppr == true)
 	{
 		Control();
+
+		if (pCollision != NULL && pMap != NULL)
+		{
+			if (pCollision->Map(&Getpos(), &m_posOld, pMap) == true)
+			{
+				m_bJump = false;
+				m_move.y = 0.0f;
+			}
+		}
 	}
 }
 

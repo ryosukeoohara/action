@@ -13,6 +13,8 @@
 #include "player.h"
 #include "field.h"
 #include "edit.h"
+#include "map.h"
+#include "collision.h"
 
 //================================================================
 //静的メンバ変数
@@ -80,6 +82,26 @@ HRESULT CGame::Init(void)
 
 	CField::Create();
 
+	if (m_Map == NULL)
+	{//使用されていなかったら
+
+		//マップを生成
+		m_Map = new CMap;
+
+		//初期化処理
+		m_Map->Init();
+	}
+
+	if (m_Collision == NULL)
+	{//使用されていなかったら
+
+		//当たり判定を生成
+		m_Collision = new CCollision;
+
+		//初期化処理
+		m_Collision->Init();
+	}
+
 	//チビ----------------------------------------------------------
 	if (m_PlayerChibi == NULL)
 	{//使用されていなかったら
@@ -125,6 +147,33 @@ void CGame::Uninit(void)
 	CSound *pSound = CManager::GetSound();
 
 	pSound->Stop();
+
+	//マップの破棄
+	if (m_Map != NULL)
+	{//使用されていなかったら
+
+	 ////マップの終了処理
+	 //m_Map->Uninit();
+
+	 ////メモリを開放
+	 //delete m_Map;
+
+	 //使用していない状態にする
+		m_Map = NULL;
+	}
+
+	//当たり判定の破棄
+	if (m_Collision != NULL)
+	{
+		//マップの終了処理
+		m_Collision->Uninit();
+
+		//メモリを開放
+		delete m_Collision;
+
+		//使用していない状態にする
+		m_Collision = NULL;
+	}
 
 	//プレイヤー(チビ)の破棄
 	if (m_PlayerChibi != NULL)
@@ -237,6 +286,22 @@ void CGame::Update(void)
 void CGame::Draw(void)
 {
 	
+}
+
+//================================================================
+//当たり判定の取得
+//================================================================
+CCollision *CGame::GetCollsion(void)
+{
+	return m_Collision;
+}
+
+//================================================================
+//マップの取得
+//================================================================
+CMap *CGame::GetMap(void)
+{
+	return m_Map;
 }
 
 //================================================================
