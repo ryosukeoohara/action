@@ -49,7 +49,7 @@ CObjectX::CObjectX(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char *aModelFliename)
 	m_aObjectX.m_vtxMini = D3DXVECTOR3(900000.0f, 900000.0f, 900000.0f);
 
 	//値をクリア
-	m_pTexture = NULL;  //テクスチャへのポインタ
+	//m_pTexture = NULL;  //テクスチャへのポインタ
 
 	SetPos(&pos);
 	SetRot(&rot);
@@ -131,10 +131,10 @@ HRESULT CObjectX::Init(void)
 	//テクスチャの情報取得
 	CTexture *pTexture = CManager::GetTexture();
 
-	/*if (m_pTexture == NULL)
+	if (m_aObjectX.m_pTexture == NULL)
 	{
-		m_pTexture = new LPDIRECT3DTEXTURE9[(int)m_aObjectX.m_dwNumMat];
-	}*/
+		m_aObjectX.m_pTexture = new LPDIRECT3DTEXTURE9[(int)m_aObjectX.m_dwNumMat];
+	}
 	
 	//マテリアルへのポインタ
 	D3DXMATERIAL *pMat;
@@ -147,11 +147,13 @@ HRESULT CObjectX::Init(void)
 		if (pMat[nCntMat].pTextureFilename != NULL)
 		{//テクスチャが存在する
 
-			m_nIdxTexture[nCntMat] = pTexture->Regist(pMat[nCntMat].pTextureFilename);
+			D3DXCreateTextureFromFile(pDevice,
+				pMat[nCntMat].pTextureFilename,
+				&m_aObjectX.m_pTexture[nCntMat]);
 		}
 		else
 		{
-			m_nIdxTexture[nCntMat] = -1;
+			m_aObjectX.m_pTexture[nCntMat] = NULL;
 		}
 	}
 
@@ -208,10 +210,10 @@ HRESULT CObjectX::Init(void)
 //================================================================
 void CObjectX::Uninit(void)
 {
-	if (m_pTexture != NULL)
+	if (m_aObjectX.m_pTexture != NULL)
 	{
-		delete m_pTexture;
-		m_pTexture = NULL;
+		delete m_aObjectX.m_pTexture;
+		m_aObjectX.m_pTexture = NULL;
 	}
 	
 	//テクスチャの処理
@@ -291,7 +293,7 @@ void CObjectX::Draw(void)
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
 		//テクスチャの設定
-		pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture[nCntMat]));
+		pDevice->SetTexture(0, *&m_aObjectX.m_pTexture[nCntMat]);
 
 		//モデル(パーツ)の描画
 		m_aObjectX.m_pMesh->DrawSubset(nCntMat);

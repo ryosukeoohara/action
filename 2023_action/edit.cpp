@@ -658,6 +658,17 @@ void CEdit::Control(void)
 		m_Model[m_nIdx].m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * MOVE;
 	}
 
+	if (InputKeyboard->GetPress(DIK_RSHIFT) == true)
+	{
+		//移動量
+		m_Model[m_nIdx].m_move.z += sinf(CameraRot.y + (-D3DX_PI * 0.5f)) * MOVE;
+	}
+	else if (InputKeyboard->GetPress(DIK_LSHIFT) == true)
+	{
+		//移動量
+		m_Model[m_nIdx].m_move.z -= sinf(CameraRot.y + (-D3DX_PI * 0.5f)) * MOVE;
+	}
+
 	if (InputKeyboard->GetPress(DIK_U) == true)
 	{//Uキーを押した
 
@@ -689,10 +700,12 @@ void CEdit::Control(void)
 	//移動量を更新(減衰させる)--------------------------------------------
 	m_Model[m_nIdx].m_move.x += (0.0f - m_Model[m_nIdx].m_move.x) * 0.5f;
 	m_Model[m_nIdx].m_move.y += (0.0f - m_Model[m_nIdx].m_move.y) * 0.5f;
+	m_Model[m_nIdx].m_move.z += (0.0f - m_Model[m_nIdx].m_move.z) * 0.5f;
 
 	//移動量加算
 	m_pos.x += m_Model[m_nIdx].m_move.x;
 	m_pos.y += m_Model[m_nIdx].m_move.y;
+	m_pos.z += m_Model[m_nIdx].m_move.z;
 
 	//位置を代入
 	m_Model[m_nIdx].m_pos = m_pos;

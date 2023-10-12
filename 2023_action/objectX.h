@@ -40,6 +40,7 @@ public:
 		LPD3DXBUFFER m_pBuffMat;  //頂点バッファへのポインタ
 		DWORD m_dwNumMat;         //マテリアルの数
 		D3DXMATRIX m_mtxWorld;    //ワールドマトリックス
+		LPDIRECT3DTEXTURE9 *m_pTexture;     //テクスチャへのポインタ
 	} OBJX;
 
 	static CObjectX *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char *aModelFliename);  //生成
@@ -70,7 +71,7 @@ public:
 private:
 	
 
-	LPDIRECT3DTEXTURE9 *m_pTexture;     //テクスチャへのポインタ
+	
 	OBJX m_aObjectX;
 	int m_nNumModel;          //モデル(パーツ)の総数
 	int m_nIdxModel;	      //モデルのインデックス番号

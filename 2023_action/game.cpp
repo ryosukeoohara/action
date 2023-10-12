@@ -268,13 +268,6 @@ void CGame::Update(void)
 		}
 	}
 
-	if (m_Edit != NULL)
-	{//使用されていたら
-
-		//更新処理
-		m_Edit->Update();
-	}
-
 	CDebugProc *pDebugProc = CManager::GetDebugProc();
 
 	pDebugProc->Print("\nシーン：ゲーム");

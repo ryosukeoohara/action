@@ -327,8 +327,10 @@ void CPlayer::Update(void)
 
 			pFoot->SetbAppr(true);
 
-			pFoot->SetPos(&pChibi->Getpos());
+ 			pFoot->SetPos(&pChibi->Getpos());
 			pFoot->SetRot(&pChibi->GetRot());
+
+			CParticl::Create({ pFoot->Getpos().x, pFoot->Getpos().y, pFoot->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
 		}
 		else
 		{
@@ -339,12 +341,9 @@ void CPlayer::Update(void)
 
 			pChibi->SetPos(&pFoot->Getpos());
 			pChibi->SetRot(&pFoot->GetRot());
+
+			CParticl::Create({ pChibi->Getpos().x, pChibi->Getpos().y, pChibi->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
 		}
-
-		//pChibi->SetState(STATE_NONE);
-		//pFoot->SetState(STATE_NONE);
-
- 		CParticl::Create(pFoot->Getpos(), { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
 	}
 }
 
@@ -449,15 +448,19 @@ void CChibi::Control(void)
 	D3DXVECTOR3 PlayerRot = pChibi->GetRot();
 
 	m_posOld = Playerpos;  //位置を代入
-	m_move.y -= 1.5f;   //重力
+	
 
-	//走っていない状態
-	m_bDash = false;
+	
 
 	//float fHeight;
 
 	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
 	{
+		m_move.y -= 1.5f;   //重力
+
+							//走っていない状態
+		m_bDash = false;
+
 		//上に移動----------------------------------------------
 		if (InputKeyboard->GetPress(DIK_W) == true)
 		{//Wキーが押された
@@ -472,7 +475,7 @@ void CChibi::Control(void)
 		else if (InputKeyboard->GetPress(DIK_D) == true)
 		{//Dキーだけ押した
 
-		 //移動量
+			//移動量
 			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
@@ -486,7 +489,7 @@ void CChibi::Control(void)
 		else if (InputKeyboard->GetPress(DIK_A) == true)
 		{//Aキーだけ押した
 
-		 //移動量
+			//移動量
 			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
 
@@ -666,15 +669,17 @@ void CFoot::Control(void)
 	D3DXVECTOR3 PlayerRot = pFoot->GetRot();
 
 	m_posOld = Playerpos;  //位置を代入
-	m_move.y -= 1.5f;	   //重力
-
-	//走っていない状態
-	m_bDash = false;
+	
 
 	//float fHeight;
 
 	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
 	{
+		m_move.y -= 1.5f;	   //重力
+
+		//走っていない状態
+		m_bDash = false;
+
 		//上に移動----------------------------------------------
 		if (InputKeyboard->GetPress(DIK_W) == true)
 		{//Wキーが押された

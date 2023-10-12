@@ -338,7 +338,7 @@ void CParticl::Circle(void)
 		m_move.y = cosf(fRot) * SPEED;
 
 		//エフェクトの生成
-		CEffect::Create({ pos.x, 50.0f, pos.z }, { m_move.x, m_move.y, m_move.z }, { 1.0f, 0.0f, 0.0f, 1.0f }, 3.0f, 30, CEffect::TYPEEFF_CIRCLE);
+		CEffect::Create({ pos.x, pos.y + 50.0f, pos.z }, { m_move.x, m_move.y, m_move.z }, { 1.0f, 0.0f, 0.0f, 1.0f }, 3.0f, 30, CEffect::TYPEEFF_CIRCLE);
 	}
 
 	//位置設定

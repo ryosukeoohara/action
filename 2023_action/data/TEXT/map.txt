@@ -10,14 +10,17 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 1
+NUM_MODEL = 6
 
 #------------------------------------------------------------------------------
 # モデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/EDIT/block_001.x        	# [0]床
-
-
+MODEL_FILENAME = data/MODEL/EDIT/animate_01.x        	# [1]アニメイト
+MODEL_FILENAME = data/MODEL/EDIT/bill_00.x        	    # [2]ビル00
+MODEL_FILENAME = data/MODEL/EDIT/bill_01.x        	    # [3]ビル01
+MODEL_FILENAME = data/MODEL/EDIT/bill_02.x        	    # [4]ビル02
+MODEL_FILENAME = data/MODEL/EDIT/wood.x        	        # [5]木
 #------------------------------------------------------------------------------
 # モデルの情報
 #------------------------------------------------------------------------------
@@ -25,6 +28,24 @@ MODEL_FILENAME = data/MODEL/EDIT/block_001.x        	# [0]床
 MODELSET
     TYPE = 0
     POS = 500.00 46.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 1406.00 118.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 1
+    POS = 20.00 0.00 406.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 1
+    POS = 100.00 0.00 406.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

@@ -490,6 +490,9 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 	//プレイヤー(クソデブ)の情報を取得
 	CFoot *pFoot = CGame::GetPlayerFoot();
 
+	//プレイヤー(クソデブ)の情報を取得
+	CChibi *pChibi = CGame::GetPlayerChibi();
+
 	int nNumAll = pMap->GetnNumAll();
 
 	for (int nCount = 0; nCount < nNumAll; nCount++)
@@ -505,7 +508,9 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 			if (pos->x + 20.0f > Mappos.x + vtxMin.x
 			 && pos->x - 20.0f < Mappos.x + vtxMax.x
 			 && pos->y + 60.0f > Mappos.y + vtxMin.y
-			 && pos->y < Mappos.y + vtxMax.y)
+			 && pos->y < Mappos.y + vtxMax.y
+			 && pos->z + 20.0f > Mappos.z + vtxMin.z
+			 && pos->z - 20.0f < Mappos.z + vtxMax.z)
 			{
 				//ブロックの上======================================
 				if (pos->y <= Mappos.y + vtxMax.y
@@ -513,7 +518,15 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 				{
 					pos->y = Mappos.y + vtxMax.y;
 
-					pFoot->SetPos(pos);
+					if (pFoot->GetbAppr() == true)
+					{
+						pFoot->SetPos(pos);
+					}
+					
+					if (pChibi->GetbAppr() == true)
+					{
+						pChibi->SetPos(pos);
+					}
 
 					return true;
 				}
@@ -524,7 +537,15 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 				{
 					pos->y = Mappos.y + vtxMin.y - 60.0f;
 
-					pFoot->SetPos(pos);
+					if (pFoot->GetbAppr() == true)
+					{
+						pFoot->SetPos(pos);
+					}
+
+					if (pChibi->GetbAppr() == true)
+					{
+						pChibi->SetPos(pos);
+					}
 
 					return true;
 				}
@@ -539,7 +560,15 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					{
 						pos->x = Mappos.x + vtxMin.x - 20.0f;
 
-						pFoot->SetPos(pos);
+						if (pFoot->GetbAppr() == true)
+						{
+							pFoot->SetPos(pos);
+						}
+
+						if (pChibi->GetbAppr() == true)
+						{
+							pChibi->SetPos(pos);
+						}
 
 						return true;
 					}
@@ -550,7 +579,15 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					{
 						pos->x = Mappos.x + vtxMax.x + 20.0f;
 
-						pFoot->SetPos(pos);
+						if (pFoot->GetbAppr() == true)
+						{
+							pFoot->SetPos(pos);
+						}
+
+						if (pChibi->GetbAppr() == true)
+						{
+							pChibi->SetPos(pos);
+						}
 
 						return true;
 					}

@@ -159,7 +159,7 @@ CHARACTERSET
 		INDEX = 15
 		PARENT = 14					# (親)左腿
 		POS = 0.0 -11.0 0.0
-		ROT = 0.0 60.0 170.0
+		ROT = 0.0 0.0 0.0
 		FEVER = 1
 	END_PARTSSET
 	
@@ -167,7 +167,7 @@ CHARACTERSET
 		INDEX = 16
 		PARENT = 1					# (親)体
 		POS = 0.0 17.0 6.0
-		ROT = 0.0 60.0 170.0
+		ROT = 0.0 0.0 0.0
 		FEVER = -1
 	END_PARTSSET
 	
@@ -175,7 +175,7 @@ CHARACTERSET
 		INDEX = 17
 		PARENT = 6					# (親)左手
 		POS = -3.0 0.0 0.0
-		ROT = 0.0 60.0 170.0
+		ROT = 0.0 0.0 0.0
 		FEVER = -1
 	END_PARTSSET
 	
@@ -183,7 +183,7 @@ CHARACTERSET
 		INDEX = 18
 		PARENT = 9					# (親)右手
 		POS = 3.0 0.0 0.0
-		ROT = 0.0 60.0 170.0
+		ROT = 0.0 0.0 0.0
 		FEVER = -1
 	END_PARTSSET
 	
