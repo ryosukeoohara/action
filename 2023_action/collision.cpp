@@ -499,7 +499,7 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 	{
 		if (pObjectX[nCount] != NULL)
 		{
-			D3DXVECTOR3 Mappos = pObjectX[nCount]->Getpos();
+		    D3DXVECTOR3 Mappos = pObjectX[nCount]->Getpos();
 
 			D3DXVECTOR3 vtxMin = pObjectX[nCount]->GetVtxMin();
 

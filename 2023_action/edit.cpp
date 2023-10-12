@@ -285,7 +285,7 @@ void CEdit::Save(void)
 			D3DXVECTOR3 rot = m_apModel[nCount]->GetRot();  //Œü‚«Žæ“¾
 
 			fprintf(pFile, "MODELSET\n");
-			fprintf(pFile, "    TYPE = %d\n", m_apModel[nCount]->GetType());        //Ží—Þ
+			fprintf(pFile, "    TYPE = %d\n", m_apModel[nCount]->GetIdxModel());        //Ží—Þ
 			fprintf(pFile, "    POS = %.2f %.2f %.2f\n", pos.x, pos.y, pos.z);      //ˆÊ’u
 			fprintf(pFile, "    ROT = %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);      //Œü‚«
 			fprintf(pFile, "END_MODELSET\n");

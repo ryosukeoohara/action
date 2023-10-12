@@ -239,8 +239,8 @@ void CCamera::CameraV(void)
 	{
 		D3DXVECTOR3 pos = pFoot->Getpos();
 
-		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, 50.0f, pos.z + 10.0f);
+		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f + pos.y, 30.0f - m_posV.z);
+		m_posR = D3DXVECTOR3(pos.x, pos.y, pos.z + 10.0f);
 		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	}
 
@@ -248,8 +248,8 @@ void CCamera::CameraV(void)
 	{
 		D3DXVECTOR3 pos = pChibi->Getpos();
 
-		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, 50.0f, pos.z + 10.0f);
+		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f + pos.y, 30.0f - m_posV.z);
+		m_posR = D3DXVECTOR3(pos.x, pos.y, pos.z + 10.0f);
 		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	}
 }

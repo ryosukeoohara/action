@@ -16,9 +16,6 @@ class CEnemy;
 class CChibi;
 class CFoot;
 
-//マクロ定義
-#define PLAYERMOVE   (1.0f)
-
 //プレイヤークラス
 class CPlayer : public CObject
 {

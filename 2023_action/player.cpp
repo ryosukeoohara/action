@@ -37,13 +37,19 @@
 //================================================================
 //マクロ定義
 //================================================================
-#define MAX_LIFE    (10)                                          //プレイヤーの体力
-#define REST_BULLET (6)                                           //保持できる弾の数
-#define MUTEKITIME  (30)                                          //無敵時間
-#define PLAYER_X    (40.0f)                                       //プレイヤーのX軸の幅
-#define PLAYER_Z    (10.0f)                                       //プレイヤーのZ軸の幅
-#define FRIST       (21)                                          //攻撃判定発生開始
-#define FINISH      (31)                                          //攻撃判定終了
+#define MAX_LIFE      (10)                                        //プレイヤーの体力
+#define REST_BULLET   (6)                                         //保持できる弾の数
+#define MUTEKITIME    (30)                                        //無敵時間
+#define PLAYER_X      (40.0f)                                     //プレイヤーのX軸の幅
+#define PLAYER_Z      (10.0f)                                     //プレイヤーのZ軸の幅
+#define CHIBISPEED    (0.9f)                                      //チビデブの走る速さ
+#define FOOTSPEED     (1.1f)                                      //クソデブの走る速さ
+#define CHIBIJUMP     (25.0f)                                     //チビデブのジャンプ力
+#define FOOTJUMP      (19.0f)                                     //クソデブのジャンプ力
+#define CHIBIGRAVITY  (1.4f)                                      //チビデブの重力
+#define FOOTGRAVITY   (1.5f)                                      //クソデブの重力
+#define FRIST         (21)                                        //攻撃判定発生開始
+#define FINISH        (31)                                        //攻撃判定終了
 #define PLAYER01_TEXT ("data\\TEXT\\motion_set_player.txt")       //プレイヤーのテキストファイル
 #define PLAYER02_TEXT ("data\\TEXT\\motion_set_player2.txt")      //プレイヤーのテキストファイル
 
@@ -449,14 +455,11 @@ void CChibi::Control(void)
 
 	m_posOld = Playerpos;  //位置を代入
 	
-
-	
-
 	//float fHeight;
 
 	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
 	{
-		m_move.y -= 1.5f;   //重力
+		m_move.y -= CHIBIGRAVITY;   //重力
 
 							//走っていない状態
 		m_bDash = false;
@@ -476,8 +479,8 @@ void CChibi::Control(void)
 		{//Dキーだけ押した
 
 			//移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
 			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
@@ -490,8 +493,8 @@ void CChibi::Control(void)
 		{//Aキーだけ押した
 
 			//移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
 			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
@@ -530,7 +533,7 @@ void CChibi::Control(void)
 
 			m_bJump = true;
 
-			m_move.y += 20.0f;
+			m_move.y += CHIBIJUMP;
 		}
 
 		//位置に移動量加算----------------------------------------------------
@@ -675,7 +678,7 @@ void CFoot::Control(void)
 
 	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
 	{
-		m_move.y -= 1.5f;	   //重力
+		m_move.y -= FOOTGRAVITY;	   //重力
 
 		//走っていない状態
 		m_bDash = false;
@@ -695,8 +698,8 @@ void CFoot::Control(void)
 		{//Dキーだけ押した
 
 		 //移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 
 			//向き
 			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
@@ -709,8 +712,8 @@ void CFoot::Control(void)
 		{//Aキーだけ押した
 
 		 //移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * PLAYERMOVE;
+			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 
 			//向き
 			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
@@ -749,7 +752,7 @@ void CFoot::Control(void)
 
 			m_bJump = true;
 
-			m_move.y += 20.0f;
+			m_move.y += FOOTJUMP;
 		}
 
 		//位置に移動量加算----------------------------------------------------

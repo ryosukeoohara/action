@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 6
+NUM_MODEL = 7
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -21,31 +21,85 @@ MODEL_FILENAME = data/MODEL/EDIT/bill_00.x        	    # [2]ビル00
 MODEL_FILENAME = data/MODEL/EDIT/bill_01.x        	    # [3]ビル01
 MODEL_FILENAME = data/MODEL/EDIT/bill_02.x        	    # [4]ビル02
 MODEL_FILENAME = data/MODEL/EDIT/wood.x        	        # [5]木
+MODEL_FILENAME = data/MODEL/EDIT/sky.x        	        # [6]空
 #------------------------------------------------------------------------------
 # モデルの情報
 #------------------------------------------------------------------------------
-
 MODELSET
-    TYPE = 0
-    POS = 500.00 46.00 0.00
+    TYPE = 6
+    POS = 0.00 0.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
 MODELSET
     TYPE = 0
-    POS = 1406.00 118.00 0.00
+    POS = 1126.00 81.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
 MODELSET
-    TYPE = 1
-    POS = 20.00 0.00 406.00
+    TYPE = 0
+    POS = 2223.00 179.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
 MODELSET
-    TYPE = 1
-    POS = 100.00 0.00 406.00
+    TYPE = 2
+    POS = 0.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 2
+    POS = 520.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 2
+    POS = 1009.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 2
+    POS = 1502.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 2
+    POS = -482.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = -1051.00 0.00 502.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = -1345.00 0.00 -176.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = -1069.00 0.00 -176.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = -782.00 0.00 -176.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = -466.00 0.00 -176.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

@@ -70,8 +70,6 @@ public:
 
 private:
 	
-
-	
 	OBJX m_aObjectX;
 	int m_nNumModel;          //モデル(パーツ)の総数
 	int m_nIdxModel;	      //モデルのインデックス番号
