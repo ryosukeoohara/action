@@ -14,7 +14,7 @@
 #include "player.h"
 
 //マクロ定義
-#define CAMERA_DISTNCE    (600.0f)
+#define CAMERA_DISTNCE    (1200.0f)
 #define CAMERA_ROTY       (0.03f)
 #define CAMERA_MOVE       (2.0f)
 #define CAMERA_LOWMOVE    (0.1f)
@@ -124,36 +124,34 @@ void CCamera::Update(void)
 			{
 				D3DXVECTOR3 pos = pFoot->Getpos();
 
-				//目標の注視点を設定
-				m_posRDest.x = pos.x;
-				m_posRDest.z = pos.z;
+				////目標の注視点を設定
+				//m_posRDest.x = pos.x;
+				//m_posRDest.z = pos.z;
 
+				////カメラの移動量
+				//m_move.x = m_posRDest.x - m_posR.x;
+				//m_move.z = m_posRDest.z - m_posR.z;
 
-				//カメラの移動量
-				m_move.x = m_posRDest.x - m_posR.x;
-				m_move.z = m_posRDest.z - m_posR.z;
-
-				//位置に移動量を保存
-				m_posR.x += m_move.x;
-				m_posR.z += m_move.z;
+				////位置に移動量を保存
+				//m_posR.x += m_move.x;
+				//m_posR.z += m_move.z;
 			}
 
 			if (pChibi->GetbAppr() == true)
 			{
 				D3DXVECTOR3 pos = pChibi->Getpos();
 
-				//目標の注視点を設定
-				m_posRDest.x = pos.x;
-				m_posRDest.z = pos.z;
+				////目標の注視点を設定
+				//m_posRDest.x = pos.x;
+				//m_posRDest.z = pos.z;
 
+				////カメラの移動量
+				//m_move.x = m_posRDest.x - m_posR.x;
+				//m_move.z = m_posRDest.z - m_posR.z;
 
-				//カメラの移動量
-				m_move.x = m_posRDest.x - m_posR.x;
-				m_move.z = m_posRDest.z - m_posR.z;
-
-				//位置に移動量を保存
-				m_posR.x += m_move.x;
-				m_posR.z += m_move.z;
+				////位置に移動量を保存
+				//m_posR.x += m_move.x;
+				//m_posR.z += m_move.z;
 			}
 		}
 	}
@@ -223,15 +221,6 @@ void CCamera::CameraV(void)
 
 	//m_rot.y += MousePos.x * 0.005f;
 
-	if (m_rot.y > D3DX_PI)
-	{
-		m_rot.y -= D3DX_PI * 2.0f;
-	}
-	else if (m_rot.y < -D3DX_PI)
-	{
-		m_rot.y += D3DX_PI * 2.0f;
-	}
-
 	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
 
@@ -239,8 +228,8 @@ void CCamera::CameraV(void)
 	{
 		D3DXVECTOR3 pos = pFoot->Getpos();
 
-		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f + pos.y, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, pos.y, pos.z + 10.0f);
+		m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y * 0.5f, 30.0f - m_posV.z);
+		m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
 		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	}
 
@@ -248,8 +237,8 @@ void CCamera::CameraV(void)
 	{
 		D3DXVECTOR3 pos = pChibi->Getpos();
 
-		m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f + pos.y, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, pos.y, pos.z + 10.0f);
+		m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y* 0.5f, 30.0f - m_posV.z);
+		m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
 		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	}
 }

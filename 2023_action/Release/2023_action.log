@@ -1,18 +1,8 @@
-﻿  bullet.cpp
-  camera.cpp
-  collision.cpp
-  edit.cpp
-  game.cpp
-  map.cpp
-  motion.cpp
-  object3D.cpp
-  objectX.cpp
-  particl.cpp
-  player.cpp
+﻿  collision.cpp
   コード生成しています。
-  47 of 391 functions (12.0%) were compiled, the rest were copied from previous compilation.
-    23 functions were new in current compilation
-    73 functions had inline decision re-evaluated but remain unchanged
+  4 of 391 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

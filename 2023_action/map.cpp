@@ -137,14 +137,14 @@ void CMap::ReadText(void)
 
 				if (strcmp("NUM_MODEL", aString) == 0)
 				{
-					fscanf(pFile, "%s", &aString);          //=
-					fscanf(pFile, "%d", &m_nNumAll);  //モデルの総数
+					fscanf(pFile, "%s", &aString);                   //=
+					fscanf(pFile, "%d", &m_nNumAll);                 //モデルの総数
 
 				}  //NUM_MODELのかっこ
 
 				if (strcmp("MODEL_FILENAME", aString) == 0)
 				{
-					fscanf(pFile, "%s", &aString);          //=
+					fscanf(pFile, "%s", &aString);                   //=
 					fscanf(pFile, "%s", &m_filename[nCntModel][0]);  //モデルの名前
 
 					nCntModel++;
@@ -159,24 +159,24 @@ void CMap::ReadText(void)
 
 						if (strcmp("TYPE", aString) == 0)
 						{
-							fscanf(pFile, "%s", &aString);  //=
-							fscanf(pFile, "%d", &m_nIdx);     //種類
+							fscanf(pFile, "%s", &aString);         //=
+							fscanf(pFile, "%d", &m_nIdx);          //種類
 						}
 
 						if (strcmp("POS", aString) == 0)
 						{
 							fscanf(pFile, "%s", &aString);          //=
-							fscanf(pFile, "%f", &pos.x);  //位置
-							fscanf(pFile, "%f", &pos.y);  //位置
-							fscanf(pFile, "%f", &pos.z);  //位置
+							fscanf(pFile, "%f", &pos.x);            //位置
+							fscanf(pFile, "%f", &pos.y);            //位置
+							fscanf(pFile, "%f", &pos.z);            //位置
 						}
 
 						if (strcmp("ROT", aString) == 0)
 						{
 							fscanf(pFile, "%s", &aString);          //=
-							fscanf(pFile, "%f", &rot.x);  //位置
-							fscanf(pFile, "%f", &rot.y);  //位置
-							fscanf(pFile, "%f", &rot.z);  //位置
+							fscanf(pFile, "%f", &rot.x);            //位置
+							fscanf(pFile, "%f", &rot.y);            //位置
+							fscanf(pFile, "%f", &rot.z);            //位置
 						}
 					}
 

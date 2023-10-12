@@ -38,7 +38,7 @@ public:
 	bool Knife(D3DXVECTOR3 *pos, D3DXVECTOR3 rot, float fRadius, CEnemy **pEnemy);
 	bool kugibat(D3DXVECTOR3 *pos, CPlayer *pPlayer);    //アイテムとプレイヤーの当たり判定
 	bool Player(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CPlayer *pPlayer);  //ぷれいやーとの当たり判定
-	bool Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX);  //マップにある建物との当たり判定
+	void Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX);  //マップにある建物との当たり判定
 	bool Block(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ);  //ブロックとの判定
 	
 private:

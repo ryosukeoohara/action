@@ -482,7 +482,7 @@ bool CCollision::kugibat(D3DXVECTOR3 *pPos, CPlayer *pPlayer)
 //=============================================================================
 //マップにある建物との当たり判定
 //=============================================================================
-bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
+void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 {
 	//マップの情報を取得
 	CMap *pMap = CGame::GetMap();
@@ -521,14 +521,20 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					if (pFoot->GetbAppr() == true)
 					{
 						pFoot->SetPos(pos);
+						pFoot->SetMoveY(0.0f);
+						pFoot->SetbJump(false);
+						pFoot->SetbRand(true);
 					}
 					
 					if (pChibi->GetbAppr() == true)
 					{
 						pChibi->SetPos(pos);
+						pChibi->SetMoveY(0.0f);
+						pChibi->SetbJump(false);
+						pChibi->SetbRand(true);
 					}
 
-					return true;
+					//return true;
 				}
 
 				//ブロックの下======================================
@@ -540,14 +546,16 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					if (pFoot->GetbAppr() == true)
 					{
 						pFoot->SetPos(pos);
+						pFoot->SetMoveY(0.0f);
 					}
 
 					if (pChibi->GetbAppr() == true)
 					{
 						pChibi->SetPos(pos);
+						pChibi->SetMoveY(0.0f);
 					}
 
-					return true;
+					//return true;
 				}
 
 				////横からめり込んだ
@@ -570,7 +578,7 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 							pChibi->SetPos(pos);
 						}
 
-						return true;
+						//return true;
 					}
 
 					//ブロックの右側面==================================
@@ -582,21 +590,25 @@ bool CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 						if (pFoot->GetbAppr() == true)
 						{
 							pFoot->SetPos(pos);
+							pFoot->SetMoveY(0.0f);
+							pFoot->SetbJump(false);
 						}
 
 						if (pChibi->GetbAppr() == true)
 						{
 							pChibi->SetPos(pos);
+							pChibi->SetMoveY(0.0f);
+							pChibi->SetbJump(false);
 						}
 
-						return true;
+						//return true;
 					}
 				//}
 			}
 		}
 	}
 	
-	return false;
+	//return false;
 }
 
 bool CCollision::Block(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, float fWidthX, float fWidthZ)

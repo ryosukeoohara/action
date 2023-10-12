@@ -44,10 +44,10 @@
 #define PLAYER_Z      (10.0f)                                     //プレイヤーのZ軸の幅
 #define CHIBISPEED    (0.9f)                                      //チビデブの走る速さ
 #define FOOTSPEED     (1.1f)                                      //クソデブの走る速さ
-#define CHIBIJUMP     (25.0f)                                     //チビデブのジャンプ力
-#define FOOTJUMP      (19.0f)                                     //クソデブのジャンプ力
-#define CHIBIGRAVITY  (1.4f)                                      //チビデブの重力
-#define FOOTGRAVITY   (1.5f)                                      //クソデブの重力
+#define CHIBIJUMP     (17.0f)                                     //チビデブのジャンプ力
+#define FOOTJUMP      (15.0f)                                     //クソデブのジャンプ力
+#define CHIBIGRAVITY  (0.7f)                                      //チビデブの重力
+#define FOOTGRAVITY   (0.9f)                                      //クソデブの重力
 #define FRIST         (21)                                        //攻撃判定発生開始
 #define FINISH        (31)                                        //攻撃判定終了
 #define PLAYER01_TEXT ("data\\TEXT\\motion_set_player.txt")       //プレイヤーのテキストファイル
@@ -305,7 +305,8 @@ void CPlayer::Update(void)
 		m_motion->Update();
 	}
 
-	if (InputKeyboard->GetTrigger(DIK_SPACE) == true && pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
+	if (InputKeyboard->GetTrigger(DIK_SPACE) == true
+	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
 	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP)
 	{//SPACEキーが押された
 
@@ -461,7 +462,7 @@ void CChibi::Control(void)
 	{
 		m_move.y -= CHIBIGRAVITY;   //重力
 
-							//走っていない状態
+		//走っていない状態
 		m_bDash = false;
 
 		//上に移動----------------------------------------------
@@ -544,14 +545,6 @@ void CChibi::Control(void)
 		//移動量を更新(減衰させる)--------------------------------------------
 		m_move.x += (0.0f - m_move.x) * 0.1f;
 
-		if (InputKeyboard->GetPress(DIK_K) == true)
-		{//Kキーが押された
-
-			m_State = STATE_ATTACK;
-
-			CBullet::Create(D3DXVECTOR3(Playerpos.x, Playerpos.y + 60.0f, Playerpos.z), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
-		}
-
 		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
 		{
 			//モーションをセット(移動)
@@ -578,14 +571,6 @@ void CChibi::Control(void)
 			m_motion->Set(MOTIONTYPE_JUMP);
 
 			m_State = STATE_JUMP;
-		}
-
-		if (m_bAction == false && m_State == STATE_ATTACK)
-		{
-			//モーションをセット(攻撃)
-			m_motion->Set(MOTIONTYPE_ATTACK);
-
-			m_bAction = true;
 		}
 	}
 	
@@ -618,14 +603,30 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (Playerpos.y <= 0.0f)
+	if (InputKeyboard->GetPress(DIK_K) == true)
+	{//Kキーが押された
+
+		m_State = STATE_ATTACK;
+
+		CBullet::Create(D3DXVECTOR3(Playerpos.x, Playerpos.y + 60.0f, Playerpos.z), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+	}
+
+	if (m_bAction == false && m_State == STATE_ATTACK)
+	{
+		//モーションをセット(攻撃)
+		m_motion->Set(MOTIONTYPE_ATTACK);
+
+		m_bAction = true;
+	}
+
+	/*if (Playerpos.y <= 0.0f)
 	{
 		Playerpos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
-	}
+	}*/
 
 	SetPos(&Playerpos);
 	SetRot(&PlayerRot);
@@ -673,7 +674,6 @@ void CFoot::Control(void)
 
 	m_posOld = Playerpos;  //位置を代入
 	
-
 	//float fHeight;
 
 	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
@@ -750,7 +750,7 @@ void CFoot::Control(void)
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEキーが押された
 
-			m_bJump = true;
+			//m_bJump = true;
 
 			m_move.y += FOOTJUMP;
 		}
@@ -768,6 +768,8 @@ void CFoot::Control(void)
 		{//Kキーが押された
 
 			m_State = STATE_ATTACK;
+
+			m_move = { 0.0f,0.0f,0.0f };
 		}
 
 		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
@@ -1058,6 +1060,8 @@ CChibi::CChibi()
 {
 	m_State = STATE_NONE;
 	m_move = { 0.0f,0.0f,0.0f };
+	m_nCntBullet = 0;
+	m_bRand = false;
 }
 
 //=======================================================
@@ -1069,6 +1073,8 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_nCntBullet = 0;
+	m_bRand = false;
 }
 
 //=======================================================
@@ -1129,11 +1135,7 @@ void CChibi::Update(void)
 
 		if (pCollision != NULL && pMap != NULL)
 		{
-			if (pCollision->Map(&Getpos(), &m_posOld, pMap) == true)
-			{
-				m_bJump = false;
-				m_move.y = 0.0f;
-			}
+			(pCollision->Map(&Getpos(), &m_posOld, pMap));
 		}
 	}
 }
@@ -1158,6 +1160,7 @@ CFoot::CFoot()
 {
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_bRand = false;
 }
 
 //=======================================================
@@ -1169,6 +1172,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_bRand = false;
 }
 
 //=======================================================
@@ -1229,11 +1233,7 @@ void CFoot::Update(void)
 
 		if (pCollision != NULL && pMap != NULL)
 		{
-			if (pCollision->Map(&Getpos(), &m_posOld, pMap) == true)
-			{
-				m_bJump = false;
-				m_move.y = 0.0f;
-			}
+			(pCollision->Map(&Getpos(), &m_posOld, pMap));
 		}
 	}
 }

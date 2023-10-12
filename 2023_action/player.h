@@ -175,6 +175,13 @@ public:
 	bool GetbAppr(void) { return m_bAppr; }
 	void SetbAppr(bool appr) { m_bAppr = appr; }
 
+	void SetMoveY(float move) { m_move.y = move; }
+
+	void SetbJump(bool bjump) { m_bJump = bjump; }
+
+	void SetbRand(bool brand) { m_bRand = brand; }
+	bool GetbRand(void) { return m_bRand; }
+
 	void Control(void);    //プレイヤーの制御
 
 protected:
@@ -216,6 +223,7 @@ private:
 	int m_nNumkey;
 	int m_nLifeGage;
 	int m_RestBullet;                    //残弾数
+	int m_nCntBullet;                    //弾の出る間隔
 	float m_fDiff;
 	float m_fDest;
 	bool m_bDash;                        //走っているかどうか
@@ -229,6 +237,7 @@ private:
 	bool m_bAcSec;                       //連撃中
 	bool m_bAcThr;                       //連劇中
 	bool m_WaitApper;                    //出現待ち状態
+	bool m_bRand;                        //地面に着地しているかどうか
 	D3DXVECTOR3 m_posOrigin;
 	//CMotion *m_motion;                   //モーションへのポインタ
 
@@ -267,6 +276,13 @@ public:
 	bool GetbAppr(void) { return m_bAppr; }
 	void SetbAppr(bool appr) { m_bAppr = appr; }
 
+	void SetMoveY(float move) { m_move.y = move; }
+
+	void SetbJump(bool bjump) { m_bJump = bjump; }
+
+	void SetbRand(bool brand) { m_bRand = brand; }
+	bool GetbRand(void) { return m_bRand; }
+
 	void Control(void);    //プレイヤーの制御
 
 protected:
@@ -321,6 +337,7 @@ private:
 	bool m_bAcSec;                       //連撃中
 	bool m_bAcThr;                       //連劇中
 	bool m_WaitApper;                    //出現待ち状態
+	bool m_bRand;                        //地面に着地しているかどうか
 	D3DXVECTOR3 m_posOrigin;
 	//CMotion *m_motion;                   //モーションへのポインタ
 

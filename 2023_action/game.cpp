@@ -80,7 +80,7 @@ HRESULT CGame::Init(void)
 
 	pCamera->SetType(CCamera::TYPE_GAME);
 
-	CField::Create();
+	//CField::Create();
 
 	if (m_Map == NULL)
 	{//Žg—p‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚ç
