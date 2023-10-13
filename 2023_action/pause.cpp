@@ -89,7 +89,35 @@ HRESULT CPause::Init(void)
 		}
 	}*/
 
+	if (m_Pause.pBackGround == NULL)
+	{
+		m_Pause.pBackGround = new CObject2D({SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f});
+		m_Pause.pBackGround->Init();
+	}
 
+	if (m_Pause.pFrame == NULL)
+	{
+		m_Pause.pFrame = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
+		m_Pause.pFrame->Init();
+	}
+
+	if (m_Pause.pContinue == NULL)
+	{
+		m_Pause.pContinue = new CObject2D({ SCREEN_WIDTH * 0.5f, 210.0f, 0.0f });
+		m_Pause.pContinue->Init();
+	}
+
+	if (m_Pause.pReStart == NULL)
+	{
+		m_Pause.pReStart = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
+		m_Pause.pReStart->Init();
+	}
+
+	if (m_Pause.pTitleBack == NULL)
+	{
+		m_Pause.pTitleBack = new CObject2D({ SCREEN_WIDTH * 0.5f, 510.0f, 0.0f });
+		m_Pause.pTitleBack->Init();
+	}
 
 	return S_OK;
 }
@@ -99,7 +127,7 @@ HRESULT CPause::Init(void)
 //===========================================================
 void CPause::Uninit(void)
 {
-	for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
+	/*for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 	{
 		if (m_Object2D[nCount] != NULL)
 		{
@@ -107,7 +135,7 @@ void CPause::Uninit(void)
 
 			m_Object2D[nCount] = NULL;
 		}
-	}
+	}*/
 
 	Release();
 }
@@ -200,7 +228,32 @@ void CPause::Update(void)
 			m_Color[m_pauseMenu].col.a = 0.7f;
 		}
 
-		for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
+		if (m_Pause.pBackGround != NULL)
+		{
+			m_Pause.pBackGround->SetVtxUI(m_Pause.pBackGround->Getpos(), 640.0f, 360.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+
+		if (m_Pause.pFrame != NULL)
+		{
+			m_Pause.pFrame->SetVtxUI(m_Pause.pFrame->Getpos(), 300.0f, 200.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+
+		if (m_Pause.pContinue != NULL)
+		{
+			m_Pause.pContinue->SetVtxUI(m_Pause.pContinue->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+
+		if (m_Pause.pReStart != NULL)
+		{
+			m_Pause.pReStart->SetVtxUI(m_Pause.pReStart->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+
+		if (m_Pause.pTitleBack != NULL)
+		{
+			m_Pause.pTitleBack->SetVtxUI(m_Pause.pTitleBack->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+		}
+
+		/*for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 		{
 			if (m_Object2D[nCount] != NULL)
 			{
@@ -236,7 +289,7 @@ void CPause::Update(void)
 					break;
 				}
 			}
-		}
+		}*/
 	}
 }
 
@@ -249,16 +302,16 @@ void CPause::Draw(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	if (CManager::GetbPause() == true)
-	{
-		for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
-		{
-			if (m_Object2D[nCount] != NULL)
-			{
-				pDevice->SetTexture(0, pTexture->GetAddress(m_Object2D[nCount]->GetIdxTex()));
+	//if (CManager::GetbPause() == true)
+	//{
+	//	for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
+	//	{
+	//		if (m_Object2D[nCount] != NULL)
+	//		{
+	//			pDevice->SetTexture(0, pTexture->GetAddress(m_Object2D[nCount]->GetIdxTex()));
 
-				//m_Object2D[nCount]->Draw();
-			}
-		}
-	}
+	//			//m_Object2D[nCount]->Draw();
+	//		}
+	//	}
+	//}
 }
