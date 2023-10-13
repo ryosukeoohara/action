@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 9
+NUM_MODEL = 12
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -22,8 +22,11 @@ MODEL_FILENAME = data/MODEL/EDIT/bill_01.x        	    # [3]ビル01
 MODEL_FILENAME = data/MODEL/EDIT/bill_02.x        	    # [4]ビル02
 MODEL_FILENAME = data/MODEL/EDIT/wood.x        	        # [5]木
 MODEL_FILENAME = data/MODEL/EDIT/load.x        	        # [6]道
-MODEL_FILENAME = data/MODEL/EDIT/stand_00.x        	    # [7]道
-MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [8]道
+MODEL_FILENAME = data/MODEL/EDIT/stand_00.x        	    # [7]暖簾みたいなやつ
+MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [8]だい
+MODEL_FILENAME = data/MODEL/EDIT/Depart_001.x        	# [9]デパート正面
+MODEL_FILENAME = data/MODEL/EDIT/depart_002.x        	# [10]デパート入口
+MODEL_FILENAME = data/MODEL/EDIT/depart_003.x        	# [11]デパート横
 
 #------------------------------------------------------------------------------
 # モデルの情報

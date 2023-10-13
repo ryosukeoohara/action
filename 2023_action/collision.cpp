@@ -590,15 +590,11 @@ void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 						if (pFoot->GetbAppr() == true)
 						{
 							pFoot->SetPos(pos);
-							pFoot->SetMoveY(0.0f);
-							pFoot->SetbJump(false);
 						}
 
 						if (pChibi->GetbAppr() == true)
 						{
 							pChibi->SetPos(pos);
-							pChibi->SetMoveY(0.0f);
-							pChibi->SetbJump(false);
 						}
 
 						//return true;

@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 20
+NUM_MODEL = 27
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -23,14 +23,17 @@ MODEL_FILENAME = data/MODEL/EDIT/bill_02.x        	    # [4]ビル02
 MODEL_FILENAME = data/MODEL/EDIT/wood.x        	        # [5]木
 MODEL_FILENAME = data/MODEL/EDIT/load.x        	        # [6]道
 MODEL_FILENAME = data/MODEL/EDIT/stand_00.x        	    # [7]暖簾みたいなやつ
-MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [7]暖簾みたいなやつ
-MODEL_FILENAME = data/MODEL/EDIT/sky.x        	        # [8]空
+MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [8]階段みたいなやつ
+MODEL_FILENAME = data/MODEL/EDIT/Depart_001.x        	# [9]デパート正面
+MODEL_FILENAME = data/MODEL/EDIT/Depart_002.x        	# [10]デパート入口
+MODEL_FILENAME = data/MODEL/EDIT/Depart_003.x        	# [11]デパート横
+MODEL_FILENAME = data/MODEL/EDIT/sky.x        	        # [101]空
 
 #------------------------------------------------------------------------------
 # モデルの情報
 #------------------------------------------------------------------------------
 MODELSET
-    TYPE = 9
+    TYPE = 12
     POS = 0.00 0.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
@@ -146,6 +149,48 @@ END_MODELSET
 MODELSET
     TYPE = 8
     POS = 1939.00 431.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 11
+    POS = 4004.24 0.00 2130.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2665.14 -5.47 600.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.98 -8.00 -604.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.98 -2.00 1208.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.98 -2.00 1798.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.24 -8.00 -1184.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 10
+    POS = 2665.14 -5.47 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

@@ -11,6 +11,7 @@
 #include "debugproc.h"
 #include "camera.h"
 #include "player.h"
+#include "game.h"
 
 #include <stdio.h>
 #include<string.h>
@@ -18,7 +19,7 @@
 //マクロ定義
 #define MODEL_SET_TEXT  ("data\\TEXT\\model_set.txt")
 #define MODEL  ("data\\TEXT\\model.txt")
-#define MOVE   (1.0f)  //移動量
+#define MOVE   (2.0f)  //移動量
 
 //===========================================================
 //コンストラクタ
@@ -483,6 +484,7 @@ void CEdit::ReadText(void)
 	char aString[128] = {};
 	char aComment[128] = {};
 	int nCntModel = 0;
+	CFoot *pPlayer = CGame::GetPlayerFoot();
 
 	FILE *pFile;   //ファイルポインタを宣言
 
@@ -511,7 +513,7 @@ void CEdit::ReadText(void)
 					fscanf(pFile, "%s", &aString);          //=
 					fscanf(pFile, "%s", &m_Model[nCntModel].m_filename[0]);  //モデルの名前
 					m_Model[nCntModel].m_nType = nCntModel;
-
+					m_pos = pPlayer->Getpos();
 					nCntModel++;
 
 				}  //MODEL_LILENAMEのかっこ
@@ -580,7 +582,7 @@ void CEdit::Control(void)
 			if (m_apModel[nCount] == NULL)
 			{//使用されていないとき
 
-			 //オブジェクトXを生成
+				//オブジェクトXを生成
 				m_apModel[nCount] = CObjectX::Create(m_Model[m_nIdx].m_pos, m_Model[m_nIdx].m_rot, m_Model[m_nIdx].m_filename);
 
 				//種類設定
