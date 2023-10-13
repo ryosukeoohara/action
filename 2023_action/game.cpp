@@ -107,7 +107,7 @@ HRESULT CGame::Init(void)
 	{//使用されていなかったら
 
 	    //プレイヤーの生成
-		m_PlayerChibi = new CChibi({ 0.0f, 0.0f, 0.0f });
+		m_PlayerChibi = new CChibi({ -1180.0f, 10.0f, 0.0f });
 
 		//初期化処理
 		m_PlayerChibi->Init();
@@ -118,7 +118,7 @@ HRESULT CGame::Init(void)
 	{//使用されていなかったら
 
 		//プレイヤーの生成
-		m_PlayerFoot = new CFoot({ 0.0f, 0.0f, 0.0f });
+		m_PlayerFoot = new CFoot({ -1180.0f, 10.0f, 0.0f });
 
 		//初期化処理
 		m_PlayerFoot->Init();

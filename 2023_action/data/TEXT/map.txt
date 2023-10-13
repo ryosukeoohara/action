@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 15
+NUM_MODEL = 20
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -23,13 +23,14 @@ MODEL_FILENAME = data/MODEL/EDIT/bill_02.x        	    # [4]ビル02
 MODEL_FILENAME = data/MODEL/EDIT/wood.x        	        # [5]木
 MODEL_FILENAME = data/MODEL/EDIT/load.x        	        # [6]道
 MODEL_FILENAME = data/MODEL/EDIT/stand_00.x        	    # [7]暖簾みたいなやつ
+MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [7]暖簾みたいなやつ
 MODEL_FILENAME = data/MODEL/EDIT/sky.x        	        # [8]空
 
 #------------------------------------------------------------------------------
 # モデルの情報
 #------------------------------------------------------------------------------
 MODELSET
-    TYPE = 8
+    TYPE = 9
     POS = 0.00 0.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
@@ -115,6 +116,36 @@ END_MODELSET
 MODELSET
     TYPE = 7
     POS = 525.00 162.00 70.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 1936.00 60.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 2087.00 144.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 2248.00 216.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 2077.00 343.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 1939.00 431.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
