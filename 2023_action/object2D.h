@@ -34,25 +34,11 @@ public:		//誰でもアクセスできる
 
 	void BindTexture(LPDIRECT3DTEXTURE9 m_Texture);  //テクスチャをバインド
 	void SetVtxEffect(D3DXVECTOR3 pos, float m_fRadius ,D3DXCOLOR col);
-	void SetVtxBlock(D3DXVECTOR3 pos, float fWidth, float fHeight);
 	void SetVtxBullet(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxPlayer(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxItem(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxNumber(D3DXVECTOR3 pos, float fWidth, float fHeight, int m_nNumber);
-	void SetVtxBg(void);
-	void SetVtxMessage(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxFrame(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxItemSlot(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxTitleLogo(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxEffectLine(void);
-	void SetVtxLifeGage(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxIcon(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxLife(D3DXVECTOR3 pos, float fWidth, float fHeight, float fTex);
 	void SetVtxFade(D3DXCOLOR col);
-	void SetVtxTarget(D3DXVECTOR3 pos, float fWidth, float fHeight);
-	void SetVtxPause(D3DXVECTOR3 pos, float fWidth, float fHeight, D3DXCOLOR col);
 	void SetVtxUI(D3DXVECTOR3 pos, float fWidth, float fHeight, D3DXCOLOR col);
 	void SetVtxRanking(int Tex);
+
 	int GetIdxTex(void) { return m_nIdxTexture;	}
 	void SetIdxTex(int Idx) { m_nIdxTexture = Idx; }
 

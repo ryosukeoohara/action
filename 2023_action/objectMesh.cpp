@@ -8,10 +8,10 @@
 #include "renderer.h"
 #include "manager.h"
 
-#define HIGHT   (10)    //分割数
-#define WI      (10)    //分割数
-#define HILEN   (10.0f) //縦の長さ
-#define WILEN   (10.0f) //横の長さ
+#define HIGHT   (100)    //分割数
+#define WI      (100)    //分割数
+#define HILEN   (100.0f) //縦の長さ
+#define WILEN   (100.0f) //横の長さ
 
 //=============================================================================
 //コンストラクタ

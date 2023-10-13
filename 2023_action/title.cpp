@@ -4,23 +4,24 @@
 //Author 大原怜将
 //
 //===========================================================
+
+//*==========================================================
+//インクルードファイル
+//*==========================================================
 #include "title.h"
 #include "texture.h"
 #include "game.h"
 #include "debugproc.h"
 #include "renderer.h"
 #include "sound.h"
+#include "UImanager.h"
 
 //===========================================================
 //コンストラクタ
 //===========================================================
 CTitle::CTitle()
 {
-	for (int nCount = 0; nCount < MAX_TITLEOBJ; nCount++)
-	{
-		m_apObject2D[nCount] = NULL;
-		m_apObject3D[nCount] = NULL;
-	}
+	
 }
 
 //===========================================================
@@ -53,6 +54,9 @@ CTitle *CTitle::Create(void)
 //===========================================================
 HRESULT CTitle::Init(void)
 {
+	//タイトルのロゴ生成
+	CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_TITLE);
+
 	//サウンドを取得
 	CSound *pSound = CManager::GetSound();
 	pSound->Play(CSound::SOUND_LABEL_BGM002);
@@ -68,8 +72,10 @@ void CTitle::Uninit(void)
 	//サウンドを取得
 	CSound *pSound = CManager::GetSound();
 
+	//サウンド停止
 	pSound->Stop();
 
+	//すべてのオブジェクト破棄
 	CObject::ReleaseAll();
 }
 

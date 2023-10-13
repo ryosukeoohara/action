@@ -619,14 +619,14 @@ void CChibi::Control(void)
 		m_bAction = true;
 	}
 
-	/*if (Playerpos.y <= 0.0f)
+	if (Playerpos.y <= 0.0f)
 	{
 		Playerpos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
-	}*/
+	}
 
 	SetPos(&Playerpos);
 	SetRot(&PlayerRot);
@@ -750,7 +750,7 @@ void CFoot::Control(void)
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEÉLÅ[Ç™âüÇ≥ÇÍÇΩ
 
-			//m_bJump = true;
+			m_bJump = true;
 
 			m_move.y += FOOTJUMP;
 		}

@@ -34,6 +34,17 @@ public:
 		D3DXCOLOR col;
 	};
 
+	//構造体
+	struct PAUSE
+	{
+		CObject2D *pBackGround;   //一番後ろに出す黒い背景
+		CObject2D *pFrame;        //ポーズのフレーム
+		CObject2D *pContinue;     //続ける
+		CObject2D *pReStart;      //やり直す
+		CObject2D *pTitleBack;    //タイトルに戻る
+		
+	};
+
 	HRESULT Init(void);                        //ポーズ初期化処理    
 	void Uninit(void);                         //ポーズ終了処理
 	void Update(void);                         //ポーズ更新処理
@@ -43,7 +54,7 @@ private:
 	int m_nIdxTexture[MAX_PAUSEOBJ];           //テクスチャのインデックス番号
 
 	CObject2D *m_Object2D[MAX_PAUSEOBJ];       //オブジェクト2Dへのポインタ
-
+	PAUSE m_Pause;                             //ポーズの構造体
 	PAUSE_MENU m_pauseMenu;                    //ポーズメニュー
 	COL m_Color[5];
 	bool m_bPause;                             //ポーズ中かどうか

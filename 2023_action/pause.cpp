@@ -38,7 +38,7 @@ HRESULT CPause::Init(void)
 	//テクスチャの情報取得
 	CTexture *pTexture = CManager::GetTexture();
 
-	for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
+	/*for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 	{
 		m_Object2D[nCount] = NULL;
 	}
@@ -87,7 +87,9 @@ HRESULT CPause::Init(void)
 
 			m_Object2D[nCount]->Init();
 		}
-	}
+	}*/
+
+
 
 	return S_OK;
 }
@@ -210,27 +212,27 @@ void CPause::Update(void)
 				{
 				case MENU_BACK:
 
-					m_Object2D[nCount]->SetVtxPause(pos, 640.0f, 360.0f, { 1.0f, 1.0f, 1.0f, 0.5f + m_Color[nCount].col.a });
+					m_Object2D[nCount]->SetVtxUI(pos, 640.0f, 360.0f, { 1.0f, 1.0f, 1.0f, 0.5f + m_Color[nCount].col.a });
 					break;
 
 				case MENU_FRAME:
 
-					m_Object2D[nCount]->SetVtxPause(pos, 300.0f, 200.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
+					m_Object2D[nCount]->SetVtxUI(pos, 300.0f, 200.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
 					break;
 
 				case MENU_COUTINUE:
 
-					m_Object2D[nCount]->SetVtxPause(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
+					m_Object2D[nCount]->SetVtxUI(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
 					break;
 
 				case MENU_RETRY:
 
-					m_Object2D[nCount]->SetVtxPause(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
+					m_Object2D[nCount]->SetVtxUI(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.3f + m_Color[nCount].col.a });
 					break;
 
 				case MENU_QUIT:
 
-					m_Object2D[nCount]->SetVtxPause(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f + m_Color[nCount].col.a });
+					m_Object2D[nCount]->SetVtxUI(pos, 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f + m_Color[nCount].col.a });
 					break;
 				}
 			}
@@ -255,7 +257,7 @@ void CPause::Draw(void)
 			{
 				pDevice->SetTexture(0, pTexture->GetAddress(m_Object2D[nCount]->GetIdxTex()));
 
-				m_Object2D[nCount]->Draw();
+				//m_Object2D[nCount]->Draw();
 			}
 		}
 	}

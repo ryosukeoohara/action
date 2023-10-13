@@ -1,7 +1,7 @@
-﻿  collision.cpp
+﻿  player.cpp
   コード生成しています。
-  4 of 391 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
+  4 of 444 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe

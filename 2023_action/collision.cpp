@@ -558,48 +558,44 @@ void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					//return true;
 				}
 
-				////横からめり込んだ
-				//else if (pos->x + 20.0f > Mappos.x + vtxMin.x
-				//	&& pos->x + 20.0f < Mappos.x + vtxMax.x)
-				//{
-					//ブロックの左側面==================================
-					if (pos->x + 20.0f >= Mappos.x + vtxMin.x
-						&& posOld->x + 20.0f <= Mappos.x + vtxMin.x)
+				
+				//ブロックの左側面==================================
+				if (pos->x + 20.0f >= Mappos.x + vtxMin.x
+					&& posOld->x + 20.0f <= Mappos.x + vtxMin.x)
+				{
+					pos->x = Mappos.x + vtxMin.x - 20.0f;
+
+					if (pFoot->GetbAppr() == true)
 					{
-						pos->x = Mappos.x + vtxMin.x - 20.0f;
-
-						if (pFoot->GetbAppr() == true)
-						{
-							pFoot->SetPos(pos);
-						}
-
-						if (pChibi->GetbAppr() == true)
-						{
-							pChibi->SetPos(pos);
-						}
-
-						//return true;
+						pFoot->SetPos(pos);
 					}
 
-					//ブロックの右側面==================================
-					 if (pos->x - 20.0f <= Mappos.x + vtxMax.x
-					  && posOld->x - 20.0f >= Mappos.x + vtxMax.x)
+					if (pChibi->GetbAppr() == true)
 					{
-						pos->x = Mappos.x + vtxMax.x + 20.0f;
-
-						if (pFoot->GetbAppr() == true)
-						{
-							pFoot->SetPos(pos);
-						}
-
-						if (pChibi->GetbAppr() == true)
-						{
-							pChibi->SetPos(pos);
-						}
-
-						//return true;
+						pChibi->SetPos(pos);
 					}
-				//}
+
+					//return true;
+				}
+
+				//ブロックの右側面==================================
+				if (pos->x - 20.0f <= Mappos.x + vtxMax.x
+					&& posOld->x - 20.0f >= Mappos.x + vtxMax.x)
+				{
+					pos->x = Mappos.x + vtxMax.x + 20.0f;
+
+					if (pFoot->GetbAppr() == true)
+					{
+						pFoot->SetPos(pos);
+					}
+
+					if (pChibi->GetbAppr() == true)
+					{
+						pChibi->SetPos(pos);
+					}
+
+					//return true;
+				}
 			}
 		}
 	}

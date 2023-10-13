@@ -20,6 +20,7 @@
 #include "pause.h"
 #include "title.h"
 #include "light.h"
+#include "result.h"
 
 //================================================================
 //静的メンバ変数
@@ -333,54 +334,66 @@ void CManager::Update(void)
 
 	m_Enemy = GetEnemy();
 
-	if (m_InputKeyboard->GetTrigger(DIK_P) == true && m_pScene->GetMode() == CScene::MODE_GAME)
-	{//ENTERキーを推した
-		
-		if (m_Fade->Get() != m_Fade->FADE_OUT)
-		{
-			m_bPause = m_bPause ? false : true;
-		}
+	//if (m_InputKeyboard->GetTrigger(DIK_P) == true && m_pScene->GetMode() == CScene::MODE_GAME)
+	//{//ENTERキーを推した
+	//	
+	//	if (m_Fade->Get() != m_Fade->FADE_OUT)
+	//	{
+	//		m_bPause = m_bPause ? false : true;
+	//	}
+	//}
+
+	//if (m_bPause == true)
+	//{
+	//	if (m_Pause == NULL)
+	//	{//使用されていなかったら
+
+	//		//ポーズを生成
+	//		m_Pause = new CPause;
+
+	//		//初期化処理
+	//		m_Pause->Init();
+	//	}
+
+	//	if (m_Pause != NULL)
+	//	{
+	//		m_Pause->Update();
+	//	}
+	//}
+	//else
+	//{
+	//	if (m_Pause != NULL)
+	//	{
+	//		//ポーズの終了処理
+	//		m_Pause->Uninit();
+
+	//		//使用していない状態にする
+	//		m_Pause = NULL;
+	//	}
+
+	//	if (m_Camera != NULL)
+	//	{
+	//		//カメラの更新処理
+	//		m_Camera->Update();
+	//	}
+
+	//	if (m_pScene != NULL)
+	//	{
+	//		//シーンの更新
+	//		m_pScene->Update();
+	//	}
+	//}
+
+	if (m_Camera != NULL)
+	{
+		//カメラの更新処理
+		m_Camera->Update();
 	}
 
-	if (m_bPause == true)
+	if (m_pScene != NULL)
 	{
-		if (m_Pause == NULL)
-		{//使用されていなかったら
-
-			//ポーズを生成
-			m_Pause = new CPause;
-
-			//初期化処理
-			m_Pause->Init();
-		}
-
-		if (m_Pause != NULL)
-		{
-			m_Pause->Update();
-		}
-	}
-	else
-	{
-		if (m_Pause != NULL)
-		{
-			//ポーズの終了処理
-			m_Pause->Uninit();
-
-			//使用していない状態にする
-			m_Pause = NULL;
-		}
-
-		if (m_Camera != NULL)
-		{
-			//カメラの更新処理
-			m_Camera->Update();
-		}
-
-		if (m_pScene != NULL)
-		{
-			//シーンの更新
-			m_pScene->Update();
-		}
+		//シーンの更新
+		m_pScene->Update();
 	}
 
 	if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_TITLE)
@@ -393,6 +406,15 @@ void CManager::Update(void)
 		}
 	}
 	else if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_GAME)
+	{//ENTERキーを押したかつシーンがゲームのとき
+
+		if (m_Fade->Get() != m_Fade->FADE_OUT)
+		{
+			//シーンをタイトルに遷移
+			m_Fade->Set(CScene::MODE_RESULT);
+		}
+	}
+	else if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_RESULT)
 	{//ENTERキーを押したかつシーンがゲームのとき
 
 		if (m_Fade->Get() != m_Fade->FADE_OUT)
@@ -515,7 +537,7 @@ HRESULT CScene::Init(void)
 
 		break;
 
-	/*case MODE_RESULT:
+	case MODE_RESULT:
 
 		if (m_Result == NULL)
 		{
@@ -524,7 +546,7 @@ HRESULT CScene::Init(void)
 			m_Result->Init();
 		}
 
-		break;*/
+		break;
 	}
 
 	return S_OK;
@@ -576,7 +598,7 @@ void CScene::Uninit(void)
 
 		break;
 
-	/*case MODE_RESULT:
+	case MODE_RESULT:
 
 		if (m_Result != NULL)
 		{
@@ -587,7 +609,7 @@ void CScene::Uninit(void)
 			m_Result = NULL;
 		}
 
-		break;*/
+		break;
 	}
 }
 
@@ -625,14 +647,14 @@ void CScene::Update(void)
 
 		break;
 
-	/*case MODE_RESULT:
+	case MODE_RESULT:
 
 		if (m_Result != NULL)
 		{
 			m_Result->Update();
 		}
 
-		break;*/
+		break;
 	}
 }
 
@@ -670,14 +692,14 @@ void CScene::Draw(void)
 
 		break;
 
-	/*case MODE_RESULT:
+	case MODE_RESULT:
 
 		if (m_Result != NULL)
 		{
 			m_Result->Draw();
 		}
 
-		break;*/
+		break;
 	}
 }
 

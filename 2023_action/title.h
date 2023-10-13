@@ -9,9 +9,6 @@
 #include "manager.h"
 #include "object2D.h"
 
-//マクロ定義
-#define MAX_TITLEOBJ   (64)   //タイトル内での2Dオブジェクトの最大数
-
 //タイトルクラス
 class CTitle : public CScene
 {
@@ -27,9 +24,5 @@ public:
 	static CTitle *Create(void);
 
 private:
-	int m_nIdxTexture;                          //テクスチャのインデックス番号
-	CObject2D *m_apObject2D[MAX_TITLEOBJ];      //2Dオブジェクトへのポインタ
-	CObject3D *m_apObject3D[MAX_TITLEOBJ];      //3Dオブジェクトへのポインタ
-
 };
 #endif // !_TITLE_H_
