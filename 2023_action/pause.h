@@ -51,7 +51,7 @@ public:
 	void Draw(void);                           //ポーズ描画処理
 							                   
 private:					                   
-	int m_nIdxTexture[MAX_PAUSEOBJ];           //テクスチャのインデックス番号
+	//int m_nIdxTexture[MAX_PAUSEOBJ];           //テクスチャのインデックス番号
 
 	CObject2D *m_Object2D[MAX_PAUSEOBJ];       //オブジェクト2Dへのポインタ
 	PAUSE m_Pause;                             //ポーズの構造体

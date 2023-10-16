@@ -411,18 +411,6 @@ void CManager::Update(void)
 		}
 	}
 
-	//if (m_Camera != NULL)
-	//{
-	//	//カメラの更新処理
-	//	m_Camera->Update();
-	//}
-
-	//if (m_pScene != NULL)
-	//{
-	//	//シーンの更新
-	//	m_pScene->Update();
-	//}
-
 	if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_TITLE)
 	{//ENTERキーを押したかつシーンがタイトルのとき
 
@@ -536,14 +524,6 @@ void CManager::Draw(void)
 	if (m_pScene != NULL)
 	{
 		m_pScene->Draw();
-	}
-
-	if (m_bPause == true)
-	{
-		if (pPause != NULL)
-		{
-			pPause->Draw();
-		}
 	}
 }
 

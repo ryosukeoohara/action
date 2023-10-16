@@ -161,11 +161,6 @@ void CRenderer::Update(void)
 	{
 		pFade->Update();
 	}
-
-	/*if (pPause != NULL)
-	{
-		pPause->Update();
-	}*/
 }
 
 //================================================================
