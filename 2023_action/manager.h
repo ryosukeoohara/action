@@ -16,6 +16,7 @@
 class CRenderer;
 class CInputKeyboard;
 class CInputMouse;
+class CInputJoyPad;
 class CSound;
 class CPlayer;
 class CDebugProc;
@@ -87,6 +88,7 @@ public:		//誰でもアクセスできる
 	static CRenderer *GetRenderer(void);
 	static CInputKeyboard *GetKeyBoard(void);
 	static CInputMouse *GetInputMouse(void);
+	static CInputJoyPad *GetInputJoyPad(void);
 	static CSound *GetSound(void);
 	static CPlayer *GetPlayer(void);
 	static CDebugProc *GetDebugProc(void);
@@ -114,6 +116,7 @@ private:	//自分だけがアクセスできる
 	static CRenderer *m_Renderer;
 	static CInputKeyboard *m_InputKeyboard;
 	static CInputMouse *m_InputMouse;
+	static CInputJoyPad *m_InputJoyPad;
 	static CSound *m_Sound;
 	static CPlayer *m_Player;
 	static CDebugProc *m_DebugProc;
@@ -134,7 +137,5 @@ private:	//自分だけがアクセスできる
 	static bool m_bPause;       //ポーズ中かどうか
 	bool m_EditUse;   //エディットモードにするかどうか
 };
-
-
 
 #endif // !1

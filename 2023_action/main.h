@@ -10,6 +10,7 @@
 #define CLASS_NAME        "windowclass"            //ウインドウクラスの名前
 #define DIRECTINPUT_VERSION (0x0800)               //ビルト時の警告対処用マクロ
 #include<Windows.h>
+#include<Xinput.h>
 #include<stdio.h>
 #include<time.h>
 #include<string.h>

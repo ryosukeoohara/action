@@ -28,6 +28,7 @@
 CRenderer *CManager::m_Renderer = NULL;
 CInputKeyboard *CManager::m_InputKeyboard = NULL;
 CInputMouse *CManager::m_InputMouse = NULL;
+CInputJoyPad *CManager::m_InputJoyPad = NULL;
 CSound *CManager::m_Sound = NULL;
 CPlayer *CManager::m_Player = NULL;
 CDebugProc *CManager::m_DebugProc = NULL;
@@ -101,6 +102,16 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 		//初期化処理
 		m_InputMouse->Init(hInstance, hWnd);
+	}
+
+	if (m_InputJoyPad == NULL)
+	{//使用されていなかったら
+
+		//ゲームパッドの生成
+		m_InputJoyPad = new CInputJoyPad;
+
+		//初期化処理
+		m_InputJoyPad->Init();
 	}
 
 	if (m_Sound == NULL)
@@ -236,6 +247,19 @@ void CManager::Uninit(void)
 		m_InputMouse = NULL;
 	}
 
+	//ゲームパッドの破棄
+	if (m_InputJoyPad != NULL)
+	{
+		//ゲームパッドの終了処理
+		m_InputJoyPad->Uninit();
+
+		//メモリを開放
+		delete m_InputJoyPad;
+
+		//使用していない状態にする
+		m_InputJoyPad = NULL;
+	}
+
 	//サウンドの破棄
 	if (m_Sound != NULL)
 	{
@@ -328,6 +352,9 @@ void CManager::Update(void)
 
 	//マウスの更新処理
 	m_InputMouse->Update();
+
+	//ゲームパッドの更新処理
+	m_InputJoyPad->Update();
 
 	//ポーズの情報を取得
 	CPause *pPause = CGame::GetPause();
@@ -422,6 +449,70 @@ void CManager::Update(void)
 			//シーンをタイトルに遷移
 			m_Fade->Set(CScene::MODE_TITLE);
 		}
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_X, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_Y, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_A, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_B, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_LTHUMB, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
+	}
+
+	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_LTHUMB, 0) == true)
+	{//ENTERキーを押したかつシーンがタイトルのとき
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrueだよ～～～～～～");
 	}
 	
 	//使用しているテクスチャの合計枚数
@@ -725,6 +816,14 @@ CInputKeyboard *CManager::GetKeyBoard(void)
 CInputMouse *CManager::GetInputMouse(void)
 {
 	return m_InputMouse;
+}
+
+//================================================================
+//ゲームパッド取得
+//================================================================
+CInputJoyPad *CManager::GetInputJoyPad(void)
+{
+	return m_InputJoyPad;
 }
 
 //================================================================

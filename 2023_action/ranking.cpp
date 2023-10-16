@@ -44,7 +44,7 @@ CRanking *CRanking::Create(void)
 	if (pRanking == NULL)
 	{//使用されていない場合
 
-	 //生成
+		//生成
 		pRanking = new CRanking;
 
 		//初期化処理
@@ -69,7 +69,7 @@ HRESULT CRanking::Init(void)
 			if (m_apObject2D[nCntRank] != NULL)
 			{//使用されていない場合
 
-			 //生成
+				//生成
 				m_apObject2D[nCntRank][nCntScore] = CObject2D::Create({ 500.0f + nCntScore * 50.0f, 180.0f + nCntRank * 100.0f, 0.0f });
 
 				//テクスチャ読み込み
