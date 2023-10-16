@@ -76,7 +76,7 @@ CGame *CGame::Create(void)
 HRESULT CGame::Init(void)
 {
 	//カメラ取得
-	CCamera *pCamera = CManager::GetCamera();
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	pCamera->SetType(CCamera::TYPE_GAME);
 
@@ -134,7 +134,7 @@ HRESULT CGame::Init(void)
 	//	m_Player->Init();
 	//}
 
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	return S_OK;
 }
@@ -144,7 +144,7 @@ HRESULT CGame::Init(void)
 //===========================================================
 void CGame::Uninit(void)
 {
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	pSound->Stop();
 
@@ -226,7 +226,7 @@ void CGame::Uninit(void)
 void CGame::Update(void)
 {
 	//キーボードを取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//すべての更新処理
 	CObject::UpdateAll();
@@ -268,7 +268,7 @@ void CGame::Update(void)
 		}
 	}
 
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	pDebugProc->Print("\nシーン：ゲーム");
 }

@@ -187,10 +187,10 @@ CPlayer *CPlayer::Create(D3DXVECTOR3 pos)
 HRESULT CPlayer::Init(void)
 {
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//シーンの情報を取得
-	CScene *pScene = CManager::GetScene();
+	CScene *pScene = CManager::Getinstance()->GetScene();
 
 	//影の情報を取得
 	//CShadow *pShadow = CGame::GetShadow();
@@ -223,7 +223,7 @@ HRESULT CPlayer::Init(void)
 void CPlayer::Uninit(void)
 {
 	//サウンドの情報を取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//サウンドストップ
 	pSound->Stop();
@@ -280,13 +280,13 @@ void CPlayer::Uninit(void)
 void CPlayer::Update(void)
 {
 	//キーボードの情報を取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//フェードの情報を取得
-	CFade *pFade = CManager::GetFade();
+	CFade *pFade = CManager::Getinstance()->GetFade();
 
 	//シーンの情報を取得
-	CScene *pScene = CManager::GetScene();
+	CScene *pScene = CManager::Getinstance()->GetScene();
 
 	//プレイヤー(クソデブ)の情報を取得
 	CFoot *pFoot = CGame::GetPlayerFoot();
@@ -359,8 +359,8 @@ void CPlayer::Update(void)
 //================================================================
 void CPlayer::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture));
@@ -424,22 +424,22 @@ void CPlayer::ControlPlayer(void)
 void CChibi::Control(void)
 {
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//キーボードを取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//マウスを取得
-	CInputMouse *pInputMouse = CManager::GetInputMouse();
+	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//カメラ取得
-	CCamera *pCamera = CManager::GetCamera();
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	//カメラの向き取得
 	D3DXVECTOR3 CameraRot = pCamera->GetRot();
@@ -642,22 +642,22 @@ void CChibi::Control(void)
 void CFoot::Control(void)
 {
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//キーボードを取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//マウスを取得
-	CInputMouse *pInputMouse = CManager::GetInputMouse();
+	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//カメラ取得
-	CCamera *pCamera = CManager::GetCamera();
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	//カメラの向き取得
 	D3DXVECTOR3 CameraRot = pCamera->GetRot();
@@ -926,7 +926,7 @@ void CPlayer::ReadText(const char *fliename)
 	int nCntMotionIdx = 0;
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	FILE *pFile;   //ファイルポインタを宣言
 

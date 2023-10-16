@@ -73,7 +73,7 @@ CObjectMesh * CObjectMesh::Create(void)
 //=============================================================================
 HRESULT CObjectMesh::Init(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -192,7 +192,7 @@ void CObjectMesh::Update(void)
 //=============================================================================
 void CObjectMesh::Draw(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 

@@ -56,7 +56,7 @@ CScore *CScore::Create(void)
 	//オブジェクト2Dのポインタ
 	CScore *pScore = NULL;
 
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (CObject::GetNumAll() < MAX_OBJECT)
 	{
@@ -78,7 +78,7 @@ CScore *CScore::Create(void)
 //================================================================
 HRESULT CScore::Init(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	for (int nCount = 0; nCount < SETSCORE; nCount++)
 	{
@@ -138,8 +138,8 @@ void CScore::Update(void)
 //================================================================
 void CScore::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	for (int nCount = 0; nCount < SETSCORE; nCount++)

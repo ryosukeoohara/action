@@ -77,7 +77,7 @@ CObjectX *CObjectX::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char *aModelF
 	CObjectX *pObjectX = NULL;
 
 	//モデル情報を取得
-	CModel *pModel = CManager::GetModel();
+	CModel *pModel = CManager::Getinstance()->GetModel();
 
 	if (CObject::GetNumAll() < MAX_OBJECT)
 	{
@@ -109,7 +109,7 @@ HRESULT CObjectX::Init(void)
 	}
 
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//Xファイル読み込み
@@ -129,7 +129,7 @@ HRESULT CObjectX::Init(void)
 	dwSizeFVF = D3DXGetFVFVertexSize(m_aObjectX.m_pMesh->GetFVF());
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (m_aObjectX.m_pTexture == NULL)
 	{
@@ -248,10 +248,10 @@ void CObjectX::Update(void)
 void CObjectX::Draw(void)
 {
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 	
 	D3DXVECTOR3 pos = Getpos();
 	D3DXVECTOR3 rot = GetRot();

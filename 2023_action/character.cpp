@@ -112,11 +112,11 @@ HRESULT CCharacter::Init(void)
 	}
 
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//Xファイル読み込み
 	D3DXLoadMeshFromX(m_Fliename,
@@ -241,11 +241,11 @@ void CCharacter::Update(void)
 void CCharacter::Draw(void)
 {
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//計算用マトリックス
 	D3DXMATRIX m_mtxRot, m_mtxTrans;

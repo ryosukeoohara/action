@@ -115,10 +115,10 @@ void CEdit::Uninit(void)
 void CEdit::Update(void)
 {
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//キーボードの情報を取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	pDebugProc->Print("\n---エディットの情報---");
 	pDebugProc->Print("\n<<モードの切り替え : F2>>");
@@ -195,7 +195,7 @@ void CEdit::Draw(void)
 	}
 
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//αブレンディングを加算合計に設定
@@ -267,7 +267,7 @@ void CEdit::Draw(void)
 void CEdit::Save(void)
 {
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	FILE * pFile;
 
@@ -314,7 +314,7 @@ void CEdit::XLoad(void)
 		BYTE *pVtxBuff;   //頂点バッファへのポインタ
 
 						  //デバイスの取得
-		CRenderer *pRenderer = CManager::GetRenderer();
+		CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 		//Xファイル読み込み
@@ -531,13 +531,13 @@ void CEdit::ReadText(void)
 void CEdit::Control(void)
 {
 	//キーボードの情報を取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//カメラ取得
-	CCamera *pCamera = CManager::GetCamera();
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//カメラの向き取得
 	D3DXVECTOR3 CameraRot = pCamera->GetRot();
@@ -729,10 +729,10 @@ void CEdit::Control(void)
 void CEdit::SetModelDelete(void)
 {
 	//キーボードの情報を取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	if (InputKeyboard->GetTrigger(DIK_1) == true)
 	{//1キーが押された

@@ -84,10 +84,10 @@ CNumber *CNumber::Create(D3DXVECTOR3 pos)
 HRESULT CNumber::Init(void)
 {
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
+	pRenderer = CManager::Getinstance()->GetRenderer();
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -178,10 +178,10 @@ void CNumber::Update(void)
 void CNumber::Draw(void)
 {
 	//レンダラーの情報を取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//デバイスの情報を取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();

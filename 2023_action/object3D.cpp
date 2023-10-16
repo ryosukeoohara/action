@@ -70,7 +70,7 @@ CObject3D *CObject3D::Create(void)
 //================================================================
 HRESULT CObject3D::Init(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -152,7 +152,7 @@ void CObject3D::Update(void)
 //================================================================
 void CObject3D::Draw(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 

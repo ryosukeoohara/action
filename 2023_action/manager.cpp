@@ -25,32 +25,60 @@
 //================================================================
 //静的メンバ変数
 //================================================================
-CRenderer *CManager::m_Renderer = NULL;
-CInputKeyboard *CManager::m_InputKeyboard = NULL;
-CInputMouse *CManager::m_InputMouse = NULL;
-CInputJoyPad *CManager::m_InputJoyPad = NULL;
-CSound *CManager::m_Sound = NULL;
-CPlayer *CManager::m_Player = NULL;
-CDebugProc *CManager::m_DebugProc = NULL;
-CCamera *CManager::m_Camera = NULL;
-CLight *CManager::m_Light = NULL;
-CTexture *CManager::m_Texture = NULL;
-CModel *CManager::m_Model = NULL;
-CObject3D *CManager::m_Object3D = NULL;
-CEnemy *CManager::m_Enemy = NULL;
-CCollision *CManager::m_Collision = NULL;
-CEdit *CManager::m_Edit = NULL;
-CMap *CManager::m_Map = NULL;
-CScene *CManager::m_pScene = NULL;
-CFade *CManager::m_Fade = NULL;
-CPause *CManager::m_Pause = NULL;
+//CRenderer *CManager::m_Renderer = NULL;
+//CInputKeyboard *CManager::m_InputKeyboard = NULL;
+//CInputMouse *CManager::m_InputMouse = NULL;
+//CInputJoyPad *CManager::m_InputJoyPad = NULL;
+//CSound *CManager::m_Sound = NULL;
+//CPlayer *CManager::m_Player = NULL;
+//CDebugProc *CManager::m_DebugProc = NULL;
+//CCamera *CManager::m_Camera = NULL;
+//CLight *CManager::m_Light = NULL;
+//CTexture *CManager::m_Texture = NULL;
+//CModel *CManager::m_Model = NULL;
+//CObject3D *CManager::m_Object3D = NULL;
+//CEnemy *CManager::m_Enemy = NULL;
+//CCollision *CManager::m_Collision = NULL;
+//CEdit *CManager::m_Edit = NULL;
+//CMap *CManager::m_Map = NULL;
+//CScene *CManager::m_pScene = NULL;
+//CFade *CManager::m_Fade = NULL;
+//CPause *CManager::m_Pause = NULL;
+
+CManager *CManager::m_pManager = NULL;
 
 CGame  *CScene::m_Game = NULL;
 CTutorial *CScene::m_Tutorial = NULL;
 CTitle *CScene::m_Title = NULL;
 CResult *CScene::m_Result = NULL;
 CScene::MODE CScene::m_mode = CScene::MODE_TITLE;
-bool CManager::m_bPause = NULL;
+//bool CManager::m_bPause = NULL;
+
+CManager * CManager::Getinstance()
+{
+	if (m_pManager == NULL)
+	{
+		return m_pManager = new CManager;
+	}
+	else
+	{
+		return m_pManager;
+	}
+}
+
+HRESULT CManager::Release(void)
+{
+	if (m_pManager != NULL)
+	{
+		m_pManager->Uninit();
+
+		delete m_pManager;
+
+		m_pManager = NULL;
+	}
+
+	return S_OK;
+}
 
 //================================================================
 //コンストラクタ

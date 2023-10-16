@@ -88,12 +88,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdline
 	if (pManager == NULL)
 	{
 		pManager = new CManager;
+		pManager->Getinstance();
 	}
 
 	//マネージャの初期化処理
 	if (pManager != NULL)
 	{
-		if (FAILED(pManager->Init(hInstance, hWnd, FALSE)))
+		if (FAILED(pManager->Getinstance()->Init(hInstance, hWnd, FALSE)))
 		{
 			return -1;
 		}
@@ -150,13 +151,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdline
 			{//60分の1秒経過
 				dwExecLastTime = dwCurrentTime;
 
-				if (pManager != NULL)
+				if (pManager->Getinstance() != NULL)
 				{
 					//マネージャの更新処理
-					pManager->Update();
+					pManager->Getinstance()->Update();
 
 					//マネージャの描画処理
-					pManager->Draw();
+					pManager->Getinstance()->Draw();
 				}
 
 				dwwFrameCount++;     //フレームカウントを加算
@@ -164,11 +165,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR lpCmdline
 		}
 	}
 
-	if (pManager != NULL)
+	if (pManager->Getinstance() != NULL)
 	{
-		pManager->Uninit();
-
-		delete pManager;
+		pManager->Getinstance()->Release();
 
 		pManager = NULL;
 

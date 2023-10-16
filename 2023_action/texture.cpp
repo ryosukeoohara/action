@@ -65,7 +65,7 @@ void CTexture::UnLoad(void)
 int CTexture::Regist(const char *pFilename)
 {
 	//デバイスを取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	int nIdx = m_nNumAll;

@@ -115,7 +115,7 @@ void CMap::ReadText(void)
 	int nIdx = 0;
 
 	//モデルのポインタ取得
-	CModel *pModel = CManager::GetModel();
+	CModel *pModel = CManager::Getinstance()->GetModel();
 
 	D3DXVECTOR3 pos = { 0.0f,0.0f,0.0f };
 	D3DXVECTOR3 rot = { 0.0f,0.0f,0.0f };

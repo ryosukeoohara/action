@@ -67,12 +67,12 @@ CFade *CFade::Create(CScene::MODE modenext)
 HRESULT CFade::Init(void)
 {
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	m_nIdxTexture = -1;
 
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
+	pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -172,7 +172,7 @@ void CFade::Update(void)
 
 				m_fade = FADE_IN;
 
-				CManager::SetMode(m_modeNext);
+				CManager::Getinstance()->SetMode(m_modeNext);
 			}
 		}
 	}
@@ -204,8 +204,8 @@ void CFade::Update(void)
 //================================================================
 void CFade::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//頂点バッファをデータストリームに設定

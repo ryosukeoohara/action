@@ -70,7 +70,7 @@ CUIManager * CUIManager::Create(D3DXVECTOR3 pos, TYPE type)
 HRESULT CUIManager::Init(void)
 {
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//初期化処理
 	CObject2D::Init();
@@ -150,10 +150,10 @@ void CUIManager::Update(void)
 void CUIManager::Draw(void)
 {
 	//テクスチャの情報を取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	//レンダラーの情報を取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	//デバイスの情報を取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();

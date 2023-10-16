@@ -31,7 +31,7 @@ CLight::~CLight()
 //================================================================
 void CLight::Init(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 

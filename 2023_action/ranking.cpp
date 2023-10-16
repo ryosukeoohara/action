@@ -39,7 +39,7 @@ CRanking *CRanking::Create(void)
 	CRanking *pRanking = NULL;
 
 	//テクスチャのポインタ
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (pRanking == NULL)
 	{//使用されていない場合
@@ -60,7 +60,7 @@ CRanking *CRanking::Create(void)
 HRESULT CRanking::Init(void)
 {
 	//テクスチャのポインタ
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	for (int nCntRank = 0; nCntRank < MAX_RANK; nCntRank++)
 	{

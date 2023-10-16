@@ -72,7 +72,7 @@ CBullet *CBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, TYPE type)
 	//オブジェクト2Dのポインタ
 	CBullet *pBullet = NULL;
 
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (GetNumAll() < MAX_OBJECT)
 	{
@@ -98,7 +98,7 @@ HRESULT CBullet::Init(void)
 	SetType(TYPE_BULLET);
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\bom.png");
 
@@ -125,16 +125,16 @@ void CBullet::Uninit(void)
 //================================================================
 void CBullet::Update(void)
 {
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//当たり判定の情報取得
-	CCollision *pCollision = CManager::GetCollsion();
+	CCollision *pCollision = CManager::Getinstance()->GetCollsion();
 
 	//プレイヤーの情報取得
 	CPlayer *pPlayer = CGame::GetPlayerFoot();
 
 	//サウンドの情報を取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//位置を代入
 	D3DXVECTOR3 pos = Getpos();
@@ -181,8 +181,8 @@ void CBullet::Update(void)
 //================================================================
 void CBullet::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture));

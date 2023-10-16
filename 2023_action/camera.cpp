@@ -47,7 +47,7 @@ CCamera::~CCamera()
 //================================================================
 void CCamera::Init(void)
 {
-	CScene *pScene = CManager::GetScene();
+	CScene *pScene = CManager::Getinstance()->GetScene();
 
 	if (pScene->GetMode() == CScene::MODE_TITLE)
 	{
@@ -85,10 +85,10 @@ void CCamera::Uninit(void)
 //================================================================
 void CCamera::Update(void)
 {
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//シーンの情報を寿徳
-	CScene *pScene = CManager::GetScene();
+	CScene *pScene = CManager::Getinstance()->GetScene();
 
 	//プレイヤー(クソデブ)の情報を取得
 	CFoot *pFoot = CGame::GetPlayerFoot();
@@ -159,7 +159,7 @@ void CCamera::Update(void)
 	//向きを設定
 	SetRot(m_rot);
 	
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	pDebugProc->Print("\n---カメラの情報---");
 	pDebugProc->Print("\nカメラの位置視点：X軸<%f>,Y軸<%f>,Z軸<%f>", m_posV.x, m_posV.y, m_posV.z);
@@ -172,7 +172,7 @@ void CCamera::Update(void)
 //================================================================
 void CCamera::SetCamera(void)
 {
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -205,10 +205,10 @@ void CCamera::SetCamera(void)
 void CCamera::CameraV(void)
 {
 	//キーボードの情報を取得
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	//マウスの情報を取得
-	CInputMouse *pInputMouse = CManager::GetInputMouse();
+	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
@@ -248,9 +248,9 @@ void CCamera::CameraV(void)
 //================================================================
 void CCamera::CameraR(void)
 {
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
-	CInputMouse *pInputMouse = CManager::GetInputMouse();
+	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 

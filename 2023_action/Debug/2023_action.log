@@ -1,3 +1,38 @@
-﻿  enemy.cpp
+﻿  manager.cpp
+  main.cpp
+  コードを生成中...
+  スキップ中... (関連する変更は検出されませんでした)
+  title.cpp
+  time.cpp
+  texture.cpp
+  score.cpp
+  result.cpp
+  renderer.cpp
+  ranking.cpp
+  player.cpp
+  pause.cpp
+  particl.cpp
+  objectX.cpp
+  objectMesh.cpp
+  object3D.cpp
+  object2D.cpp
+  object.cpp
+  number.cpp
+  map.cpp
+  light.cpp
+  input.cpp
+  game.cpp
+  field.cpp
+  fade.cpp
+  enemy.cpp
+  effect.cpp
+  edit.cpp
+  debugproc.cpp
+  collision.cpp
+  character.cpp
+  camera.cpp
+  bullet.cpp
+  billboard.cpp
+  UImanager.cpp
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

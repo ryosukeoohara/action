@@ -71,7 +71,7 @@ void CObject::UpdateAll(void)
 		}
 	}
 
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	pDebugProc->Print("\n\nオブジェクトの総数：%d", m_nNumAll);
 }
@@ -81,7 +81,7 @@ void CObject::UpdateAll(void)
 //================================================================
 void CObject::DrawAll(void)
 {
-	CCamera *pCamera = CManager::GetCamera();
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	if (pCamera != NULL)
 	{

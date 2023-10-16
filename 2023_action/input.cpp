@@ -280,7 +280,7 @@ void CInputMouse::Uninit(void)
 void CInputMouse::Update(void)
 {
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//BYTE aKeyState[NUM_KEY_MAX];       //マウス入力情報
 	//int nCntKey;

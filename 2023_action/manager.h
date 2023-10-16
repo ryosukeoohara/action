@@ -77,6 +77,8 @@ class CManager
 {
 public:		//誰でもアクセスできる
 
+	static CManager *Getinstance();
+	static HRESULT Release(void);
 	CManager();  //コンストラクタ
 	~CManager(); //デストラクタ
 
@@ -85,56 +87,57 @@ public:		//誰でもアクセスできる
 	void Update(void);  //更新処理
 	void Draw(void);    //描画処理
 
-	static CRenderer *GetRenderer(void);
-	static CInputKeyboard *GetKeyBoard(void);
-	static CInputMouse *GetInputMouse(void);
-	static CInputJoyPad *GetInputJoyPad(void);
-	static CSound *GetSound(void);
-	static CPlayer *GetPlayer(void);
-	static CDebugProc *GetDebugProc(void);
-	static CCamera *GetCamera(void);
-	static CLight *GetLight(void);
-	static CTexture *GetTexture(void);
-	static CModel *GetModel(void);
-	static CObject3D *GetObject3D(void);
-	static CEnemy *GetEnemy(void);
+	CRenderer *GetRenderer(void);
+	CInputKeyboard *GetKeyBoard(void);
+	CInputMouse *GetInputMouse(void);
+	CInputJoyPad *GetInputJoyPad(void);
+	CSound *GetSound(void);
+	CPlayer *GetPlayer(void);
+	CDebugProc *GetDebugProc(void);
+	CCamera *GetCamera(void);
+	CLight *GetLight(void);
+	CTexture *GetTexture(void);
+	CModel *GetModel(void);
+	CObject3D *GetObject3D(void);
+	CEnemy *GetEnemy(void);
 	//static void *SetEnemy(CEnemy *enemy) { return m_Enemy = enemy; }
-	static CCollision *GetCollsion(void);
-	static CEdit *GetEdit(void);
-	static CMap *GetMap(void);
-	static CScene *GetScene(void);
-	static CFade *GetFade(void);
-	static CPause *GetPause(void);
+	CCollision *GetCollsion(void);
+	CEdit *GetEdit(void);
+	CMap *GetMap(void);
+	CScene *GetScene(void);
+	CFade *GetFade(void);
+	CPause *GetPause(void);
 
-	static void SetMode(CScene::MODE mode);
+	void SetMode(CScene::MODE mode);
 
-	static void SetbPause(bool bpause) { m_bPause = bpause; }
-	static bool GetbPause(void) { return m_bPause; }
+	void SetbPause(bool bpause) { m_bPause = bpause; }
+	bool GetbPause(void) { return m_bPause; }
 
 private:	//自分だけがアクセスできる
 
-	static CRenderer *m_Renderer;
-	static CInputKeyboard *m_InputKeyboard;
-	static CInputMouse *m_InputMouse;
-	static CInputJoyPad *m_InputJoyPad;
-	static CSound *m_Sound;
-	static CPlayer *m_Player;
-	static CDebugProc *m_DebugProc;
-	static CCamera *m_Camera;
-	static CLight *m_Light;
-	static CTexture *m_Texture;
-	static CModel *m_Model;
-	static CObject3D *m_Object3D;
-	static CEnemy *m_Enemy;
-	static CCollision *m_Collision;
-	static CEdit *m_Edit;
-	static CMap *m_Map;
-	static CScene *m_pScene;
-	static CFade *m_Fade;
-	static CPause *m_Pause;
+	static CManager *m_pManager;
+	CRenderer *m_Renderer;
+	CInputKeyboard *m_InputKeyboard;
+	CInputMouse *m_InputMouse;
+	CInputJoyPad *m_InputJoyPad;
+	CSound *m_Sound;
+	CPlayer *m_Player;
+	CDebugProc *m_DebugProc;
+	CCamera *m_Camera;
+	CLight *m_Light;
+	CTexture *m_Texture;
+	CModel *m_Model;
+	CObject3D *m_Object3D;
+	CEnemy *m_Enemy;
+	CCollision *m_Collision;
+	CEdit *m_Edit;
+	CMap *m_Map;
+	CScene *m_pScene;
+	CFade *m_Fade;
+	CPause *m_Pause;
 
 	int m_ResetCounter;  //リセットした回数
-	static bool m_bPause;       //ポーズ中かどうか
+	bool m_bPause;       //ポーズ中かどうか
 	bool m_EditUse;   //エディットモードにするかどうか
 };
 

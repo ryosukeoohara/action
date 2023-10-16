@@ -160,7 +160,7 @@ void CParticl::Update(void)
 void CParticl::Draw(void)
 {
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
+	pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 

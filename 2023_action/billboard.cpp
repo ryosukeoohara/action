@@ -85,7 +85,7 @@ void CBillBoard::Update(void)
 void CBillBoard::Draw(void)
 {
 	//デバイスの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	D3DXVECTOR3 pos = Getpos();

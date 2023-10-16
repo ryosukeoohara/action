@@ -132,7 +132,7 @@ void CRenderer::Uninit(void)
 		m_pD3D = NULL;
 	}
 
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	pDebugProc->Uninit();
 }
@@ -146,13 +146,13 @@ void CRenderer::Update(void)
 	//CObject::UpdateAll();
 	
 	//デバッグプロックの情報を取得
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	//フェードの情報を取得
-	CFade *pFade = CManager::GetFade();
+	CFade *pFade = CManager::Getinstance()->GetFade();
 
 	//ポーズの情報を取得
-	CPause *pPause = CManager::GetPause();
+	CPause *pPause = CManager::Getinstance()->GetPause();
 
 	//デバッグプロックの更新処理
 	pDebugProc->Update();
@@ -180,9 +180,9 @@ void CRenderer::Draw(void)
 		//すべてのポリゴンの描画処理
 		CObject::DrawAll();
 
-		CDebugProc *pDebugProc = CManager::GetDebugProc();
+		CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
-		CFade *pFade = CManager::GetFade();
+		CFade *pFade = CManager::Getinstance()->GetFade();
 
 		pDebugProc->Draw();
 

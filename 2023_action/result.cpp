@@ -58,7 +58,7 @@ HRESULT CResult::Init(void)
 	CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_RESULT);
 
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//サウンド再生
 	pSound->Play(CSound::SOUND_LABEL_BGM001);
@@ -72,7 +72,7 @@ HRESULT CResult::Init(void)
 void CResult::Uninit(void)
 {
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	pSound->Stop();
 
@@ -87,7 +87,7 @@ void CResult::Update(void)
 	//すべてのオブジェクトの更新処理
 	CObject::UpdateAll();
 
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
 	pDebugProc->Print("\nシーン：リザルト");
 }

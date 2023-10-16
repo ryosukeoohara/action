@@ -88,7 +88,7 @@ HRESULT CEffect::Init(void)
 	SetType(TYPE_EFFECT);
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	switch (m_type)
 	{
@@ -218,8 +218,8 @@ void CEffect::Update(void)
 //================================================================
 void CEffect::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//αブレンディングを加算合計に設定
@@ -289,7 +289,7 @@ void CEffect::Circle(void)
 HRESULT CEffect::Load(void)
 {
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
+	pRenderer = CManager::Getinstance()->GetRenderer();
 
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 

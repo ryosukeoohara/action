@@ -76,7 +76,7 @@ CObject2D *CObject2D::Create(D3DXVECTOR3 pos)
 HRESULT CObject2D::Init(void)
 {
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
+	pRenderer = CManager::Getinstance()->GetRenderer();
 	
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
@@ -154,8 +154,8 @@ void CObject2D::Update(void)
 void CObject2D::Draw(void)
 {
 	CRenderer *pRenderer;
-	pRenderer = CManager::GetRenderer();
-	CTexture *pTexture = CManager::GetTexture();
+	pRenderer = CManager::Getinstance()->GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	//頂点バッファをデータストリームに設定

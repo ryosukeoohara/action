@@ -58,7 +58,7 @@ HRESULT CTitle::Init(void)
 	CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_TITLE);
 
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 	pSound->Play(CSound::SOUND_LABEL_BGM002);
 
 	return S_OK;
@@ -70,7 +70,7 @@ HRESULT CTitle::Init(void)
 void CTitle::Uninit(void)
 {
 	//サウンドを取得
-	CSound *pSound = CManager::GetSound();
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//サウンド停止
 	pSound->Stop();
@@ -87,7 +87,7 @@ void CTitle::Update(void)
 	//すべてのオブジェクトの更新処理
 	CObject::UpdateAll();
 
-	CDebugProc *pDebugProc = CManager::GetDebugProc();
+	CDebugProc *pDebugProc = CManager::Getinstance()->Getinstance()->GetDebugProc();
 	pDebugProc->Print("\nシーン：タイトル");
 }
 

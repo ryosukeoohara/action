@@ -56,7 +56,7 @@ CTime *CTime::Create(void)
 	//オブジェクト2Dのポインタ
 	CTime *pTime = NULL;
 
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (CObject::GetNumAll() < MAX_OBJECT)
 	{
@@ -78,7 +78,7 @@ CTime *CTime::Create(void)
 //================================================================
 HRESULT CTime::Init(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	for (int nCount = 0; nCount < SETTIME; nCount++)
 	{
@@ -144,8 +144,8 @@ void CTime::Update(void)
 //================================================================
 void CTime::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	for (int nCount = 0; nCount < SETTIME; nCount++)
@@ -164,7 +164,7 @@ void CTime::Draw(void)
 void CTime::TimeCounter(void)
 {
 	//フェードの情報を取得
-	CFade *pFade = CManager::GetFade();
+	CFade *pFade = CManager::Getinstance()->GetFade();
 
 	m_nTimerCount++;
 

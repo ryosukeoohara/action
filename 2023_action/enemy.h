@@ -34,7 +34,7 @@ public:
 	void Draw(void);                     //描画
 
 	CEnemy *Create(void);                //生成
-	void ReadText(void);                 //テキストファイル読み込み
+	void ReadText(char *fliename);       //テキストファイル読み込み
 
 private:
 	CMotion *m_motion;                   //モーションへのポインタ
@@ -49,7 +49,11 @@ private:
 	//*=============================================================================
 	D3DXVECTOR3 m_Readpos;               //位置読み込み用
 	D3DXVECTOR3 m_Readrot;               //向き読み込み用
+	int m_nIdx;                          //インデックス番号
+	int m_nParent;                       //親のインデックス番号
+	int m_nNumModel;                     //モデル(パーツ)の総数
 	char m_filename[128] = {};           //文字読み込み用
+
 };
 
 #endif // !_ENEMY_H_

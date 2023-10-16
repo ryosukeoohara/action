@@ -36,7 +36,7 @@ CPause::~CPause()
 HRESULT CPause::Init(void)
 {
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 	{
@@ -150,16 +150,16 @@ void CPause::Uninit(void)
 //===========================================================
 void CPause::Update(void)
 {
-	CInputKeyboard *InputKeyboard = CManager::GetKeyBoard();
+	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
 	CSound *pSound;
 
-	pSound = CManager::GetSound();
+	pSound = CManager::Getinstance()->GetSound();
 
 	//フェードの情報を取得
-	CFade *pFade = CManager::GetFade();
+	CFade *pFade = CManager::Getinstance()->GetFade();
 
-	if (CManager::GetbPause() == true)
+	if (CManager::Getinstance()->GetbPause() == true)
 	{
 		if (InputKeyboard->GetTrigger(DIK_W) == true)
 		{//決定キーを(ENTERキー)が押された
@@ -200,7 +200,7 @@ void CPause::Update(void)
 			{
 				if (InputKeyboard->GetTrigger(DIK_RETURN) == true)
 				{
-					CManager::SetbPause(false);
+					CManager::Getinstance()->SetbPause(false);
 				}
 			}
 			else if (m_pauseMenu == MENU_QUIT)
@@ -209,7 +209,7 @@ void CPause::Update(void)
 				{
 					pFade->Set(CScene::MODE_TITLE);
 
-					CManager::SetbPause(false);
+					CManager::Getinstance()->SetbPause(false);
 				}
 			}
 			else if (m_pauseMenu == MENU_RETRY)
@@ -218,7 +218,7 @@ void CPause::Update(void)
 				{
 					pFade->Set(CScene::MODE_GAME);
 
-					CManager::SetbPause(false);
+					CManager::Getinstance()->SetbPause(false);
 				}
 			}
 		}
@@ -303,11 +303,11 @@ void CPause::Update(void)
 //===========================================================
 void CPause::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	if (CManager::GetbPause() == true)
+	if (CManager::Getinstance()->GetbPause() == true)
 	{
 		for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 		{

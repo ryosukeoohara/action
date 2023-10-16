@@ -35,7 +35,7 @@ CField *CField::Create(void)
 	CField *pField = NULL;
 
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	if (CObject::GetNumAll() < MAX_OBJECT)
 	{
@@ -58,7 +58,7 @@ CField *CField::Create(void)
 HRESULT CField::Init(void)
 {
 	//テクスチャの情報取得
-	CTexture *pTexture = CManager::GetTexture();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
 
 	m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\field001.jpg");
 
@@ -92,8 +92,8 @@ void CField::Update(void)
 //===========================================================
 void CField::Draw(void)
 {
-	CTexture *pTexture = CManager::GetTexture();
-	CRenderer *pRenderer = CManager::GetRenderer();
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture));
