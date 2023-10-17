@@ -107,6 +107,7 @@ public:		//誰でもアクセスできる
 	CScene *GetScene(void);
 	CFade *GetFade(void);
 	CPause *GetPause(void);
+	
 
 	void SetMode(CScene::MODE mode);
 
@@ -135,6 +136,7 @@ private:	//自分だけがアクセスできる
 	CScene *m_pScene;
 	CFade *m_Fade;
 	CPause *m_Pause;
+	
 
 	int m_ResetCounter;  //リセットした回数
 	bool m_bPause;       //ポーズ中かどうか

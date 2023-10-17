@@ -12,6 +12,7 @@
 //前方宣言
 class CChibi;
 class CFoot;
+class CEnemyManager;
 
 //ゲームクラス
 class CGame : public CScene
@@ -39,6 +40,7 @@ public:
 	static CMap *GetMap(void);
 	static CPause *GetPause(void);
 	static CEdit *GetEdit(void);
+	static CEnemyManager * GetEnemyManager(void);
 
 private:
 	static CChibi *m_PlayerChibi;
@@ -49,6 +51,7 @@ private:
 	static CMap *m_Map;
 	static CPause *m_Pause;
 	static CEdit *m_Edit;
+	static CEnemyManager *m_EnemyManager;
 
 	static bool m_bPause;
 	bool m_bUse;  //エディットモード中かどうか

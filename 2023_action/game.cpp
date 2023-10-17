@@ -4,6 +4,10 @@
 //Author 大原怜将
 //
 //===========================================================
+
+//*==========================================================
+//インクルードファイル
+//*==========================================================
 #include "game.h"
 #include "input.h"
 #include "sound.h"
@@ -15,6 +19,8 @@
 #include "edit.h"
 #include "map.h"
 #include "collision.h"
+#include "enemy.h"
+#include "enemymanager.h"
 
 //================================================================
 //静的メンバ変数
@@ -27,6 +33,7 @@ CCollision *CGame::m_Collision = NULL;
 CMap *CGame::m_Map = NULL;
 CPause *CGame::m_Pause = NULL;
 CEdit *CGame::m_Edit = NULL;
+CEnemyManager *CGame::m_EnemyManager = NULL;
 bool CGame::m_bPause = false;
 
 //===========================================================
@@ -134,6 +141,18 @@ HRESULT CGame::Init(void)
 	//	m_Player->Init();
 	//}
 
+	//if (m_EnemyManager == NULL)
+	//{//使用されていなかったら
+
+	//	//生成
+	//	m_EnemyManager = new CEnemyManager;
+
+	//	//初期化処理
+	//	m_EnemyManager->Init();
+	//}
+
+	CEnemy::Create({ 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	return S_OK;
@@ -216,6 +235,17 @@ void CGame::Uninit(void)
 		m_Edit = NULL;
 	}
 
+	//敵のマネージャの破棄
+	if (m_EnemyManager != NULL)
+	{//使用されていたとき
+
+		//終了処理
+		m_EnemyManager->Uninit();
+
+		//使用していない状態にする
+		m_EnemyManager = NULL;
+	}
+
 	//すべてのオブジェクト破棄
 	CObject::ReleaseAll();
 }
@@ -227,6 +257,13 @@ void CGame::Update(void)
 {
 	//キーボードを取得
 	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
+
+	//if (m_EnemyManager != NULL)
+	//{//使用されていたとき
+
+	//	//更新処理
+	//	m_EnemyManager->Update();
+	//}
 
 	//すべての更新処理
 	CObject::UpdateAll();
@@ -278,7 +315,12 @@ void CGame::Update(void)
 //===========================================================
 void CGame::Draw(void)
 {
-	
+	//if (m_EnemyManager != NULL)
+	//{//使用されていたとき
+
+	//	//描画処理
+	//	m_EnemyManager->Draw();
+	//}
 }
 
 //================================================================
@@ -318,7 +360,19 @@ CFoot *CGame::GetPlayerFoot(void)
 //================================================================
 CPlayer *CGame::GetPlayer(void)
 {
-	return m_Player;
+	if (m_PlayerChibi->GetbAppr() == true)
+	{
+		return m_PlayerChibi;
+	}
+	else if (m_PlayerFoot->GetbAppr() == true)
+	{
+		return m_PlayerFoot;
+	}
+	else
+	{
+		return false;
+	}
+
 }
 
 //================================================================
@@ -327,4 +381,12 @@ CPlayer *CGame::GetPlayer(void)
 CPause *CGame::GetPause(void)
 {
 	return m_Pause;
+}
+
+//================================================================
+//エネミーマネージャの取得
+//================================================================
+CEnemyManager *CGame::GetEnemyManager(void)
+{
+	return m_EnemyManager;
 }

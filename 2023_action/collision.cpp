@@ -4,6 +4,10 @@
 // Author : 大原　怜将
 //
 //=============================================================================
+
+//*============================================================================
+//インクルードファイル
+//*============================================================================
 #include "main.h"
 #include "collision.h"
 #include "renderer.h"
@@ -17,6 +21,8 @@
 #include "particl.h"
 #include "game.h"
 #include "map.h"
+#include "enemy.h"
+#include "particl.h"
 
 //=============================================================================
 //コンストラクタ
@@ -143,49 +149,39 @@ bool CCollision::CollsionEnemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWid
 //=============================================================================
 //弾とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CEnemy **pEnemy)
+bool CCollision::CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEnemy **pEnemy)
 {
-	//int MessCount = 0;
 	//int nNumEnemy = CEnemyManager::GetNumAll();
-	//float c = 0.0f;
+	float c = 0.0f;
 
-	//for (int nCount = 0; nCount < nNumEnemy; nCount++)
-	//{
-	//	float EnemyfRadius = 50.0f;
+	for (int nCount = 0; nCount < 1; nCount++)
+	{
+		float EnemyfRadius = 50.0f;
 
-	//	if (pEnemy[nCount] != NULL)
-	//	{
-	//		D3DXVECTOR3 Enepos = pEnemy[nCount]->Getpos();
+		if (pEnemy[nCount] != NULL)
+		{
+			D3DXVECTOR3 Enepos = pEnemy[nCount]->Getpos();
 
-	//		if (pos->x <= Enepos.x + fWidthX
-	//		 && pos->x >= Enepos.x - fWidthX
-	//		 && pos->z <= Enepos.z + fWidthZ
-	//		 && pos->z >= Enepos.z - fWidthZ)
-	//		{
-	//			if (pEnemy[nCount]->GetState() != CEnemy::STATE_DEATH || pEnemy[nCount]->GetState() != CEnemy::STATE_END)
-	//			{
-	//				int nLife = pEnemy[nCount]->GetLife();
+			if (pos->x <= Enepos.x + fWidthX
+			 && pos->x >= Enepos.x - fWidthX
+			 && pos->z <= Enepos.z + fWidthY
+			 && pos->z >= Enepos.z - fWidthY)
+			{
+				int nLife = pEnemy[nCount]->GetLife();
 
-	//				nLife--;
+				nLife--;
 
-	//				pEnemy[nCount]->SetLife(nLife);
+				pEnemy[nCount]->SetLife(nLife);
 
-	//				pEnemy[nCount]->SetState(CEnemy::STATE_DAMEGE);
-	//			}
+				D3DXVECTOR3 rot = pEnemy[nCount]->GetRot();
 
-	//			D3DXVECTOR3 rot = pEnemy[nCount]->GetRot();
+				//パーティクルを生成
+				CParticl::Create({ Enepos.x, Enepos.y + 50.0f, Enepos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, CParticl::TYPEPAR_BULLET);
 
-	//			//パーティクルを生成
-	//			CParticl::Create({ Enepos.x, Enepos.y + 50.0f, Enepos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, TYPEPAR_BLOOD);
-
-	//			return true; 
-	//		} 
-	//		else
-	//		{
-	//			MessCount++;
-	//		}
-	//	}
-	//}
+				return true; 
+			} 
+		}
+	}
 
 	return false;
 }

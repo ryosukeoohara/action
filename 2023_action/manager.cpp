@@ -54,6 +54,9 @@ CResult *CScene::m_Result = NULL;
 CScene::MODE CScene::m_mode = CScene::MODE_TITLE;
 //bool CManager::m_bPause = NULL;
 
+//================================================================
+//マネージャの生成
+//================================================================
 CManager * CManager::Getinstance()
 {
 	if (m_pManager == NULL)
@@ -66,6 +69,9 @@ CManager * CManager::Getinstance()
 	}
 }
 
+//================================================================
+//マネージャの破棄
+//================================================================
 HRESULT CManager::Release(void)
 {
 	if (m_pManager != NULL)

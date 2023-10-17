@@ -13,26 +13,35 @@
 #include "manager.h"
 #include "renderer.h"
 #include "motion.h"
+#include "sound.h"
+#include "collision.h"
+#include "player.h"
+#include "game.h"
+#include <assert.h>
 
 //*=============================================================================
 //マクロ定義
 //*=============================================================================
-#define ENEMY_TEXT   ("data\\TEXT\\ENEMY00.txt")   //敵のテキストファイル
+#define ENEMY_TEXT   ("data\\TEXT\\enemy00.txt")   //敵のテキストファイル
+#define ENEMYMOVE    (2.0f)                        //移動量
 
 //==============================================================================
 //コンストラクタ
 //==============================================================================
 CEnemy::CEnemy()
 {
-
+	m_type = TYPE_NONE;
 }
 
 //==============================================================================
 //コンストラクタ
 //==============================================================================
-CEnemy::CEnemy(D3DXVECTOR3 pos)
+CEnemy::CEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 {
-
+	SetPos(&pos);
+	SetRot(&rot);
+	SetLife(nlife);
+	m_type = TYPE_NONE;
 }
 
 //==============================================================================
@@ -46,9 +55,18 @@ CEnemy::~CEnemy()
 //==============================================================================
 //生成処理
 //==============================================================================
-CEnemy * CEnemy::Create(void)
+CEnemy * CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 {
-	return nullptr;
+	CEnemy *pEnemy = NULL;
+
+	if (pEnemy == NULL)
+	{
+		pEnemy = new CEnemy(pos, rot, nlife);
+
+		pEnemy->Init();
+	}
+
+	return pEnemy;
 }
 
 //==============================================================================
@@ -76,7 +94,34 @@ HRESULT CEnemy::Init(void)
 //==============================================================================
 void CEnemy::Uninit(void)
 {
+	//サウンドの情報を取得
+	CSound *pSound = CManager::Getinstance()->GetSound();
 
+	//サウンドストップ
+	pSound->Stop();
+
+	if (m_motion != NULL)
+	{
+		//終了処理
+		m_motion->Uninit();
+
+		delete m_motion;
+
+		m_motion = NULL;
+	}
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		if (m_apModel[nCount] != NULL)
+		{//使用していたら
+
+			m_apModel[nCount]->Uninit();  //終了処理
+										  //delete m_apModel[nCount];  //メモリを開放
+			m_apModel[nCount] = NULL;  //使用していない状態にする
+		}
+	}
+
+	CObject::Release();
 }
 
 //==============================================================================
@@ -84,7 +129,19 @@ void CEnemy::Uninit(void)
 //==============================================================================
 void CEnemy::Update(void)
 {
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		m_apModel[nCount]->Update();
+	}
 
+	if (m_motion != NULL)
+	{
+		//初期化処理
+		m_motion->Update();
+	}
+
+	//制御処理
+	Controll();
 }
 
 //==============================================================================
@@ -92,7 +149,110 @@ void CEnemy::Update(void)
 //==============================================================================
 void CEnemy::Draw(void)
 {
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	//pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture));
+
+	D3DXVECTOR3 pos = Getpos();
+	D3DXVECTOR3 rot = GetRot();
+
+	//計算用マトリックス
+	D3DXMATRIX m_mtxRot, m_mtxTrans;
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
+
+	//向きを反映
+	D3DXMatrixRotationYawPitchRoll(&m_mtxRot, rot.y, rot.x, rot.z);
+
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &m_mtxRot);
+
+	//位置を反映
+	D3DXMatrixTranslation(&m_mtxTrans, pos.x, pos.y, pos.z);
+
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &m_mtxTrans);
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		//描画処理
+		m_apModel[nCount]->Draw();
+	}
+}
+
+//==============================================================================
+//制御処理
+//==============================================================================
+void CEnemy::Controll(void)
+{
+	//当たり判定の情報取得
+	CCollision *pCollision = CManager::Getinstance()->GetCollsion();
+
+	//プレイヤーの情報取得
+	CPlayer *pPlayer = CGame::GetPlayer();
+
+	//位置と向き取得
+	D3DXVECTOR3 EnemyPos = Getpos();
+	D3DXVECTOR3 EnemyRot = GetRot();
+
+	if ((pCollision->CollisionCircle(&EnemyPos, 400.0f, pPlayer) == true))
+	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき
+
+		D3DXVECTOR3 fDest, pos = pPlayer->Getpos();
+
+		float fDiffmove, fDestmove;
+
+		fDest = EnemyPos - pos;
+
+		fDestmove = atan2f(fDest.x, fDest.y);
+		fDiffmove = fDestmove - EnemyRot.y;
+
+		//角度の値を修正する--------------------------------------------------
+		if (fDiffmove >= D3DX_PI)
+		{
+			fDiffmove = -D3DX_PI;
+		}
+		else if (fDiffmove <= -D3DX_PI)
+		{
+			fDiffmove = D3DX_PI;
+		}
+
+		EnemyRot.y += fDiffmove * 0.05f;
+
+		//角度の値を修正する--------------------------------------------------
+		if (EnemyRot.y > D3DX_PI)
+		{
+			EnemyRot.y = -D3DX_PI;
+		}
+		else if (EnemyRot.y < -D3DX_PI)
+		{
+			EnemyRot.y = D3DX_PI;
+		}
+
+		//移動量を更新(減衰させる)
+		m_move.x = sinf(EnemyRot.y + D3DX_PI) * ENEMYMOVE;
+		m_move.z = cosf(EnemyRot.y + D3DX_PI) * ENEMYMOVE;
+	}
+
+	if (m_type != TYPE_NEUTRAL)
+	{
+		m_motion->Set(MOTIONTYPE_NEUTRAL);
+
+		m_type = TYPE_NEUTRAL;
+	}
+
+	if (m_motion->IsFinish() == true)
+	{
+		m_type = TYPE_NEUTRAL;
+	}
+
+	//位置設定
+	SetPos(&EnemyPos);
+	SetRot(&EnemyRot);
 }
 
 //==============================================================================
@@ -233,3 +393,5 @@ void CEnemy::ReadText(char *fliename)
 		m_motion->ReadText(fliename);
 	}
 }
+
+

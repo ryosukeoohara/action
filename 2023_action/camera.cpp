@@ -14,7 +14,7 @@
 #include "player.h"
 
 //ƒ}ƒNƒ’è‹`
-#define CAMERA_DISTNCE    (1200.0f)
+#define CAMERA_DISTNCE    (1000.0f)
 #define CAMERA_ROTY       (0.03f)
 #define CAMERA_MOVE       (2.0f)
 #define CAMERA_LOWMOVE    (0.1f)
@@ -55,21 +55,6 @@ void CCamera::Init(void)
 		m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	}
-
-	/*if (pScene->GetMode() == CScene::MODE_GAME)
-	{
-		CPlayer *pPlayer = CGame::GetPlayer();
-
-		D3DXVECTOR3 pos = pPlayer->Getpos();
-
-		D3DXVECTOR3 PlayerRot = pPlayer->GetRot();
-
-		m_rot.y = PlayerRot.y;
-
-		m_posV = D3DXVECTOR3(0.0f, 150.0f, 0.0f);
-		m_posR = D3DXVECTOR3(pos.x, 0.0f, pos.z + 10.0f);
-		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-	}*/
 }
 
 //================================================================
