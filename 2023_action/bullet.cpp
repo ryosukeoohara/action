@@ -16,6 +16,9 @@
 #include "texture.h"
 #include "game.h"
 #include "sound.h"
+#include "collision.h"
+#include "enemy.h"
+#include "map.h"
 
 //================================================================
 //マクロ定義
@@ -127,11 +130,17 @@ void CBullet::Update(void)
 {
 	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
+	//マップモデルの情報を取得
+	CObjectX **pMap = CMap::GetX();
+
 	//当たり判定の情報取得
 	CCollision *pCollision = CManager::Getinstance()->GetCollsion();
 
 	//プレイヤーの情報取得
 	CPlayer *pPlayer = CGame::GetPlayerFoot();
+
+	//敵の情報取得
+	CEnemy **pEnemy = CEnemy::GetEnemy();
 
 	//サウンドの情報を取得
 	CSound *pSound = CManager::Getinstance()->GetSound();
@@ -139,6 +148,7 @@ void CBullet::Update(void)
 	//位置を代入
 	D3DXVECTOR3 pos = Getpos();
 
+	//向きを代入
 	D3DXVECTOR3 rot = GetRot();
 
 	//前回の位置を記録
@@ -154,6 +164,37 @@ void CBullet::Update(void)
 
 	//寿命を減らす
 	m_nLife--;
+
+	switch (m_type)
+	{
+	case CBullet::TYPE_NONE:
+		break;
+
+	case CBullet::TYPE_PLAYER:
+
+		if (pCollision->BulletEnemy(&pos, 20.0f, 100.0f, pEnemy) == true)
+		{
+			m_nLife = 0;
+		}
+		else if(pCollision->BulletMap(&pos, pMap) == true)
+		{
+			m_nLife = 0;
+		}
+
+		break;
+
+	case CBullet::TYPE_ENEMY:
+		break;
+
+	case CBullet::TYPE_BOM:
+		break;
+
+	case CBullet::TYPE_MAX:
+		break;
+
+	default:
+		break;
+	}
 
 	if (m_nLife <= 0)
 	{//寿命がなくなったら

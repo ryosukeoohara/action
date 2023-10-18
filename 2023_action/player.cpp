@@ -81,7 +81,7 @@ CPlayer::CPlayer()
 	m_nLifeGage = -1;
 	m_RestBullet = 0;
 	m_ApprCharcter = 0;
-	m_motion = NULL;
+	
 	m_fDiff = 0.0f;
 	m_fDest = 0.0f;
 	m_bDash = false;
@@ -127,7 +127,6 @@ CPlayer::CPlayer(D3DXVECTOR3 pos)
 	m_nLifeGage = -1;
 	m_RestBullet = 0;
 	m_ApprCharcter = 0;
-	m_motion = NULL;
 	m_fDiff = 0.0f;
 	m_fDest = 0.0f;
 	m_bDash = false;
@@ -228,49 +227,6 @@ void CPlayer::Uninit(void)
 	//サウンドストップ
 	pSound->Stop();
 
-	if (m_motion != NULL)
-	{
-		//終了処理
-		m_motion->Uninit();
-
-		delete m_motion;
-
-		m_motion = NULL;
-	}
-
-	//if (m_pShadow != NULL)
-	//{
-	//	//終了処理
-	//	m_pShadow->Uninit();
-
-	//	m_pShadow = NULL;
-	//}
-
-	//プレイヤー(チビ)の破棄
-	if (m_Chibi != NULL)
-	{
-		//使用していない状態にする
-		m_Chibi = NULL;
-	}
-
-	//プレイヤー(クソデブ)の破棄
-	if (m_Foot != NULL)
-	{
-		//使用していない状態にする
-		m_Foot = NULL;
-	}
-
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		if (m_apModel[nCount] != NULL)
-		{//使用していたら
-
-			m_apModel[nCount]->Uninit();  //終了処理
-			//delete m_apModel[nCount];  //メモリを開放
-			m_apModel[nCount] = NULL;  //使用していない状態にする
-		}
-	}
-
 	CObject::Release();
 }
 
@@ -294,17 +250,6 @@ void CPlayer::Update(void)
 	//プレイヤー(チビデブ)の情報を取得
 	CChibi *pChibi = CGame::GetPlayerChibi();
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
-
-	if (m_motion != NULL)
-	{
-		//初期化処理
-		m_motion->Update();
-	}
-
 	if (InputKeyboard->GetTrigger(DIK_SPACE) == true
 	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
 	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP)
@@ -320,8 +265,8 @@ void CPlayer::Update(void)
 			pFoot->SetbDisp(true);
 		}
 
-		pChibi->SetState(STATE_APPR);
-		pFoot->SetState(STATE_APPR);
+		pChibi->SetState(CChibi::STATE_APPR);
+		pFoot->SetState(CFoot::STATE_APPR);
 
 		m_ApprCharcter = m_ApprCharcter ? 0 : 1;
 
@@ -386,12 +331,6 @@ void CPlayer::Draw(void)
 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		//描画処理
-		m_apModel[nCount]->Draw();
-	}
 }
 
 //================================================================
@@ -458,7 +397,7 @@ void CChibi::Control(void)
 	
 	//float fHeight;
 
-	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
+	if (m_State != STATE_APPR)
 	{
 		m_move.y -= CHIBIGRAVITY;   //重力
 
@@ -484,7 +423,7 @@ void CChibi::Control(void)
 			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
+			m_fDest = D3DX_PI * -0.5f;
 
 			//走っている状態にする
 			m_bDash = true;
@@ -498,36 +437,38 @@ void CChibi::Control(void)
 			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
+			m_fDest = D3DX_PI * 0.5f;
 
 			//走っている状態にする
 			m_bDash = true;
 		}
 
-		m_fDiff = m_fDest - PlayerRot.y;
+		PlayerRot.y = m_fDest;
 
-		//角度の値を修正する
-		if (m_fDiff >= D3DX_PI)
-		{
-			m_fDiff -= D3DX_PI * 2;
-		}
-		else if (m_fDiff <= -D3DX_PI)
-		{
-			m_fDiff += D3DX_PI * 2;
-		}
+		//m_fDiff = m_fDest - PlayerRot.y;
 
-		//移動方向(角度)の補正------------------------------------------------
-		PlayerRot.y += m_fDiff * 0.15f;
+		////角度の値を修正する
+		//if (m_fDiff >= D3DX_PI)
+		//{
+		//	m_fDiff -= D3DX_PI * 2;
+		//}
+		//else if (m_fDiff <= -D3DX_PI)
+		//{
+		//	m_fDiff += D3DX_PI * 2;
+		//}
 
-		//角度の値を修正する--------------------------------------------------
-		if (PlayerRot.y > D3DX_PI)
-		{
-			PlayerRot.y = -D3DX_PI;
-		}
-		else if (PlayerRot.y < -D3DX_PI)
-		{
-			PlayerRot.y = D3DX_PI;
-		}
+		////移動方向(角度)の補正------------------------------------------------
+		//PlayerRot.y += m_fDiff * 0.15f;
+
+		////角度の値を修正する--------------------------------------------------
+		//if (PlayerRot.y > D3DX_PI)
+		//{
+		//	PlayerRot.y = -D3DX_PI;
+		//}
+		//else if (PlayerRot.y < -D3DX_PI)
+		//{
+		//	PlayerRot.y = D3DX_PI;
+		//}
 
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEキーが押された
@@ -537,15 +478,24 @@ void CChibi::Control(void)
 			m_move.y += CHIBIJUMP;
 		}
 
-		//位置に移動量加算----------------------------------------------------
-		Playerpos.x += m_move.x;
-		Playerpos.y += m_move.y;
-		//m_pos.y = fHeight + 18.0f;
-
+		if (m_State != STATE_DUSHAT)
+		{
+			//位置に移動量加算----------------------------------------------------
+			Playerpos.x += m_move.x;
+			Playerpos.y += m_move.y;
+		}
+		else
+		{
+			//位置に移動量加算----------------------------------------------------
+			Playerpos.x += m_move.x * 0.7f;
+			Playerpos.y += m_move.y * 0.7f;
+			//m_pos.y = fHeight + 18.0f;
+		}
+		
 		//移動量を更新(減衰させる)--------------------------------------------
 		m_move.x += (0.0f - m_move.x) * 0.1f;
 
-		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
+		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK && m_State != STATE_DUSHAT)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_MOVE);
@@ -595,28 +545,55 @@ void CChibi::Control(void)
 			m_WaitApper = false;
 
 			pChibi->SetState(STATE_NONE);
-			pFoot->SetState(STATE_NONE);
+			pFoot->SetState(CFoot::STATE_NONE);
 		}
 		else
 		{
 			m_State = STATE_NONE;
+
+			m_nCntBullet = 0;
 		}
 	}
 
 	if (InputKeyboard->GetPress(DIK_K) == true)
 	{//Kキーが押された
 
-		m_State = STATE_ATTACK;
+		m_bAction = true;
 
-		CBullet::Create(D3DXVECTOR3(Playerpos.x, Playerpos.y + 60.0f, Playerpos.z), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+		if (m_nCntBullet == 0)
+		{
+			D3DXMATRIX Matrix = m_apModel[5]->GetMtxWorld();
+
+			//弾生成
+			CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+		}
+
+		m_nCntBullet++;
 	}
-
-	if (m_bAction == false && m_State == STATE_ATTACK)
+	else
+	{
+		m_bAction = false;
+	}
+	
+	if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
 	{
 		//モーションをセット(攻撃)
 		m_motion->Set(MOTIONTYPE_ATTACK);
 
-		m_bAction = true;
+		m_State = STATE_ATTACK;
+	}
+	
+	if (m_bAction == true && m_bDash == true && m_State != STATE_DUSHAT)
+	{
+		//モーションをセット(攻撃)
+		m_motion->Set(MOTIONTYPE_DUSHAT);
+
+		m_State = STATE_DUSHAT;
+	}
+
+	if (m_nCntBullet >= 15)
+	{
+		m_nCntBullet = 0;
 	}
 
 	if (Playerpos.y <= 0.0f)
@@ -676,7 +653,7 @@ void CFoot::Control(void)
 	
 	//float fHeight;
 
-	if (m_State != STATE_ATTACK && m_State != STATE_APPR)
+	if (m_State != STATE_APPR)
 	{
 		m_move.y -= FOOTGRAVITY;	   //重力
 
@@ -722,30 +699,32 @@ void CFoot::Control(void)
 			m_bDash = true;
 		}
 
-		m_fDiff = m_fDest - PlayerRot.y;
+		PlayerRot.y = m_fDest;
 
-		//角度の値を修正する
-		if (m_fDiff >= D3DX_PI)
-		{
-			m_fDiff -= D3DX_PI * 2;
-		}
-		else if (m_fDiff <= -D3DX_PI)
-		{
-			m_fDiff += D3DX_PI * 2;
-		}
+		//m_fDiff = m_fDest - PlayerRot.y;
 
-		//移動方向(角度)の補正------------------------------------------------
-		PlayerRot.y += m_fDiff * 0.15f;
+		////角度の値を修正する
+		//if (m_fDiff >= D3DX_PI)
+		//{
+		//	m_fDiff -= D3DX_PI * 2;
+		//}
+		//else if (m_fDiff <= -D3DX_PI)
+		//{
+		//	m_fDiff += D3DX_PI * 2;
+		//}
 
-		//角度の値を修正する--------------------------------------------------
-		if (PlayerRot.y > D3DX_PI)
-		{
-			PlayerRot.y = -D3DX_PI;
-		}
-		else if (PlayerRot.y < -D3DX_PI)
-		{
-			PlayerRot.y = D3DX_PI;
-		}
+		////移動方向(角度)の補正------------------------------------------------
+		//PlayerRot.y += m_fDiff * 0.15f;
+
+		////角度の値を修正する--------------------------------------------------
+		//if (PlayerRot.y > D3DX_PI)
+		//{
+		//	PlayerRot.y = -D3DX_PI;
+		//}
+		//else if (PlayerRot.y < -D3DX_PI)
+		//{
+		//	PlayerRot.y = D3DX_PI;
+		//}
 
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEキーが押された
@@ -829,7 +808,7 @@ void CFoot::Control(void)
 		{
 			m_WaitApper = false;
 
-			pChibi->SetState(STATE_NONE);
+			pChibi->SetState(CChibi::STATE_NONE);
 			pFoot->SetState(STATE_NONE);
 		}
 		else
@@ -870,20 +849,20 @@ void CPlayer::Appear(void)
 	D3DXVECTOR3 Chibipos = pChibi->Getpos();
 	D3DXVECTOR3 Footpos = pFoot->Getpos();
 
-	if (pChibi->GetState() == STATE_APPR && pChibi->GetbAppr() == true)
+	if (pChibi->GetState() == CChibi::STATE_APPR && pChibi->GetbAppr() == true)
 	{
 		pChibi->SetMove({ -0.1f, 0.0f , 0.0f });
 	}
-	else if (pChibi->GetState() == STATE_APPR && pChibi->GetbAppr() == false)
+	else if (pChibi->GetState() == CChibi::STATE_APPR && pChibi->GetbAppr() == false)
 	{
 		pChibi->SetMove({ 0.1f, 0.0f , 0.0f });
 	}
 
-	if (pFoot->GetState() == STATE_APPR && pFoot->GetbAppr() == false)
+	if (pFoot->GetState() == CFoot::STATE_APPR && pFoot->GetbAppr() == false)
 	{
 		pFoot->SetMove({ 0.1f, 0.0f , 0.0f });
 	}
-	else if (pFoot->GetState() == STATE_APPR && pFoot->GetbAppr() == true)
+	else if (pFoot->GetState() == CFoot::STATE_APPR && pFoot->GetbAppr() == true)
 	{
 		pFoot->SetMove({ -0.1f, 0.0f , 0.0f });
 	}
@@ -914,7 +893,146 @@ void CPlayer::Hit(void)
 //================================================================
 //外部ファイル読み込み
 //================================================================
-void CPlayer::ReadText(const char *fliename)
+void CFoot::ReadText(const char *fliename)
+{
+	char aString[128] = {};
+	char aComment[128] = {};
+	int nCntParts = 0, nCntParts2 = 0, nCntParts3 = 0;
+	int nCntMotion = 0;
+	int nCntKeySet = 0;
+	int nCntKey = 0;
+	int nCntModel = 0;
+	int nCntMotionIdx = 0;
+
+	//テクスチャの情報取得
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+
+	FILE *pFile;   //ファイルポインタを宣言
+
+	pFile = fopen(fliename, "r");
+
+	if (pFile != NULL)
+	{//ファイルを開けた場合
+
+		fscanf(pFile, "%s", &aString[0]);
+
+		if (strcmp("SCRIPT", aString) == 0)
+		{
+			while (strcmp("END_SCRIPT", aString) != 0)
+			{
+				fscanf(pFile, "%s", &aString[0]);
+
+				if (strcmp("NUM_MODEL", aString) == 0)
+				{
+					fscanf(pFile, "%s", &aString);          //=
+					fscanf(pFile, "%d", &m_nNumModel);  //モデルの総数
+
+				}  //NUM_MODELのかっこ
+
+				if (strcmp("MODEL_FILENAME", aString) == 0)
+				{
+					fscanf(pFile, "%s", &aString);          //=
+					fscanf(pFile, "%s", &m_filename[0]);  //モデルの名前
+
+					m_apModel[nCntModel] = CCharacter::Create(m_filename);
+					nCntModel++;
+
+					nCntParts++;
+
+				}  //MODEL_LILENAMEのかっこ
+
+
+				if (strcmp("CHARACTERSET", aString) == 0)
+				{
+					while (strcmp("END_CHARACTERSET", aString) != 0)
+					{
+						fscanf(pFile, "%s", &aString);
+
+						if (strcmp("PARTSSET", aString) == 0)
+						{
+							while (strcmp("END_PARTSSET", aString) != 0)
+							{
+								fscanf(pFile, "%s", &aString);
+
+								if (strcmp("INDEX", aString) == 0)
+								{
+									fscanf(pFile, "%s", &aString);          //=
+									fscanf(pFile, "%d", &m_nIdx);  //モデルの番号
+								}
+
+								if (strcmp("PARENT", aString) == 0)
+								{
+									fscanf(pFile, "%s", &aString);          //=
+									fscanf(pFile, "%d", &m_nParent);  //親モデルの番号
+
+									if (m_nParent > -1 && m_nNumModel > m_nParent)
+									{
+										m_apModel[nCntParts2]->SetParent(m_apModel[m_nParent]);
+									}
+									else
+									{
+										m_apModel[nCntParts2]->SetParent(NULL);
+									}
+								}
+
+								if (strcmp("POS", aString) == 0)
+								{
+									fscanf(pFile, "%s", &aString);      //=
+									fscanf(pFile, "%f", &m_Readpos.x);  //モデルの総数
+									fscanf(pFile, "%f", &m_Readpos.y);  //モデルの総数
+									fscanf(pFile, "%f", &m_Readpos.z);  //モデルの総数
+
+									m_apModel[nCntParts2]->SetPositionOri(m_Readpos);
+
+									m_apModel[nCntParts2]->SetPosition(m_Readpos);
+								}
+
+								if (strcmp("ROT", aString) == 0)
+								{
+									fscanf(pFile, "%s", &aString);      //=
+									fscanf(pFile, "%f", &m_Readrot.x);  //モデルの総数
+									fscanf(pFile, "%f", &m_Readrot.y);  //モデルの総数
+									fscanf(pFile, "%f", &m_Readrot.z);  //モデルの総数
+
+									m_apModel[nCntParts2]->SetRotOrigin(m_Readrot);
+
+									m_apModel[nCntParts2]->SetRot(m_Readrot);
+								}
+
+							}//END_PARTSSETのかっこ
+
+							nCntParts2++;
+
+						}//PARTSSETのかっこ
+
+					}//END_CHARACTERSETのかっこ 
+
+				}//CHARACTERSETのかっこ 
+			}
+		}
+
+		//ファイルを閉じる
+		fclose(pFile);
+	}
+	else
+	{
+		return;
+	}
+
+	if (m_motion != NULL)
+	{
+		//モデルの設定
+		m_motion->SetModel(&m_apModel[0], m_nNumModel);
+
+		//初期化処理
+		m_motion->ReadText(fliename);
+	}
+}
+
+//================================================================
+//外部ファイル読み込み
+//================================================================
+void CChibi::ReadText(const char *fliename)
 {
 	char aString[128] = {};
 	char aComment[128] = {};
@@ -1062,6 +1180,7 @@ CChibi::CChibi()
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nCntBullet = 0;
 	m_bRand = false;
+	m_motion = NULL;
 }
 
 //=======================================================
@@ -1075,6 +1194,7 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 	m_State = STATE_NONE;
 	m_nCntBullet = 0;
 	m_bRand = false;
+	m_motion = NULL;
 }
 
 //=======================================================
@@ -1100,7 +1220,7 @@ HRESULT CChibi::Init(void)
 		m_motion->Init();
 	}
 
-	CPlayer::ReadText(PLAYER02_TEXT);
+	ReadText(PLAYER02_TEXT);
 
 	SetbDisp(false);
 	SetbAppr(false);
@@ -1113,6 +1233,35 @@ HRESULT CChibi::Init(void)
 //=======================================================
 void CChibi::Uninit(void)
 {
+	if (m_motion != NULL)
+	{
+		//終了処理
+		m_motion->Uninit();
+
+		delete m_motion;
+
+		m_motion = NULL;
+	}
+
+	//if (m_pShadow != NULL)
+	//{
+	//	//終了処理
+	//	m_pShadow->Uninit();
+
+	//	m_pShadow = NULL;
+	//}
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		if (m_apModel[nCount] != NULL)
+		{//使用していたら
+
+			m_apModel[nCount]->Uninit();  //終了処理
+										  //delete m_apModel[nCount];  //メモリを開放
+			m_apModel[nCount] = NULL;  //使用していない状態にする
+		}
+	}
+
 	CPlayer::Uninit();
 }
 
@@ -1126,6 +1275,17 @@ void CChibi::Update(void)
 
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		m_apModel[nCount]->Update();
+	}
+
+	if (m_motion != NULL)
+	{
+		//初期化処理
+		m_motion->Update();
+	}
 
 	CPlayer::Update();
 
@@ -1148,6 +1308,12 @@ void CChibi::Draw(void)
 	if (m_bDisp == true)
 	{
 		CPlayer::Draw();
+
+		for (int nCount = 0; nCount < m_nNumModel; nCount++)
+		{
+			//描画処理
+			m_apModel[nCount]->Draw();
+		}
 	}
 }
 //******************************************************************************************************************************************************
@@ -1161,6 +1327,7 @@ CFoot::CFoot()
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
 	m_bRand = false;
+	m_motion = NULL;
 }
 
 //=======================================================
@@ -1173,6 +1340,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
 	m_bRand = false;
+	m_motion = NULL;
 }
 
 //=======================================================
@@ -1198,7 +1366,7 @@ HRESULT CFoot::Init(void)
 		m_motion->Init();
 	}
 
-	CPlayer::ReadText(PLAYER01_TEXT);
+	ReadText(PLAYER01_TEXT);
 
 	SetbDisp(true);
 	SetbAppr(true);
@@ -1211,6 +1379,35 @@ HRESULT CFoot::Init(void)
 //=======================================================
 void CFoot::Uninit(void)
 {
+	if (m_motion != NULL)
+	{
+		//終了処理
+		m_motion->Uninit();
+
+		delete m_motion;
+
+		m_motion = NULL;
+	}
+
+	//if (m_pShadow != NULL)
+	//{
+	//	//終了処理
+	//	m_pShadow->Uninit();
+
+	//	m_pShadow = NULL;
+	//}
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		if (m_apModel[nCount] != NULL)
+		{//使用していたら
+
+			m_apModel[nCount]->Uninit();  //終了処理
+										  //delete m_apModel[nCount];  //メモリを開放
+			m_apModel[nCount] = NULL;  //使用していない状態にする
+		}
+	}
+
 	CPlayer::Uninit();
 }
 
@@ -1224,6 +1421,17 @@ void CFoot::Update(void)
 
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		m_apModel[nCount]->Update();
+	}
+
+	if (m_motion != NULL)
+	{
+		//初期化処理
+		m_motion->Update();
+	}
 
 	CPlayer::Update();
 
@@ -1246,5 +1454,11 @@ void CFoot::Draw(void)
 	if (m_bDisp == true)
 	{
 		CPlayer::Draw();
+
+		for (int nCount = 0; nCount < m_nNumModel; nCount++)
+		{
+			//描画処理
+			m_apModel[nCount]->Draw();
+		}
 	}
 }

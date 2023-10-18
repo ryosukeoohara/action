@@ -21,6 +21,7 @@
 #include "collision.h"
 #include "enemy.h"
 #include "enemymanager.h"
+#include "sky.h"
 
 //================================================================
 //Ã“Iƒƒ“ƒo•Ï”
@@ -86,6 +87,8 @@ HRESULT CGame::Init(void)
 	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
 	pCamera->SetType(CCamera::TYPE_GAME);
+
+	CSky::Create({0.0f,0.0f,0.0f});
 
 	CField::Create();
 

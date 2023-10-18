@@ -7,16 +7,23 @@
 #ifndef _PLAYER_H_             //このマクロ定義がされてなかったら
 #define _PLAYER_H_             //2重インクルード防止のマクロ定義をする
 
+//*==========================================================
+//インクルードファイル
+//*==========================================================
 #include "character.h"
 #include "object.h"
 
+//*==========================================================
 //前方宣言
+//*==========================================================
 class CMotion;
 class CEnemy;
 class CChibi;
 class CFoot;
 
+//*==========================================================
 //プレイヤークラス
+//*==========================================================
 class CPlayer : public CObject
 {
 public:
@@ -24,43 +31,7 @@ public:
 	CPlayer(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
 	~CPlayer();  //デストラクタ
 
-	//状態
-	typedef enum
-	{
-		STATE_NONE = 0,
-		STATE_NEUTRAL,                //待機
-		STATE_MOVE,                   //移動
-		STATE_JUMP,                   //ジャンプ
-		STATE_ATTACK,                 //攻撃
-		STATE_APPR,                   //出現
-		STATE_MAX
-	} STATE;
-
-	//モーション
-	typedef enum
-	{
-		MOTIONTYPE_NEUTRAL = 0,               //ニュートラル
-		MOTIONTYPE_MOVE,                     //移動
-		MOTIONTYPE_JUMP,                     //ジャンプ
-		MOTIONTYPE_ATTACK,                   //攻撃
-		MOTIONTYPE_APPR,                     //出現
-		MOTIONTYPE_MAX
-	} MOTIONTYPE;
-
-	struct CHIBI
-	{
-
-	};
-
-	struct FOOT
-	{
-
-	};
-
-	struct PLAYER
-	{
-		
-	};
+	
 
 	HRESULT Init(void);        //プレイヤーの初期化処理    
 	void Uninit(void);		   //プレイヤーの終了処理
@@ -83,31 +54,22 @@ public:
 	int GetRestBullet(void) { return m_RestBullet; }
 
 protected:
-	CMotion *m_motion;                   //モーションへのポインタ
-
+	//CMotion *m_motion;                   //モーションへのポインタ
+	//CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
 	int m_ApprCharcter;
 	
 private:
 
 	void ControlPlayer(void);    //プレイヤーの制御
-	void ControlChibi(void);     //チビデブの制御
-	void ControlFoot(void);      //クソデブの制御
 	void Appear(void);           //出現処理
-	//D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
-	//D3DXVECTOR3 m_rot;  //向き
 	D3DXVECTOR3 m_move;   //移動
 	D3DXMATRIX m_mtxWorld;              //ワールドマトリックス
-	CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
+	
 	int m_nNumModel;                    //モデル(パーツ)の総数
 	int m_nIdxTexture;
 	int m_nIdxShaadow;
 	char m_filename[128] = {};
-
-	CChibi *m_Chibi;
-	CFoot *m_Foot;
-
-	PLAYER m_Player[2];
 
 	D3DXVECTOR3 m_Readpos;
 	D3DXVECTOR3 m_Readrot;
@@ -153,10 +115,38 @@ private:
 	bool m_bWhee;                        //ホイールを回転した
 };
 
-//プレイヤークラス
+//*==========================================================
+//チビデブ
+//*==========================================================
 class CChibi : public CPlayer
 {
 public:
+
+	//状態
+	typedef enum
+	{
+		STATE_NONE = 0,
+		STATE_NEUTRAL,                //待機
+		STATE_MOVE,                   //移動
+		STATE_JUMP,                   //ジャンプ
+		STATE_ATTACK,                 //攻撃
+		STATE_DUSHAT,                 //ダッシュアタック
+		STATE_APPR,                   //出現
+		STATE_MAX
+	} STATE;
+
+	//モーション
+	typedef enum
+	{
+		MOTIONTYPE_NEUTRAL = 0,               //ニュートラル
+		MOTIONTYPE_MOVE,                     //移動
+		MOTIONTYPE_JUMP,                     //ジャンプ
+		MOTIONTYPE_ATTACK,                   //攻撃
+		MOTIONTYPE_DUSHAT,                   //ダッシュアタック
+		MOTIONTYPE_APPR,                     //出現
+		MOTIONTYPE_MAX
+	} MOTIONTYPE;
+
 	CChibi();  //コンストラクタ
 	CChibi(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
 	~CChibi();  //デストラクタ
@@ -187,7 +177,7 @@ public:
 protected:
 	
 private:
-
+	void ReadText(const char *fliename);       //外部ファイル読み込み
 	STATE m_State;
 	//D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
@@ -195,15 +185,11 @@ private:
 	D3DXVECTOR3 m_move;   //移動
 	D3DXMATRIX m_mtxWorld;              //ワールドマトリックス
 	CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
+	CMotion *m_motion;                   //モーションへのポインタ
 	int m_nNumModel;                    //モデル(パーツ)の総数
 	int m_nIdxTexture;
 	int m_nIdxShaadow;
 	char m_filename[128] = {};
-
-	CChibi *m_Chibi;
-	CFoot *m_Foot;
-
-	PLAYER m_Player[2];
 
 	D3DXVECTOR3 m_Readpos;
 	D3DXVECTOR3 m_Readrot;
@@ -239,9 +225,8 @@ private:
 	bool m_WaitApper;                    //出現待ち状態
 	bool m_bRand;                        //地面に着地しているかどうか
 	D3DXVECTOR3 m_posOrigin;
-	//CMotion *m_motion;                   //モーションへのポインタ
 
-										 //チュートリアルで使う関数,変数
+	//チュートリアルで使う関数,変数
 	void ControlTutorial(void);          //チュートリアルのプレイヤーの制御
 	bool m_bPushW;                       //Wキーを押した
 	bool m_bPushA;                       //Aキーを押した
@@ -252,15 +237,39 @@ private:
 	bool m_bWhee;                        //ホイールを回転した
 };
 
-//プレイヤークラス
+//*==========================================================
+//クソデブ
+//*==========================================================
 class CFoot : public CPlayer
 {
 public:
+
+	//状態
+	typedef enum
+	{
+		STATE_NONE = 0,
+		STATE_NEUTRAL,                //待機
+		STATE_MOVE,                   //移動
+		STATE_JUMP,                   //ジャンプ
+		STATE_ATTACK,                 //攻撃
+		STATE_APPR,                   //出現
+		STATE_MAX
+	} STATE;
+
+	//モーション
+	typedef enum
+	{
+		MOTIONTYPE_NEUTRAL = 0,               //ニュートラル
+		MOTIONTYPE_MOVE,                     //移動
+		MOTIONTYPE_JUMP,                     //ジャンプ
+		MOTIONTYPE_ATTACK,                   //攻撃
+		MOTIONTYPE_APPR,                     //出現
+		MOTIONTYPE_MAX
+	} MOTIONTYPE;
+
 	CFoot();  //コンストラクタ
 	CFoot(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
 	~CFoot();  //デストラクタ
-
-	
 
 	HRESULT Init(void);        //プレイヤーの初期化処理    
 	void Uninit(void);		   //プレイヤーの終了処理
@@ -288,7 +297,7 @@ public:
 protected:
 	
 private:
-
+	void ReadText(const char *fliename);       //外部ファイル読み込み
 	STATE m_State;
 	//D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
@@ -296,15 +305,11 @@ private:
 	D3DXVECTOR3 m_move;   //移動
 	D3DXMATRIX m_mtxWorld;              //ワールドマトリックス
 	CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
+	CMotion *m_motion;                   //モーションへのポインタ
 	int m_nNumModel;                    //モデル(パーツ)の総数
 	int m_nIdxTexture;
 	int m_nIdxShaadow;
 	char m_filename[128] = {};
-
-	CChibi *m_Chibi;
-	CFoot *m_Foot;
-
-	PLAYER m_Player[2];
 
 	D3DXVECTOR3 m_Readpos;
 	D3DXVECTOR3 m_Readrot;
@@ -322,8 +327,6 @@ private:
 	int m_nCntMotion;
 	int m_nCnterMotion;
 	int m_nNumkey;
-	int m_nLifeGage;
-	int m_RestBullet;                    //残弾数
 	float m_fDiff;
 	float m_fDest;
 	bool m_bDash;                        //走っているかどうか

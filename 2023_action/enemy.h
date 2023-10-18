@@ -25,12 +25,12 @@ class CEnemy : public CObject
 {
 public:
 
-	enum TYPE
+	enum STATE
 	{
-		TYPE_NONE = 0,
-		TYPE_NEUTRAL,
-		TYPE_MOVE,
-		TYPE_MAX
+		STATE_NONE = 0,
+		STATE_NEUTRAL,
+		STATE_MOVE,
+		STATE_MAX
 	};
 
 	//モーション
@@ -53,13 +53,15 @@ public:
 
 	static CEnemy *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife);    //生成
 	void ReadText(char *fliename);             //テキストファイル読み込み
+
+	static CEnemy **GetEnemy(void) { return &m_pEnemy[0]; }
 										       
 private:								       
 	void Controll(void);                       //制御処理
 	CMotion *m_motion;                         //モーションへのポインタ
 	CCharacter *m_apModel[MAX_PRATS];          //モデル(パーツ)へのポインタ
-	TYPE m_type;                               //種類
-										       
+	STATE m_state;                             //状態
+	static CEnemy *m_pEnemy[64];                      //敵のポインタ
 	D3DXVECTOR3 m_posOld;                      //前回の位置
 	D3DXVECTOR3 m_move;                        //移動
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス

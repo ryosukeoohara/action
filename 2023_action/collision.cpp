@@ -59,7 +59,7 @@ void CCollision::Uninit(void)
 //=============================================================================
 //敵とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::CollsionEnemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy *pEnemy)
+bool CCollision::Enemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy *pEnemy)
 {
 	////デバッグプロック
 	//CDebugProc *pDebugProc = CManager::GetDebugProc();
@@ -149,7 +149,7 @@ bool CCollision::CollsionEnemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWid
 //=============================================================================
 //弾とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEnemy **pEnemy)
+bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEnemy **pEnemy)
 {
 	//int nNumEnemy = CEnemyManager::GetNumAll();
 	float c = 0.0f;
@@ -164,8 +164,8 @@ bool CCollision::CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWi
 
 			if (pos->x <= Enepos.x + fWidthX
 			 && pos->x >= Enepos.x - fWidthX
-			 && pos->z <= Enepos.z + fWidthY
-			 && pos->z >= Enepos.z - fWidthY)
+			 && pos->y <= Enepos.y + fWidthY
+			 && pos->y >= Enepos.y)
 			{
 				int nLife = pEnemy[nCount]->GetLife();
 
@@ -189,7 +189,7 @@ bool CCollision::CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWi
 //=============================================================================
 //弾とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::CollisionBulletPlayer(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ, CPlayer *pPlayer)
+bool CCollision::BulletPlayer(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ, CPlayer *pPlayer)
 {
 	//if (pPlayer != NULL)
 	//{//使用されているとき
@@ -220,7 +220,48 @@ bool CCollision::CollisionBulletPlayer(D3DXVECTOR3 *pPos, float fWidthX, float f
 //=============================================================================
 //弾とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::CollisionPunch(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ)
+bool CCollision::BulletMap(D3DXVECTOR3 * pos, CObjectX ** pObjectX)
+{
+	//マップの情報を取得
+	CMap *pMap = CGame::GetMap();
+
+	//プレイヤー(クソデブ)の情報を取得
+	CFoot *pFoot = CGame::GetPlayerFoot();
+
+	//プレイヤー(クソデブ)の情報を取得
+	CChibi *pChibi = CGame::GetPlayerChibi();
+
+	int nNumAll = pMap->GetnNumAll();
+
+	for (int nCount = 0; nCount < nNumAll; nCount++)
+	{
+		if (pObjectX[nCount] != NULL)
+		{
+			D3DXVECTOR3 Mappos = pObjectX[nCount]->Getpos();
+
+			D3DXVECTOR3 vtxMin = pObjectX[nCount]->GetVtxMin();
+
+			D3DXVECTOR3 vtxMax = pObjectX[nCount]->GetVtxMax();
+
+			if (pos->x > Mappos.x + vtxMin.x
+			 && pos->x < Mappos.x + vtxMax.x
+			 && pos->y > Mappos.y + vtxMin.y
+			 && pos->y < Mappos.y + vtxMax.y
+			 && pos->z > Mappos.z + vtxMin.z
+			 && pos->z < Mappos.z + vtxMax.z)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+//=============================================================================
+//弾とオブジェクトの当たり判定処理
+//=============================================================================
+bool CCollision::Punch(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ)
 {
 	//for (int nCount = 0; nCount < MAX_OBJECT; nCount++)
 	//{
@@ -268,7 +309,7 @@ bool CCollision::CollisionPunch(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ)
 //=============================================================================
 //円の当たり判定処理
 //=============================================================================
-bool CCollision::CollisionCircle(D3DXVECTOR3 *pPos, float fRadius, CPlayer *pPlayer)
+bool CCollision::Circle(D3DXVECTOR3 *pPos, float fRadius, CPlayer *pPlayer)
 {
 	D3DXVECTOR3 pos = pPlayer->Getpos();
 

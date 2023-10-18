@@ -25,12 +25,17 @@
 #define ENEMY_TEXT   ("data\\TEXT\\enemy00.txt")   //敵のテキストファイル
 #define ENEMYMOVE    (2.0f)                        //移動量
 
+//*=============================================================================
+//静的メンバ変数
+//*=============================================================================
+CEnemy *CEnemy::m_pEnemy[64] = {};
+
 //==============================================================================
 //コンストラクタ
 //==============================================================================
 CEnemy::CEnemy()
 {
-	m_type = TYPE_NONE;
+	m_state = (STATE)0;
 }
 
 //==============================================================================
@@ -41,7 +46,7 @@ CEnemy::CEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 	SetPos(&pos);
 	SetRot(&rot);
 	SetLife(nlife);
-	m_type = TYPE_NONE;
+	m_state = (STATE)0;
 }
 
 //==============================================================================
@@ -64,6 +69,16 @@ CEnemy * CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 		pEnemy = new CEnemy(pos, rot, nlife);
 
 		pEnemy->Init();
+	}
+
+	for (int nCount = 0; nCount < 64; nCount++)
+	{
+		if (m_pEnemy[nCount] == NULL)
+		{
+			m_pEnemy[nCount] = pEnemy;
+
+			break;
+		}
 	}
 
 	return pEnemy;
@@ -116,8 +131,15 @@ void CEnemy::Uninit(void)
 		{//使用していたら
 
 			m_apModel[nCount]->Uninit();  //終了処理
-										  //delete m_apModel[nCount];  //メモリを開放
 			m_apModel[nCount] = NULL;  //使用していない状態にする
+		}
+	}
+
+	for (int nCount = 0; nCount < 64; nCount++)
+	{
+		if (m_pEnemy[nCount] != NULL)
+		{
+			m_pEnemy[nCount] = NULL;
 		}
 	}
 
@@ -140,8 +162,15 @@ void CEnemy::Update(void)
 		m_motion->Update();
 	}
 
-	//制御処理
-	Controll();
+	if (GetLife() <= 0)
+	{
+		Uninit();
+	}
+	else
+	{
+		//制御処理
+		Controll();
+	}
 }
 
 //==============================================================================
@@ -199,7 +228,7 @@ void CEnemy::Controll(void)
 	D3DXVECTOR3 EnemyPos = Getpos();
 	D3DXVECTOR3 EnemyRot = GetRot();
 
-	if ((pCollision->CollisionCircle(&EnemyPos, 400.0f, pPlayer) == true))
+	if ((pCollision->Circle(&EnemyPos, 400.0f, pPlayer) == true))
 	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき
 
 		D3DXVECTOR3 fDest, pos = pPlayer->Getpos();
@@ -235,19 +264,35 @@ void CEnemy::Controll(void)
 
 		//移動量を更新(減衰させる)
 		m_move.x = sinf(EnemyRot.y + D3DX_PI) * ENEMYMOVE;
-		m_move.z = cosf(EnemyRot.y + D3DX_PI) * ENEMYMOVE;
-	}
+		//m_move.z = cosf(EnemyRot.y + D3DX_PI) * ENEMYMOVE;
 
-	if (m_type != TYPE_NEUTRAL)
+		//移動量を位置に加算
+		EnemyPos.x += m_move.x;
+
+		if (m_state != STATE_MOVE)
+		{
+			//モーションをセット(移動)
+			m_motion->Set(MOTIONTYPE_MOVE);
+
+			m_state = STATE_MOVE;
+
+			//m_bAction = false;
+		}
+	}
+	else
 	{
-		m_motion->Set(MOTIONTYPE_NEUTRAL);
+		if (m_state != STATE_NEUTRAL)
+		{
+			m_motion->Set(MOTIONTYPE_NEUTRAL);
 
-		m_type = TYPE_NEUTRAL;
+			m_state = STATE_NEUTRAL;
+		}
+
 	}
-
+	
 	if (m_motion->IsFinish() == true)
 	{
-		m_type = TYPE_NEUTRAL;
+		m_state = STATE_NEUTRAL;
 	}
 
 	//位置設定

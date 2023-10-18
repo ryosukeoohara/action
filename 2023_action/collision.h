@@ -28,11 +28,12 @@ public:
 	HRESULT Init(void);
 	void Uninit(void);
 
-	bool CollsionEnemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy *pEnemy);  //敵との当たり判定(プレイヤー基準)
-	bool CollisionBulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CEnemy **pEnemy);     //弾との当たり判定
-	bool CollisionBulletPlayer(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CPlayer *pPlayer);  //弾との当たり判定
-	bool CollisionPunch(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ);  //敵とこぶしの当たり判定
-	bool CollisionCircle(D3DXVECTOR3 *pos, float fRadius, CPlayer *pPlayer);  //円の当たり判定
+	bool Enemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy *pEnemy);  //敵との当たり判定(プレイヤー基準)
+	bool BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEnemy **pEnemy);     //弾との当たり判定
+	bool BulletPlayer(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CPlayer *pPlayer);  //弾との当たり判定
+	bool BulletMap(D3DXVECTOR3 *pos, CObjectX **pObjectX);       //弾と建物の当たり判定
+	bool Punch(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ);  //敵とこぶしの当たり判定
+	bool Circle(D3DXVECTOR3 *pos, float fRadius, CPlayer *pPlayer);  //円の当たり判定
 	//bool CollisionItem(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CItem::TYPE type, CPlayer *pPlayer);    //アイテムとプレイヤーの当たり判定
 	//bool Enemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CEnemy *pEnemy);    //アイテムとプレイヤーの当たり判定
 	bool Knife(D3DXVECTOR3 *pos, D3DXVECTOR3 rot, float fRadius, CEnemy **pEnemy);

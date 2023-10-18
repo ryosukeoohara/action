@@ -15,14 +15,14 @@ class CBullet : public CBillBoard
 {
 public:
 
-	typedef enum
+	enum TYPE
 	{
 		TYPE_NONE = 0,  //何もない
 		TYPE_PLAYER,    //プレイヤー
 		TYPE_ENEMY,     //敵
 		TYPE_BOM,       //爆弾
 		TYPE_MAX
-	} TYPE;
+	} ;
 
 	CBullet();  //コンストラクタ
 	CBullet(D3DXVECTOR3 pos, D3DXVECTOR3 rot, TYPE type);  //コンストラクタ(オーバーロード)
