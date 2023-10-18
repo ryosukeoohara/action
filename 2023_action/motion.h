@@ -11,6 +11,9 @@
 #include "objectX.h"
 #include "character.h"
 
+//マクロ定義
+#define MAX_INFO   (64)
+
 //モーションクラス
 class CMotion
 {
@@ -29,7 +32,7 @@ public:
 	//モデル---------------------------------------------------------------
 	typedef struct
 	{
-		KEY m_aKey[64];  //現在のキー
+		KEY m_aKey[MAX_INFO];  //現在のキー
 		int m_nFrame;   //モーションのフレーム数
 
 	} KEYINFO;
@@ -42,9 +45,37 @@ public:
 		bool m_bLoop;   //ループするかどうか
 		bool m_bFinish; //終了したかどうか
 
-		KEYINFO m_KeySet[64];
+		KEYINFO m_KeySet[MAX_INFO];
 		
 	} INFO;
+
+	//モデル---------------------------------------------------------------
+	typedef struct
+	{
+		D3DXVECTOR3 m_pos;
+		D3DXVECTOR3 m_rot;
+
+	} OLDKEY;
+
+	//モデル---------------------------------------------------------------
+	typedef struct
+	{
+		OLDKEY m_aKey[MAX_INFO];  //現在のキー
+		int m_nFrame;   //モーションのフレーム数
+
+	} OLDKEYINFO;
+
+	//モーション---------------------------------------------------------------
+	typedef struct
+	{
+		int m_nNumKey;  //キーの総数
+		int m_nLoop;    //ループするかどうか
+		bool m_bLoop;   //ループするかどうか
+		bool m_bFinish; //終了したかどうか
+
+		OLDKEYINFO m_KeySet[MAX_INFO];
+
+	} OLDINFO;
 
 	//モーション---------------------------------------------------------------
 	/*typedef struct
@@ -68,9 +99,11 @@ public:
 
 private:
 	//Obj m_aObj[9];
-	INFO m_aInfo[64];
+	INFO m_aInfo[MAX_INFO];
+	INFO m_aOldInfo;
 	int  m_nNumAll;              //モーションの総数
 	int  m_nType;                //モーションの種類
+	int m_nTypeold;
 	bool m_bLoop;                //ループするかどうか
 	int  m_nNumKey;              //キーの総数
 	int  m_nKey;                 //現在のキー

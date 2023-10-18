@@ -289,7 +289,7 @@ void CInputMouse::Update(void)
 	POINT pos;
 	GetCursorPos(&pos);
 
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 
 	//スクリーン座標をクライアント座標に変換する
 	ScreenToClient(FindWindowA(CLASS_NAME, nullptr), &pos);

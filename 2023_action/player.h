@@ -130,7 +130,6 @@ public:
 		STATE_MOVE,                   //移動
 		STATE_JUMP,                   //ジャンプ
 		STATE_ATTACK,                 //攻撃
-		STATE_DUSHAT,                 //ダッシュアタック
 		STATE_APPR,                   //出現
 		STATE_MAX
 	} STATE;
@@ -142,7 +141,6 @@ public:
 		MOTIONTYPE_MOVE,                     //移動
 		MOTIONTYPE_JUMP,                     //ジャンプ
 		MOTIONTYPE_ATTACK,                   //攻撃
-		MOTIONTYPE_DUSHAT,                   //ダッシュアタック
 		MOTIONTYPE_APPR,                     //出現
 		MOTIONTYPE_MAX
 	} MOTIONTYPE;
@@ -318,9 +316,9 @@ private:
 	int m_nParent;
 	int m_nLoop;
 	int m_nFrame;                        //モーションのフレーム数
-	int m_nCntColi;                       //攻撃判定が出ている時間
+	int m_nCntColi;                      //攻撃判定が出ている時間
 	int m_nCntEff;                        //エフェクトをだすカウント
-	int m_nCntDuration;               //連撃できる時間
+	int m_nCntDuration;                  //連撃できる時間
 	int m_nCntDie;                       //倒れるまでの時間
 	int m_nCntSound;                     //サウンドが鳴って再度鳴るまでの時間
 	int m_nNumMotion;

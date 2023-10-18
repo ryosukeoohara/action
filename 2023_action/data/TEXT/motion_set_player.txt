@@ -3,7 +3,7 @@ SCRIPT
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 28
+NUM_MODEL = 29
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -36,13 +36,14 @@ MODEL_FILENAME = data/MODEL/PLAYER00/27_neetLoyayubisita.x     # [27]左の親指先
 MODEL_FILENAME = data/MODEL/PLAYER00/28_neetLyubiue.x          # [28]左の人差し指
 MODEL_FILENAME = data/MODEL/PLAYER00/29_neetLyubinaka.x        # [29]左の人差し指
 MODEL_FILENAME = data/MODEL/PLAYER00/30_neetLyubisita.x        # [30]左の人差し指
+MODEL_FILENAME = data/MODEL/PLAYER00/20_sword.x                   # [20]おもちゃの剣
 
 
 #------------------------------------------------------------------------------
 # キャラクター情報
 #------------------------------------------------------------------------------
 CHARACTERSET
-	NUM_PARTS = 28					# パーツ数
+	NUM_PARTS = 29					# パーツ数
 
 	PARTSSET						# [0]腰
 		INDEX = 0
@@ -238,6 +239,13 @@ CHARACTERSET
 		PARENT = 26					# (親)体
 		POS = 1.0 -1.0 0.0
 		ROT =  0.0 0.0 0.0
+	END_PARTSSET
+	
+	PARTSSET						# [8]左手
+		INDEX = 28
+		PARENT = 11					# (親)左前腕
+		POS = 0.0 0.0 0.0
+		ROT = 0.0 0.0 0.0
 	END_PARTSSET
 	
 END_CHARACTERSET
@@ -1022,15 +1030,15 @@ MOTIONSET
 	NUM_KEY = 2		# キー数
 
 	KEYSET			# --- << 0 / 2 >> ---
-		FRAME = 20
+		FRAME = 15
 		PARTS	# ----- [ 0 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			POS = -0.00 -3.80 -0.00
+			ROT = 0.19 0.47 0.09
 		END_PARTS
 
 		PARTS	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.16 -0.41 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 2 ] -----
@@ -1055,7 +1063,7 @@ MOTIONSET
 
 		PARTS	# ----- [ 6 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = -0.03 -0.41 1.32
+			ROT = 0.28 -0.60 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 7 ] -----
@@ -1070,42 +1078,42 @@ MOTIONSET
 
 		PARTS	# ----- [ 9 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 2.37 -0.03 -1.33
+			ROT = 2.14 -0.50 -1.67
 		END_PARTS
 
 		PARTS	# ----- [ 10 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.60 1.63 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 11 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.44 0.31 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 12 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.28 0.50 -0.47
 		END_PARTS
 
 		PARTS	# ----- [ 13 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.85 0.03 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 14 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.41 0.03 0.19
 		END_PARTS
 
 		PARTS	# ----- [ 15 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.06 -0.25 0.19
 		END_PARTS
 
 		PARTS	# ----- [ 16 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.38 0.00 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 17 ] -----
@@ -1120,15 +1128,15 @@ MOTIONSET
 	END_KEYSET
 
 	KEYSET			# --- << 1 / 2 >> ---
-		FRAME = 20
+		FRAME = 15
 		PARTS	# ----- [ 0 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			POS = -0.00 -3.80 -0.00
+			ROT = -0.38 0.47 0.09
 		END_PARTS
 
 		PARTS	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.34 0.66 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 2 ] -----
@@ -1153,7 +1161,7 @@ MOTIONSET
 
 		PARTS	# ----- [ 6 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = -0.03 -0.41 1.32
+			ROT = 0.28 -0.60 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 7 ] -----
@@ -1168,47 +1176,47 @@ MOTIONSET
 
 		PARTS	# ----- [ 9 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.13 -0.03 -1.32
+			ROT = 0.88 -0.41 -2.11
 		END_PARTS
 
 		PARTS	# ----- [ 10 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.60 0.15 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 11 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.44 -0.44 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 12 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.72 0.19 -0.34
 		END_PARTS
 
 		PARTS	# ----- [ 13 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.85 0.03 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 14 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.41 0.03 0.19
 		END_PARTS
 
 		PARTS	# ----- [ 15 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.44 -0.25 0.16
 		END_PARTS
 
 		PARTS	# ----- [ 16 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = -0.38 0.00 0.00
 		END_PARTS
 
 		PARTS	# ----- [ 17 ] -----
 			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
+			ROT = 0.00 0.00 -0.16
 		END_PARTS
 
 		PARTS	# ----- [ 18 ] -----
@@ -1217,6 +1225,7 @@ MOTIONSET
 		END_PARTS
 	END_KEYSET
 END_MOTIONSET
+
 
 #---------------------------------------
 # 出現待機モーション

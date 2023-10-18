@@ -259,54 +259,6 @@ bool CCollision::BulletMap(D3DXVECTOR3 * pos, CObjectX ** pObjectX)
 }
 
 //=============================================================================
-//弾とオブジェクトの当たり判定処理
-//=============================================================================
-bool CCollision::Punch(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ)
-{
-	//for (int nCount = 0; nCount < MAX_OBJECT; nCount++)
-	//{
-	//	CObject *pObj;
-
-	//	//オブジェクトを取得
-	//	pObj = CObject::Getobject(nCount);
-
-	//	if (pObj != NULL)  //わすれてた
-	//	{
-	//		//種類を取得
-	//		CObject::TYPE type = pObj->GetType();
-
-	//		if (type == TYPE_ENEMY)
-	//		{//種類が敵の場合
-
-	//		 //キャストして代入
-	//			CEnemy *pEnemy = (CEnemy*)pObj;
-
-	//			//敵の位置取得
-	//			D3DXVECTOR3 pos = pEnemy->Getpos();
-
-	//			if (pPos->x + fWidthX <= pos.x
-	//			 && pPos->x - fWidthX >= pos.x
-	//			 && pPos->z + fWidthZ <= pos.z
-	//			 && pPos->z - fWidthZ >= pos.z)
-	//			{
-	//				int nLife = pEnemy->GetLife();
-
-	//				nLife--;
-
-	//				pEnemy->SetLife(nLife);
-
-	//				//pEnemy->SetState(STATE_DAMEGE);
-
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//}
-
-	return false;
-}
-
-//=============================================================================
 //円の当たり判定処理
 //=============================================================================
 bool CCollision::Circle(D3DXVECTOR3 *pPos, float fRadius, CPlayer *pPlayer)
@@ -328,70 +280,6 @@ bool CCollision::Circle(D3DXVECTOR3 *pPos, float fRadius, CPlayer *pPlayer)
 
 	return false;
 }
-
-//=============================================================================
-//球体の当たり判定処理
-//=============================================================================
-bool CCollision::Knife(D3DXVECTOR3 *pPos, D3DXVECTOR3 rot, float fRadius, CEnemy **pEnemy)
-{
-	//int MessCount = 0;
-	//int nNumEnemy = CEnemyManager::GetNumAll();
-	//float c = 0.0f;
-
-	//for (int nCount = 0; nCount < nNumEnemy; nCount++)
-	//{
-	//	float EnemyfRadius = 50.0f;
-
-	//	if (pEnemy[nCount] != NULL)
-	//	{
-	//		D3DXVECTOR3 pos = pEnemy[nCount]->Getpos();
-
-	//		c = (pos.x - pPos->x) * (pos.x - pPos->x) + (pos.y - pPos->y) * (pos.y - pPos->y) + (pos.z - pPos->z) * (pos.z - pPos->z);
-
-	//		if (c <= (fRadius + EnemyfRadius) * (fRadius + EnemyfRadius))
-	//		{
-	//			pEnemy[nCount]->Hit();
-
-	//			//パーティクルを生成
-	//			CParticl::Create({ pos.x, pos.y + 50.0f, pos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, TYPEPAR_BLOOD);
-
-	//			return true;
-	//		}
-	//		else
-	//		{
-	//			MessCount++;
-	//		}
-	//	}
-	//}
-	
-	return false;
-}
-
-////=============================================================================
-////円の当たり判定処理
-////=============================================================================
-//bool CCollision::CollisionItem(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ, CItem::TYPE type, CPlayer *pPlayer)
-//{
-//	//if (pPlayer != NULL)
-//	//{//使用されているとき
-//
-//	//	//敵の位置取得
-//	//	D3DXVECTOR3 pos = pPlayer->Getpos();
-//
-//	//	if (pPos->x <= pos.x + fWidthX
-//	//	 && pPos->x >= pos.x - fWidthX
-//	//	 && pPos->z <= pos.z + fWidthZ
-//	//	 && pPos->z >= pos.z - fWidthZ)
-//	//	{
-//	//		CSlot::Set(type);
-//
-//	//		return true;
-//	//	}
-//	//}
-//
-//
-//	return false;
-//}
 
 //=============================================================================
 //敵とオブジェクトの当たり判定処理
@@ -440,74 +328,6 @@ bool CCollision::Player(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, fl
 			//		return true;
 			//	}
 			//}
-
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//=============================================================================
-//敵同士の当たり判定処理
-//=============================================================================
-//bool CCollision::Enemy(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ, CEnemy *pEnemy)
-//{
-//	for (int nCount = 0; nCount < MAX_OBJECT; nCount++)
-//	{
-//		CObject *pObj;
-//
-//		//オブジェクトを取得
-//		pObj = CObject::Getobject(nCount);
-//
-//		if (pObj != NULL)  //わすれてた
-//		{
-//			//種類を取得
-//			CObject::TYPE type = pObj->GetType();
-//
-//			if (type == TYPE_ENEMY)
-//			{//種類が敵の場合
-//
-//				//キャストして代入
-//				CEnemy *penemy = (CEnemy*)pObj;
-//
-//				//敵の位置取得
-//				D3DXVECTOR3 pos = penemy->Getpos();
-//
-//				if (pEnemy->GetID() != penemy->GetID())
-//				{
-//					if (pPos->x <= pos.x + fWidthX
-//						&& pPos->x >= pos.x - fWidthX
-//						&& pPos->z <= pos.z + fWidthZ
-//						&& pPos->z >= pos.z - fWidthZ)
-//					{
-//						return true;
-//					}
-//				}
-//			}
-//		}
-//	}
-//
-//	return false;
-//}
-
-//=============================================================================
-//円の当たり判定処理
-//=============================================================================
-bool CCollision::kugibat(D3DXVECTOR3 *pPos, CPlayer *pPlayer)
-{
-	if (pPlayer != NULL)
-	{//使用されているとき
-
-		//敵の位置取得
-		D3DXVECTOR3 pos = pPlayer->Getpos();
-
-		if (pPos->x - 30.0f <= pos.x
-		 && pPos->x + 30.0f >= pos.x
-		 && pPos->z - 30.0f <= pos.z
-		 && pPos->z + 30.0f >= pos.z )
-		{
-			pPlayer->Hit();
 
 			return true;
 		}
@@ -595,7 +415,6 @@ void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 					//return true;
 				}
 
-				
 				//ブロックの左側面==================================
 				if (pos->x + 20.0f >= Mappos.x + vtxMin.x
 					&& posOld->x + 20.0f <= Mappos.x + vtxMin.x)
@@ -643,6 +462,75 @@ void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 bool CCollision::Block(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, float fWidthX, float fWidthZ)
 {
 
+
+	return false;
+}
+
+//=============================================================================
+//剣の当たり判定
+//=============================================================================
+bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy **pEnemy)
+{
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	D3DXMATRIX Matrix;
+	D3DXVECTOR3 offPos = { 0.0f, 0.0f, -flength };
+	D3DXVECTOR3 Pos = { 0.0f, 0.0f, 0.0f };
+	D3DXVECTOR3 offRot = { 0.0f, 0.0f, 0.0f };
+
+	//計算用マトリックス
+	D3DXMATRIX m_mtxRot, m_mtxTrans;
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&Matrix);
+
+	//向きを反映
+	D3DXMatrixRotationYawPitchRoll(&m_mtxRot, offRot.y, offRot.x, offRot.z);
+
+	D3DXMatrixMultiply(&Matrix, &Matrix, &m_mtxRot);
+
+	//位置を反映
+	D3DXMatrixTranslation(&m_mtxTrans, offPos.x, offPos.y, offPos.z);
+
+	D3DXMatrixMultiply(&Matrix, &Matrix, &m_mtxTrans);
+
+	//算出したパーツのワールドマトリックスと親のマトリックスを掛け合わせる
+	D3DXMatrixMultiply(&Matrix, &Matrix, &matrix);
+
+	Pos.x = Matrix._41;
+	Pos.y = Matrix._42;
+	Pos.z = Matrix._43;
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &Matrix);
+
+	for (int nCount = 0; nCount < 1; nCount++)
+	{
+		if (pEnemy[nCount] != NULL)
+		{
+			D3DXVECTOR3 Enepos = pEnemy[nCount]->Getpos();
+
+			if (pos._41 <= Enepos.x
+				&& Pos.x >= Enepos.x
+				&& pos._42 >= Enepos.y
+				&& Pos.y <= Enepos.y + 100.0f)
+			{
+				int nLife = pEnemy[nCount]->GetLife();
+
+				nLife--;
+
+				pEnemy[nCount]->SetLife(nLife);
+
+				D3DXVECTOR3 rot = pEnemy[nCount]->GetRot();
+
+				//パーティクルを生成
+				CParticl::Create({ Enepos.x, Enepos.y + 50.0f, Enepos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, CParticl::TYPEPAR_BULLET);
+
+				return true;
+			}
+		}
+	}
 
 	return false;
 }

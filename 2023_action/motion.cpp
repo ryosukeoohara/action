@@ -20,6 +20,7 @@ CMotion::CMotion()
 {
 	m_nNumAll = 0;
 	m_nType = 0;
+	m_nTypeold = 0;
 	m_nNumKey = 0;
 	m_nKey = 0;
 	m_nCounter = 0;
@@ -61,7 +62,7 @@ void CMotion::Update(void)
 	D3DXVECTOR3 fDiffpos, fDiffrot;  //位置、向きの差分
 	D3DXVECTOR3 fDestpos, fDestrot;  //位置、向きの目標
 
-	m_nType = GetType();
+	//m_nType = GetType();
 
 	if (m_nCounter >= m_aInfo[m_nType].m_KeySet[m_nKey].m_nFrame)
 	{
@@ -77,6 +78,11 @@ void CMotion::Update(void)
 
 	int Next = (m_nKey + 1) % m_aInfo[m_nType].m_nNumKey;
 
+	if (m_nType != m_nTypeold && m_nKey + 1 < m_aInfo[m_nType].m_nNumKey)
+	{
+		int n = 0;
+	}
+
 	if (m_aInfo[m_nType].m_bFinish == false)
 	{
 		for (int nCount = 0; nCount < m_nNumModel; nCount++)
@@ -86,8 +92,8 @@ void CMotion::Update(void)
 			D3DXVECTOR3 posOrigin = m_ppModel[nCount]->GetPositionOri();
 			D3DXVECTOR3 rotOrigin = m_ppModel[nCount]->GetRotOrigin();
 
-			fDiffpos = m_aInfo[m_nType].m_KeySet[Next].m_aKey[nCount].m_pos - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_pos;
-			fDiffrot = m_aInfo[m_nType].m_KeySet[Next].m_aKey[nCount].m_rot - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_rot;
+			fDiffpos = m_aOldInfo.m_KeySet[Next].m_aKey[nCount].m_pos - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_pos;
+			fDiffrot = m_aOldInfo.m_KeySet[Next].m_aKey[nCount].m_rot - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_rot;
 
 			if (fDiffrot.x > D3DX_PI)
 			{
@@ -119,8 +125,6 @@ void CMotion::Update(void)
 			fDestpos = fDiffpos * ((float)m_nCounter / (float)m_aInfo[m_nType].m_KeySet[m_nKey].m_nFrame);
 			fDestrot = fDiffrot * ((float)m_nCounter / (float)m_aInfo[m_nType].m_KeySet[m_nKey].m_nFrame);
 
-			
-
 			pos = posOrigin + m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_pos + fDestpos;
 			rot = rotOrigin + m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_rot + fDestrot;
 
@@ -135,6 +139,8 @@ void CMotion::Update(void)
 			m_aInfo[m_nType].m_bFinish = true;
 		}
 	}
+
+	SetInfo(m_aInfo[m_nType]);
 }
 
 //===========================================================
@@ -171,7 +177,7 @@ bool CMotion::IsFinish(void)
 //===========================================================
 void CMotion::SetInfo(INFO info)
 {
-	
+	m_aOldInfo = info;
 }
 
 //===========================================================

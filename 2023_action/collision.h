@@ -32,15 +32,11 @@ public:
 	bool BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEnemy **pEnemy);     //弾との当たり判定
 	bool BulletPlayer(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CPlayer *pPlayer);  //弾との当たり判定
 	bool BulletMap(D3DXVECTOR3 *pos, CObjectX **pObjectX);       //弾と建物の当たり判定
-	bool Punch(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ);  //敵とこぶしの当たり判定
 	bool Circle(D3DXVECTOR3 *pos, float fRadius, CPlayer *pPlayer);  //円の当たり判定
-	//bool CollisionItem(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CItem::TYPE type, CPlayer *pPlayer);    //アイテムとプレイヤーの当たり判定
-	//bool Enemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthZ, CEnemy *pEnemy);    //アイテムとプレイヤーの当たり判定
-	bool Knife(D3DXVECTOR3 *pos, D3DXVECTOR3 rot, float fRadius, CEnemy **pEnemy);
-	bool kugibat(D3DXVECTOR3 *pos, CPlayer *pPlayer);    //アイテムとプレイヤーの当たり判定
 	bool Player(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CPlayer *pPlayer);  //ぷれいやーとの当たり判定
 	void Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX);  //マップにある建物との当たり判定
 	bool Block(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ);  //ブロックとの判定
+	bool Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy **pEnemy);
 	
 private:
 

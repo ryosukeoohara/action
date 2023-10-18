@@ -22,6 +22,7 @@
 #include "particl.h"
 #include "map.h"
 #include "collision.h"
+#include "enemy.h"
 
 #include<stdio.h>
 #include<time.h>
@@ -397,13 +398,14 @@ void CChibi::Control(void)
 	
 	//float fHeight;
 
-	if (m_State != STATE_APPR)
+	//重力
+	m_move.y -= CHIBIGRAVITY;   
+
+	//走っていない状態
+	m_bDash = false;
+
+	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
 	{
-		m_move.y -= CHIBIGRAVITY;   //重力
-
-		//走っていない状態
-		m_bDash = false;
-
 		//上に移動----------------------------------------------
 		if (InputKeyboard->GetPress(DIK_W) == true)
 		{//Wキーが押された
@@ -420,7 +422,6 @@ void CChibi::Control(void)
 
 			//移動量
 			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
 			m_fDest = D3DX_PI * -0.5f;
@@ -434,7 +435,6 @@ void CChibi::Control(void)
 
 			//移動量
 			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 			//向き
 			m_fDest = D3DX_PI * 0.5f;
@@ -445,31 +445,6 @@ void CChibi::Control(void)
 
 		PlayerRot.y = m_fDest;
 
-		//m_fDiff = m_fDest - PlayerRot.y;
-
-		////角度の値を修正する
-		//if (m_fDiff >= D3DX_PI)
-		//{
-		//	m_fDiff -= D3DX_PI * 2;
-		//}
-		//else if (m_fDiff <= -D3DX_PI)
-		//{
-		//	m_fDiff += D3DX_PI * 2;
-		//}
-
-		////移動方向(角度)の補正------------------------------------------------
-		//PlayerRot.y += m_fDiff * 0.15f;
-
-		////角度の値を修正する--------------------------------------------------
-		//if (PlayerRot.y > D3DX_PI)
-		//{
-		//	PlayerRot.y = -D3DX_PI;
-		//}
-		//else if (PlayerRot.y < -D3DX_PI)
-		//{
-		//	PlayerRot.y = D3DX_PI;
-		//}
-
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEキーが押された
 
@@ -478,24 +453,7 @@ void CChibi::Control(void)
 			m_move.y += CHIBIJUMP;
 		}
 
-		if (m_State != STATE_DUSHAT)
-		{
-			//位置に移動量加算----------------------------------------------------
-			Playerpos.x += m_move.x;
-			Playerpos.y += m_move.y;
-		}
-		else
-		{
-			//位置に移動量加算----------------------------------------------------
-			Playerpos.x += m_move.x * 0.7f;
-			Playerpos.y += m_move.y * 0.7f;
-			//m_pos.y = fHeight + 18.0f;
-		}
-		
-		//移動量を更新(減衰させる)--------------------------------------------
-		m_move.x += (0.0f - m_move.x) * 0.1f;
-
-		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK && m_State != STATE_DUSHAT)
+		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_MOVE);
@@ -523,6 +481,13 @@ void CChibi::Control(void)
 			m_State = STATE_JUMP;
 		}
 	}
+	
+	//位置に移動量加算----------------------------------------------------
+	Playerpos.x += m_move.x;
+	Playerpos.y += m_move.y;
+
+	//移動量を更新(減衰させる)--------------------------------------------
+	m_move.x += (0.0f - m_move.x) * 0.1f;
 	
 	if (m_State == STATE_APPR && m_WaitApper == false)
 	{
@@ -568,11 +533,12 @@ void CChibi::Control(void)
 			CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
 		}
 
+		if (m_bDash == true)
+		{
+			m_bDash = false;
+		}
+
 		m_nCntBullet++;
-	}
-	else
-	{
-		m_bAction = false;
 	}
 	
 	if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
@@ -583,14 +549,6 @@ void CChibi::Control(void)
 		m_State = STATE_ATTACK;
 	}
 	
-	if (m_bAction == true && m_bDash == true && m_State != STATE_DUSHAT)
-	{
-		//モーションをセット(攻撃)
-		m_motion->Set(MOTIONTYPE_DUSHAT);
-
-		m_State = STATE_DUSHAT;
-	}
-
 	if (m_nCntBullet >= 15)
 	{
 		m_nCntBullet = 0;
@@ -639,6 +597,12 @@ void CFoot::Control(void)
 	//カメラの向き取得
 	D3DXVECTOR3 CameraRot = pCamera->GetRot();
 
+	//当たり判定の情報取得
+	CCollision *pCollision = CGame::GetCollsion();
+
+	//敵の情報取得
+	CEnemy **pEnemy = CEnemy::GetEnemy();
+
 	//プレイヤー(チビデブ)の情報を取得
 	CFoot *pFoot = CGame::GetPlayerFoot();
 
@@ -653,13 +617,14 @@ void CFoot::Control(void)
 	
 	//float fHeight;
 
+	//重力
+	m_move.y -= FOOTGRAVITY;	   
+
+	//走っていない状態
+	m_bDash = false;
+
 	if (m_State != STATE_APPR)
 	{
-		m_move.y -= FOOTGRAVITY;	   //重力
-
-		//走っていない状態
-		m_bDash = false;
-
 		//上に移動----------------------------------------------
 		if (InputKeyboard->GetPress(DIK_W) == true)
 		{//Wキーが押された
@@ -674,7 +639,7 @@ void CFoot::Control(void)
 		else if (InputKeyboard->GetPress(DIK_D) == true)
 		{//Dキーだけ押した
 
-		 //移動量
+			//移動量
 			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 
@@ -688,7 +653,7 @@ void CFoot::Control(void)
 		else if (InputKeyboard->GetPress(DIK_A) == true)
 		{//Aキーだけ押した
 
-		 //移動量
+			//移動量
 			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
 
@@ -701,31 +666,6 @@ void CFoot::Control(void)
 
 		PlayerRot.y = m_fDest;
 
-		//m_fDiff = m_fDest - PlayerRot.y;
-
-		////角度の値を修正する
-		//if (m_fDiff >= D3DX_PI)
-		//{
-		//	m_fDiff -= D3DX_PI * 2;
-		//}
-		//else if (m_fDiff <= -D3DX_PI)
-		//{
-		//	m_fDiff += D3DX_PI * 2;
-		//}
-
-		////移動方向(角度)の補正------------------------------------------------
-		//PlayerRot.y += m_fDiff * 0.15f;
-
-		////角度の値を修正する--------------------------------------------------
-		//if (PlayerRot.y > D3DX_PI)
-		//{
-		//	PlayerRot.y = -D3DX_PI;
-		//}
-		//else if (PlayerRot.y < -D3DX_PI)
-		//{
-		//	PlayerRot.y = D3DX_PI;
-		//}
-
 		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
 		{//SPACEキーが押された
 
@@ -734,24 +674,26 @@ void CFoot::Control(void)
 			m_move.y += FOOTJUMP;
 		}
 
-		//位置に移動量加算----------------------------------------------------
-		Playerpos.x += m_move.x;
+		if (InputKeyboard->GetTrigger(DIK_K) == true)
+		{//Kキーが押された
+
+			m_bAttack = true;
+		}
+
+		if (m_bAttack != true)
+		{
+			//位置に移動量加算----------------------------------------------------
+			Playerpos.x += m_move.x;
+		}
+		
 		Playerpos.y += m_move.y;
 		//m_pos.y = fHeight + 18.0f;
 
 		//移動量を更新(減衰させる)--------------------------------------------
 		m_move.x += (0.0f - m_move.x) * 0.1f;
-		m_move.z += (0.0f - m_move.z) * 0.1f;
 
-		if (InputKeyboard->GetTrigger(DIK_K) == true)
-		{//Kキーが押された
-
-			m_State = STATE_ATTACK;
-
-			m_move = { 0.0f,0.0f,0.0f };
-		}
-
-		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
+		if (m_bDash == true && m_bAttack == false 
+		 && m_State != STATE_MOVE && m_State != STATE_ATTACK)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_MOVE);
@@ -761,17 +703,18 @@ void CFoot::Control(void)
 			m_bAction = false;
 		}
 
-		if (m_bDash == false && m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
+		if (m_bDash == false && m_bAttack == false 
+		 && m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_NEUTRAL);
 
 			m_State = STATE_NEUTRAL;
 
-			m_bAction = false;
+			m_bAttack = false;
 		}
 
-		if (m_bJump == true && m_State != STATE_JUMP)
+		if (m_bJump == true && m_bAttack == false && m_State != STATE_JUMP)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_JUMP);
@@ -779,12 +722,28 @@ void CFoot::Control(void)
 			m_State = STATE_JUMP;
 		}
 
-		if (m_bAction == false && m_State == STATE_ATTACK)
+		if (m_bAttack == true && m_State != STATE_ATTACK)
 		{
 			//モーションをセット(攻撃)
 			m_motion->Set(MOTIONTYPE_ATTACK);
 
-			m_bAction = true;
+			m_State = STATE_ATTACK;
+		}
+	}
+
+	if (m_State == STATE_ATTACK)
+	{
+		m_nCntColi++;
+
+		if (m_nCntColi >= 10 && 30 >= m_nCntColi)
+		{
+			if (pCollision != NULL)
+			{
+				if (pCollision->Sword(m_apModel[28]->GetMtxWorld(), m_apModel[28]->GetMtxWorld(), 100.0f, pEnemy) == true)
+				{
+					int n = 0;
+				}
+			}
 		}
 	}
 
@@ -802,7 +761,7 @@ void CFoot::Control(void)
 	{
 		m_nCntEff = 0;
 		m_nCntColi = 0;
-		m_bAction = false;
+		m_bAttack = false;
 
 		if (m_State == STATE_APPR)
 		{
@@ -829,9 +788,10 @@ void CFoot::Control(void)
 	SetPos(&Playerpos);
 	SetRot(&PlayerRot);
 
-	pDebugProc->Print("プレイヤーの位置：%f,%f,%f\n", Playerpos.x, Playerpos.y, Playerpos.z);
+	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", Playerpos.x, Playerpos.y, Playerpos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
 	pDebugProc->Print("プレイヤーの移動量：%f,%f,%f", m_move.x, m_move.y, m_move.z);
+	pDebugProc->Print("\n判定 : %d", m_nCntColi);
 }
 
 //================================================================
@@ -1276,17 +1236,6 @@ void CChibi::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
-
-	if (m_motion != NULL)
-	{
-		//初期化処理
-		m_motion->Update();
-	}
-
 	CPlayer::Update();
 
 	if (m_bAppr == true)
@@ -1297,6 +1246,17 @@ void CChibi::Update(void)
 		{
 			(pCollision->Map(&Getpos(), &m_posOld, pMap));
 		}
+	}
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		m_apModel[nCount]->Update();
+	}
+
+	if (m_motion != NULL)
+	{
+		//初期化処理
+		m_motion->Update();
 	}
 }
 
@@ -1422,17 +1382,6 @@ void CFoot::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
-
-	if (m_motion != NULL)
-	{
-		//初期化処理
-		m_motion->Update();
-	}
-
 	CPlayer::Update();
 
 	if (m_bAppr == true)
@@ -1443,6 +1392,17 @@ void CFoot::Update(void)
 		{
 			(pCollision->Map(&Getpos(), &m_posOld, pMap));
 		}
+	}
+
+	for (int nCount = 0; nCount < m_nNumModel; nCount++)
+	{
+		m_apModel[nCount]->Update();
+	}
+
+	if (m_motion != NULL)
+	{
+		//初期化処理
+		m_motion->Update();
 	}
 }
 
