@@ -23,8 +23,7 @@ public:
 		TYPE_TITLE,      //タイトルのカメラ
 		TYPE_GAME,       //ゲームのカメラ
 		TYPE_RESULT,     //リザルトのカメラ
-		TYPE_BOSS,       //ボス登場中のカメラ
-		TYPE_SCOPE,      //スコープモード
+		TYPE_EDIT,       //エディットのカメラ
 		TYPE_MAX 
 	};
 
@@ -32,6 +31,7 @@ public:
 	void Uninit(void);        //カメラの終了処理
 	void Update(void);        //カメラの更新処理
 	void CameraV(void);
+	void Edit(void);          //エディットのカメラ
 	void CameraR(void);
 	void Title(void);
 	void Scope(void);

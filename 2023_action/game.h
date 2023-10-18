@@ -42,6 +42,9 @@ public:
 	static CEdit *GetEdit(void);
 	static CEnemyManager * GetEnemyManager(void);
 
+	static void SetCounter(int nCounter) { m_nCounter = nCounter; }
+	static int GetCounter(void) { return m_nCounter; }
+
 private:
 	static CChibi *m_PlayerChibi;
 	static CFoot *m_PlayerFoot;
@@ -55,6 +58,7 @@ private:
 
 	static bool m_bPause;
 	bool m_bUse;  //エディットモード中かどうか
+	static int m_nCounter;
 };
 
 #endif // !_GAME_H_

@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 27
+NUM_MODEL = 38
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -27,7 +27,7 @@ MODEL_FILENAME = data/MODEL/EDIT/stand_01.x        	    # [8]階段みたいな�
 MODEL_FILENAME = data/MODEL/EDIT/Depart_001.x        	# [9]デパート正面
 MODEL_FILENAME = data/MODEL/EDIT/Depart_002.x        	# [10]デパート入口
 MODEL_FILENAME = data/MODEL/EDIT/Depart_003.x        	# [11]デパート横
-MODEL_FILENAME = data/MODEL/EDIT/sky.x        	        # [101]空
+MODEL_FILENAME = data/MODEL/EDIT/block_002.x        	# [12]壁
 
 #------------------------------------------------------------------------------
 # モデルの情報
@@ -157,6 +157,72 @@ END_MODELSET
 MODELSET
     TYPE = 10
     POS = 2665.14 -5.47 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 3655.28 106.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 12
+    POS = 3701.28 196.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 4623.48 300.34 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 3135.48 446.34 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 -21.39
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 544.58
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 1108.90
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 1661.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 -616.97
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 -1214.20
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 9
+    POS = 2664.66 491.93 -1839.40
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

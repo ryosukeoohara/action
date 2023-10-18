@@ -65,6 +65,7 @@ private:
 	D3DXVECTOR3 m_posOld;                      //前回の位置
 	D3DXVECTOR3 m_move;                        //移動
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス
+	int m_nidxID;
 
 	//*=============================================================================
 	//外部ファイル読み込み用

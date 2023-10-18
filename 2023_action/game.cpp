@@ -22,6 +22,7 @@
 #include "enemy.h"
 #include "enemymanager.h"
 #include "sky.h"
+#include "fade.h"
 
 //================================================================
 //静的メンバ変数
@@ -36,6 +37,7 @@ CPause *CGame::m_Pause = NULL;
 CEdit *CGame::m_Edit = NULL;
 CEnemyManager *CGame::m_EnemyManager = NULL;
 bool CGame::m_bPause = false;
+int CGame::m_nCounter = 0;
 
 //===========================================================
 //コンストラクタ
@@ -155,6 +157,9 @@ HRESULT CGame::Init(void)
 	//}
 
 	CEnemy::Create({ 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 3600.0f,105.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 3000.0f,445.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 4800.0f,300.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
@@ -249,6 +254,9 @@ void CGame::Uninit(void)
 		m_EnemyManager = NULL;
 	}
 
+	m_nCounter = 0;
+
+
 	//すべてのオブジェクト破棄
 	CObject::ReleaseAll();
 }
@@ -261,12 +269,10 @@ void CGame::Update(void)
 	//キーボードを取得
 	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
-	//if (m_EnemyManager != NULL)
-	//{//使用されていたとき
+	//カメラ取得
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
-	//	//更新処理
-	//	m_EnemyManager->Update();
-	//}
+	CFade *pFade = CManager::Getinstance()->GetFade();
 
 	//すべての更新処理
 	CObject::UpdateAll();
@@ -290,6 +296,8 @@ void CGame::Update(void)
 			//初期化処理
 			m_Edit->Init();
 		}
+
+		pCamera->SetType(CCamera::TYPE_EDIT);
 	}
 
 	if (m_bUse == false)
@@ -305,6 +313,17 @@ void CGame::Update(void)
 			m_Edit = NULL;
 
 			m_bUse = false;
+		}
+
+		pCamera->SetType(CCamera::TYPE_GAME);
+	}
+
+	if (m_nCounter >= 4)
+	{
+		if (pFade->Get() != pFade->FADE_OUT)
+		{
+			//シーンをタイトルに遷移
+			pFade->Set(CScene::MODE_RESULT);
 		}
 	}
 
@@ -375,7 +394,6 @@ CPlayer *CGame::GetPlayer(void)
 	{
 		return false;
 	}
-
 }
 
 //================================================================

@@ -36,6 +36,7 @@ CEnemy *CEnemy::m_pEnemy[64] = {};
 CEnemy::CEnemy()
 {
 	m_state = (STATE)0;
+	m_nidxID = -1;
 }
 
 //==============================================================================
@@ -47,6 +48,7 @@ CEnemy::CEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 	SetRot(&rot);
 	SetLife(nlife);
 	m_state = (STATE)0;
+	m_nidxID = -1;
 }
 
 //==============================================================================
@@ -76,6 +78,8 @@ CEnemy * CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 		if (m_pEnemy[nCount] == NULL)
 		{
 			m_pEnemy[nCount] = pEnemy;
+
+			m_pEnemy[nCount]->m_nidxID = nCount;
 
 			break;
 		}
@@ -135,14 +139,11 @@ void CEnemy::Uninit(void)
 		}
 	}
 
-	for (int nCount = 0; nCount < 64; nCount++)
+	if (m_pEnemy[m_nidxID] != NULL)
 	{
-		if (m_pEnemy[nCount] != NULL)
-		{
-			m_pEnemy[nCount] = NULL;
-		}
+		m_pEnemy[m_nidxID] = NULL;
 	}
-
+	
 	CObject::Release();
 }
 
@@ -164,6 +165,12 @@ void CEnemy::Update(void)
 
 	if (GetLife() <= 0)
 	{
+		int n = CGame::GetCounter();
+
+		n++;
+
+		CGame::SetCounter(n);
+
 		Uninit();
 	}
 	else
