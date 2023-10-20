@@ -187,8 +187,6 @@ void CEnemy::Update(void)
 	{
 		//êßå‰èàóù
 		Controll();
-
-		
 	}
 }
 
@@ -324,6 +322,13 @@ void CEnemy::Controll(void)
 	}
 
 	EnemyPos.y += m_move.y;
+
+	if (EnemyPos.y <= 0.0f)
+	{
+		EnemyPos.y = 0.0f;
+
+		m_move.y = 0.0f;
+	}
 
 	//à íuê›íË
 	SetPos(&EnemyPos);

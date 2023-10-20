@@ -209,8 +209,8 @@ void CCamera::CameraV(void)
 	
 	D3DXVECTOR3 pos = pPlayer->Getpos();
 
-	m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y * 0.5f, 30.0f - m_posV.z);
-	m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
+	m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y, 30.0f - m_posV.z);
+	m_posR = D3DXVECTOR3(pos.x, pos.y, 10.0f);
 	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 	
 }

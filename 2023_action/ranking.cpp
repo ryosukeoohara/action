@@ -188,7 +188,7 @@ void CRanking::SetRanking(int nScore)
 {
 	FILE *pFile;
 
-	pFile = fopen("ranking.txt", "r");
+	pFile = fopen("data\\RANKING\\ranking.txt", "r");
 
 	if (pFile != NULL)
 	{//ファイルが開けた場合
@@ -226,7 +226,7 @@ void CRanking::SetRanking(int nScore)
 		}
 	}
 
-	pFile = fopen("ranking.txt", "w");
+	pFile = fopen("data\\RANKING\\ranking.txt", "w");
 
 	if (pFile != NULL)
 	{//ファイルが開けた場合

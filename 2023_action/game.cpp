@@ -159,15 +159,17 @@ HRESULT CGame::Init(void)
 	//}
 
 	//ŽžŠÔ
-	CTime::Create();
+	//CTime::Create();
 
 	//ƒXƒRƒA
 	CScore::Create();
 
 	CEnemy::Create({ 0.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 10);
-	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
-	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 2);
+	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 4);
 	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 3);
+	CEnemy::Create({ 3000.0f,830.0f,0.0f }, { 0.0f,0.0f,0.0f }, 6);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
@@ -325,7 +327,7 @@ void CGame::Update(void)
 		pCamera->SetType(CCamera::TYPE_GAME);
 	}
 
-	if (m_nCounter >= 4)
+	if (m_nCounter >= 6)
 	{
 		if (pFade->Get() != pFade->FADE_OUT)
 		{

@@ -154,7 +154,7 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 	//int nNumEnemy = CEnemyManager::GetNumAll();
 	float c = 0.0f;
 
-	for (int nCount = 0; nCount < 4; nCount++)
+	for (int nCount = 0; nCount < 6; nCount++)
 	{
 		float EnemyfRadius = 50.0f;
 
@@ -497,7 +497,7 @@ bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &Matrix);
 
-	for (int nCount = 0; nCount < 4; nCount++)
+	for (int nCount = 0; nCount < 6; nCount++)
 	{
 		if (pEnemy[nCount] != NULL)
 		{
