@@ -1396,8 +1396,6 @@ void CFoot::Update(void)
 {
 	CMap *pmap = CGame::GetMap();
 
-	
-
 	//“–‚½‚è”»’è‚Ìî•ñæ“¾
 	CCollision *pCollision = CGame::GetCollsion();
 

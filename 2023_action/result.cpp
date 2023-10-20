@@ -15,6 +15,8 @@
 #include "renderer.h"
 #include "sound.h"
 #include "UImanager.h"
+#include "ranking.h"
+#include "score.h"
 
 //===========================================================
 //コンストラクタ
@@ -55,7 +57,11 @@ CResult *CResult::Create(void)
 HRESULT CResult::Init(void)
 {
 	//タイトルのロゴ生成
-	CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_RESULT);
+	//CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_RESULT);
+
+	CRanking::Create();
+
+	CRanking::SetRanking(CScore::Getscore());
 
 	//サウンドを取得
 	CSound *pSound = CManager::Getinstance()->GetSound();

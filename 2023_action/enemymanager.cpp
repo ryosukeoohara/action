@@ -161,7 +161,9 @@ void CEnemyManager::ReadText(void)
 						if (m_pEnemy[nCount] == NULL)
 						{//Žg—p‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚ç
 
-							m_pEnemy[nCount] = CEnemy::Create(m_Readpos, m_Readrot, nLife);
+							m_pEnemy[nCount] = new CEnemy(m_Readpos, m_Readrot, nLife);
+
+							m_pEnemy[nCount]->Init();
 
 							break;
 						}

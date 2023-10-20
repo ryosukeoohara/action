@@ -17,6 +17,9 @@
 #include "collision.h"
 #include "player.h"
 #include "game.h"
+#include "map.h"
+#include "debugproc.h"
+#include "score.h"
 #include <assert.h>
 
 //*=============================================================================
@@ -152,6 +155,11 @@ void CEnemy::Uninit(void)
 //==============================================================================
 void CEnemy::Update(void)
 {
+	CMap *pmap = CGame::GetMap();
+
+	//当たり判定の情報取得
+	CCollision *pCollision = CGame::GetCollsion();
+
 	for (int nCount = 0; nCount < m_nNumModel; nCount++)
 	{
 		m_apModel[nCount]->Update();
@@ -171,12 +179,16 @@ void CEnemy::Update(void)
 
 		CGame::SetCounter(n);
 
+		CScore::AddScore(500);
+
 		Uninit();
 	}
 	else
 	{
 		//制御処理
 		Controll();
+
+		
 	}
 }
 
@@ -225,8 +237,10 @@ void CEnemy::Draw(void)
 //==============================================================================
 void CEnemy::Controll(void)
 {
+	CMap *pmap = CGame::GetMap();
+
 	//当たり判定の情報取得
-	CCollision *pCollision = CManager::Getinstance()->GetCollsion();
+	CCollision *pCollision = CGame::GetCollsion();
 
 	//プレイヤーの情報取得
 	CPlayer *pPlayer = CGame::GetPlayer();
@@ -234,6 +248,12 @@ void CEnemy::Controll(void)
 	//位置と向き取得
 	D3DXVECTOR3 EnemyPos = Getpos();
 	D3DXVECTOR3 EnemyRot = GetRot();
+
+	m_posOld = EnemyPos;  //位置を代入
+
+	m_move.y -= 0.9f;
+
+	pCollision->MapEnemy(&Getpos(), &m_posOld, pmap->GetX(), this);
 
 	if ((pCollision->Circle(&EnemyPos, 400.0f, pPlayer) == true))
 	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき
@@ -275,6 +295,7 @@ void CEnemy::Controll(void)
 
 		//移動量を位置に加算
 		EnemyPos.x += m_move.x;
+		
 
 		if (m_state != STATE_MOVE)
 		{
@@ -302,9 +323,18 @@ void CEnemy::Controll(void)
 		m_state = STATE_NEUTRAL;
 	}
 
+	EnemyPos.y += m_move.y;
+
 	//位置設定
 	SetPos(&EnemyPos);
 	SetRot(&EnemyRot);
+
+	//デバッグプロックの情報を取得
+	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
+
+	pDebugProc->Print("\n敵の位置：%f,%f,%f\n", EnemyPos.x, EnemyPos.y, EnemyPos.z);
+	pDebugProc->Print("敵の向き：%f,%f,%f\n", EnemyRot.x, EnemyRot.y, EnemyRot.z);
+	pDebugProc->Print("敵の移動量：%f,%f,%f", m_move.x, m_move.y, m_move.z);
 }
 
 //==============================================================================

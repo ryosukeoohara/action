@@ -23,6 +23,8 @@
 #include "enemymanager.h"
 #include "sky.h"
 #include "fade.h"
+#include "time.h"
+#include "score.h"
 
 //================================================================
 //静的メンバ変数
@@ -156,10 +158,16 @@ HRESULT CGame::Init(void)
 	//	m_EnemyManager->Init();
 	//}
 
-	CEnemy::Create({ 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
-	CEnemy::Create({ 3600.0f,105.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
-	CEnemy::Create({ 3000.0f,445.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
-	CEnemy::Create({ 4800.0f,300.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	//時間
+	CTime::Create();
+
+	//スコア
+	CScore::Create();
+
+	CEnemy::Create({ 0.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 10);
+	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
+	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 

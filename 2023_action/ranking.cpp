@@ -8,6 +8,7 @@
 #include "texture.h"
 #include "manager.h"
 #include "time.h"
+#include "renderer.h"
 
 //===========================================================
 //静的メンバ変数
@@ -73,7 +74,7 @@ HRESULT CRanking::Init(void)
 				m_apObject2D[nCntRank][nCntScore] = CObject2D::Create({ 500.0f + nCntScore * 50.0f, 180.0f + nCntRank * 100.0f, 0.0f });
 
 				//テクスチャ読み込み
-				m_apObject2D[nCntRank][nCntScore]->SetIdxTex(pTexture->Regist("data\\TEXTURE\\number000.png"));
+				m_apObject2D[nCntRank][nCntScore]->SetIdxTex(pTexture->Regist("data\\TEXTURE\\number002.png"));
 			}
 		}
 	}
@@ -151,6 +152,10 @@ void CRanking::Update(void)
 //===========================================================
 void CRanking::Draw(void)
 {
+	CTexture *pTexture = CManager::Getinstance()->GetTexture();
+	CRenderer *pRenderer = CManager::Getinstance()->GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
 	for (int nCntRank = 0; nCntRank < MAX_RANK; nCntRank++)
 	{
 		for (int nCntScore = 0; nCntScore < MAX_SCORE; nCntScore++)
@@ -158,7 +163,10 @@ void CRanking::Draw(void)
 			if (m_apObject2D[nCntRank][nCntScore] != NULL)
 			{//使用されている状態のとき
 
-			 //描画処理
+				//テクスチャの設定
+				pDevice->SetTexture(0, pTexture->GetAddress(m_apObject2D[nCntRank][nCntScore]->GetIdxTex()));
+
+				//描画処理
 				m_apObject2D[nCntRank][nCntScore]->Draw();
 			}
 		}

@@ -37,6 +37,7 @@ public:
 	void Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX);  //マップにある建物との当たり判定
 	bool Block(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ);  //ブロックとの判定
 	bool Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy **pEnemy);
+	void MapEnemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX, CEnemy *enemy);  //マップにある建物との当たり判定
 	
 private:
 

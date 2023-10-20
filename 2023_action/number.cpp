@@ -102,7 +102,7 @@ HRESULT CNumber::Init(void)
 		NULL);
 
 	//テクスチャ読み込み
-	m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\number000.png");
+	m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\number002.png");
 
 	//頂点情報へのポインタ
 	VERTEX_2D * pVtx;
