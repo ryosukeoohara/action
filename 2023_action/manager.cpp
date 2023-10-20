@@ -473,6 +473,25 @@ void CManager::Update(void)
 		}
 	}
 
+	//if (m_Fade->Get() != m_Fade->FADE_OUT)
+	//{
+	//	//シーンをゲームに遷移
+	//	m_Fade->Set(CScene::MODE_GAME);
+	//}
+
+	//if (m_Fade->Get() != m_Fade->FADE_OUT)
+	//{
+	//	//シーンをタイトルに遷移
+	//	m_Fade->Set(CScene::MODE_RESULT);
+	//}
+
+	//if (m_Fade->Get() != m_Fade->FADE_OUT)
+	//{
+	//	//シーンをタイトルに遷移
+	//	m_Fade->Set(CScene::MODE_TITLE);
+	//}
+
+
 	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_X, 0) == true)
 	{//ENTERキーを押したかつシーンがタイトルのとき
 

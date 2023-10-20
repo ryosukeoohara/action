@@ -253,10 +253,11 @@ void CPlayer::Update(void)
 
 	if (InputKeyboard->GetTrigger(DIK_SPACE) == true
 	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
-	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP)
+	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
+	 && pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK)
 	{//SPACEキーが押された
 
-		if (pChibi->GetbAppr() == false)
+   		if (pChibi->GetbAppr() == false)
 		{
 			pChibi->SetbDisp(true);
 		}
@@ -391,10 +392,10 @@ void CChibi::Control(void)
 	CFoot *pFoot = CGame::GetPlayerFoot();
 
 	//位置と向きを取得
-	D3DXVECTOR3 Playerpos = pChibi->Getpos();
+	D3DXVECTOR3 m_pos = pChibi->Getpos();
 	D3DXVECTOR3 PlayerRot = pChibi->GetRot();
 
-	m_posOld = Playerpos;  //位置を代入
+	m_posOld = m_pos;  //位置を代入
 	
 	//float fHeight;
 
@@ -483,8 +484,8 @@ void CChibi::Control(void)
 	}
 	
 	//位置に移動量加算----------------------------------------------------
-	Playerpos.x += m_move.x;
-	Playerpos.y += m_move.y;
+	m_pos.x += m_move.x;
+	m_pos.y += m_move.y;
 
 	//移動量を更新(減衰させる)--------------------------------------------
 	m_move.x += (0.0f - m_move.x) * 0.1f;
@@ -554,19 +555,19 @@ void CChibi::Control(void)
 		m_nCntBullet = 0;
 	}
 
-	if (Playerpos.y <= 0.0f)
+	if (m_pos.y <= 0.0f)
 	{
-		Playerpos.y = 0.0f;
+		m_pos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
 	}
 
-	SetPos(&Playerpos);
+	SetPos(&m_pos);
 	SetRot(&PlayerRot);
 
-	pDebugProc->Print("プレイヤーの位置：%f,%f,%f\n", Playerpos.x, Playerpos.y, Playerpos.z);
+	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", m_pos.x, m_pos.y, m_pos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
 	pDebugProc->Print("プレイヤーの移動量：%f,%f,%f", m_move.x, m_move.y, m_move.z);
 }
@@ -610,10 +611,10 @@ void CFoot::Control(void)
 	CChibi *pChibi = CGame::GetPlayerChibi();
 
 	//位置と向きを取得
-	D3DXVECTOR3 Playerpos = pFoot->Getpos();
+	D3DXVECTOR3 m_pos = pFoot->Getpos();
 	D3DXVECTOR3 PlayerRot = pFoot->GetRot();
 
-	m_posOld = Playerpos;  //位置を代入
+	m_posOld = m_pos;  //位置を代入
 	
 	//float fHeight;
 
@@ -683,10 +684,10 @@ void CFoot::Control(void)
 		if (m_bAttack != true)
 		{
 			//位置に移動量加算----------------------------------------------------
-			Playerpos.x += m_move.x;
+			m_pos.x += m_move.x;
 		}
 		
-		Playerpos.y += m_move.y;
+		m_pos.y += m_move.y;
 		//m_pos.y = fHeight + 18.0f;
 
 		//移動量を更新(減衰させる)--------------------------------------------
@@ -776,19 +777,19 @@ void CFoot::Control(void)
 		}
 	}
 
-	if (Playerpos.y <= 0.0f)
+	if (m_pos.y <= 0.0f)
 	{
-		Playerpos.y = 0.0f;
+		m_pos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
 	}
 
-	SetPos(&Playerpos);
+	SetPos(&m_pos);
 	SetRot(&PlayerRot);
 
-	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", Playerpos.x, Playerpos.y, Playerpos.z);
+	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", m_pos.x, m_pos.y, m_pos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
 	pDebugProc->Print("プレイヤーの移動量：%f,%f,%f", m_move.x, m_move.y, m_move.z);
 	pDebugProc->Print("\n判定 : %d", m_nCntColi);
@@ -808,6 +809,15 @@ void CPlayer::Appear(void)
 	//それぞれの位置取得
 	D3DXVECTOR3 Chibipos = pChibi->Getpos();
 	D3DXVECTOR3 Footpos = pFoot->Getpos();
+
+	if (m_ApprCharcter == 0)
+	{
+
+	}
+	else
+	{
+
+	}
 
 	if (pChibi->GetState() == CChibi::STATE_APPR && pChibi->GetbAppr() == true)
 	{
@@ -1148,7 +1158,8 @@ CChibi::CChibi()
 //=======================================================
 CChibi::CChibi(D3DXVECTOR3 pos)
 {
-	SetPos(&pos);  //位置
+	CObject::SetPos(&pos);  //位置
+	m_pos = pos;
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
@@ -1231,7 +1242,7 @@ void CChibi::Uninit(void)
 void CChibi::Update(void)
 {
 	//マップモデルの情報を取得
-	CObjectX **pMap = CMap::GetX();
+	CMap *pmap = CGame::GetMap();
 
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
@@ -1242,9 +1253,15 @@ void CChibi::Update(void)
 	{
 		Control();
 
-		if (pCollision != NULL && pMap != NULL)
+		if (pmap != NULL)
 		{
-			(pCollision->Map(&Getpos(), &m_posOld, pMap));
+			//マップモデルの情報を取得
+			//CObjectX **pMap = CMap::GetX();
+
+			if (pCollision != NULL && pmap->GetX() != NULL)
+			{
+				(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+			}
 		}
 	}
 
@@ -1295,7 +1312,8 @@ CFoot::CFoot()
 //=======================================================
 CFoot::CFoot(D3DXVECTOR3 pos)
 {
-	SetPos(&pos);  //位置
+	CObject::SetPos(&pos);  //位置]
+	m_pos = pos;
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
@@ -1376,8 +1394,9 @@ void CFoot::Uninit(void)
 //=======================================================
 void CFoot::Update(void)
 {
-	//マップモデルの情報を取得
-	CObjectX **pMap = CMap::GetX();
+	CMap *pmap = CGame::GetMap();
+
+	
 
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
@@ -1388,9 +1407,15 @@ void CFoot::Update(void)
 	{
 		Control();
 
-		if (pCollision != NULL && pMap != NULL)
+		if (pmap != NULL)
 		{
-			(pCollision->Map(&Getpos(), &m_posOld, pMap));
+			//マップモデルの情報を取得
+			//CObjectX **pMap = CMap::GetX();
+
+			if (pCollision != NULL && pmap->GetX() != NULL)
+			{
+				(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+			}
 		}
 	}
 

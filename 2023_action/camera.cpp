@@ -75,11 +75,13 @@ void CCamera::Update(void)
 	//シーンの情報を寿徳
 	CScene *pScene = CManager::Getinstance()->GetScene();
 
-	//プレイヤー(クソデブ)の情報を取得
-	CFoot *pFoot = CGame::GetPlayerFoot();
+	////プレイヤー(クソデブ)の情報を取得
+	//CFoot *pFoot = CGame::GetPlayerFoot();
 
-	//プレイヤー(チビデブ)の情報を取得
-	CChibi *pChibi = CGame::GetPlayerChibi();
+	////プレイヤー(チビデブ)の情報を取得
+	//CChibi *pChibi = CGame::GetPlayerChibi();
+
+	
 
 	if (pScene->GetMode() == CScene::MODE_TITLE || pScene->GetMode() == CScene::MODE_RESULT)
 	{
@@ -88,41 +90,45 @@ void CCamera::Update(void)
 
 	if (pScene->GetMode() == CScene::MODE_GAME || pScene->GetMode() == CScene::MODE_TUTORIAL)
 	{
+		CPlayer *pPlayer = CGame::GetPlayer();
+
 		CameraV();
 
-		if (pFoot->GetbAppr() == true)
-		{
-			D3DXVECTOR3 pos = pFoot->Getpos();
+		D3DXVECTOR3 pos = pPlayer->Getpos();
 
-			////目標の注視点を設定
-			//m_posRDest.x = pos.x;
-			//m_posRDest.z = pos.z;
+		//if (pFoot->GetbAppr() == true)
+		//{
+		//	D3DXVECTOR3 pos = pFoot->Getpos();
 
-			////カメラの移動量
-			//m_move.x = m_posRDest.x - m_posR.x;
-			//m_move.z = m_posRDest.z - m_posR.z;
+		//	////目標の注視点を設定
+		//	//m_posRDest.x = pos.x;
+		//	//m_posRDest.z = pos.z;
 
-			////位置に移動量を保存
-			//m_posR.x += m_move.x;
-			//m_posR.z += m_move.z;
-		}
+		//	////カメラの移動量
+		//	//m_move.x = m_posRDest.x - m_posR.x;
+		//	//m_move.z = m_posRDest.z - m_posR.z;
 
-		if (pChibi->GetbAppr() == true)
-		{
-			D3DXVECTOR3 pos = pChibi->Getpos();
+		//	////位置に移動量を保存
+		//	//m_posR.x += m_move.x;
+		//	//m_posR.z += m_move.z;
+		//}
 
-			////目標の注視点を設定
-			//m_posRDest.x = pos.x;
-			//m_posRDest.z = pos.z;
+		//if (pChibi->GetbAppr() == true)
+		//{
+		//	D3DXVECTOR3 pos = pChibi->Getpos();
 
-			////カメラの移動量
-			//m_move.x = m_posRDest.x - m_posR.x;
-			//m_move.z = m_posRDest.z - m_posR.z;
+		//	////目標の注視点を設定
+		//	//m_posRDest.x = pos.x;
+		//	//m_posRDest.z = pos.z;
 
-			////位置に移動量を保存
-			//m_posR.x += m_move.x;
-			//m_posR.z += m_move.z;
-		}
+		//	////カメラの移動量
+		//	//m_move.x = m_posRDest.x - m_posR.x;
+		//	//m_move.z = m_posRDest.z - m_posR.z;
+
+		//	////位置に移動量を保存
+		//	//m_posR.x += m_move.x;
+		//	//m_posR.z += m_move.z;
+		//}
 	}
 
 	if (pScene->GetMode() == CScene::MODE_GAME && m_type == TYPE_EDIT)
@@ -187,34 +193,26 @@ void CCamera::CameraV(void)
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 
-	//プレイヤー(クソデブ)の情報を取得
-	CFoot *pFoot = CGame::GetPlayerFoot();
+	////プレイヤー(クソデブ)の情報を取得
+	//CFoot *pFoot = CGame::GetPlayerFoot();
 
-	//プレイヤー(チビデブ)の情報を取得
-	CChibi *pChibi = CGame::GetPlayerChibi();
+	////プレイヤー(チビデブ)の情報を取得
+	//CChibi *pChibi = CGame::GetPlayerChibi();
 
 	//m_rot.y += MousePos.x * 0.005f;
+
+	CPlayer *pPlayer = CGame::GetPlayer();
 
 	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
 
-	if (pFoot->GetbAppr() == true)
-	{
-		D3DXVECTOR3 pos = pFoot->Getpos();
+	
+	D3DXVECTOR3 pos = pPlayer->Getpos();
 
-		m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y * 0.5f, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
-		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-	}
-
-	if (pChibi->GetbAppr() == true)
-	{
-		D3DXVECTOR3 pos = pChibi->Getpos();
-
-		m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y* 0.5f, 30.0f - m_posV.z);
-		m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
-		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-	}
+	m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y * 0.5f, 30.0f - m_posV.z);
+	m_posR = D3DXVECTOR3(pos.x, pos.y* 0.5f, 10.0f);
+	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+	
 }
 
 //================================================================

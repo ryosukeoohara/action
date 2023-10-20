@@ -1,3 +1,15 @@
-﻿  game.cpp
+﻿  objectX.cpp
+  コードを生成中...
+  コンパイル中...
+  sky.cpp
+  player.cpp
+  motion.cpp
+  map.cpp
+  game.cpp
+  enemy.cpp
+  edit.cpp
+  collision.cpp
+  bullet.cpp
+  コードを生成中...
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

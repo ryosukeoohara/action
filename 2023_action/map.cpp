@@ -8,19 +8,22 @@
 #include "texture.h"
 #include "manager.h"
 #include "renderer.h"
+#include "objectX.h"
 
 //マクロ定義
 #define MAPMODEL  ("data\\TEXT\\map.txt")  //テキストファイル名
 
 //静的メンバ変数
-CObjectX *CMap::m_apModel[MAX_MODEL] = {};
+//CObjectX *CMap::m_apModel[MAX_MODEL] = {};
 
 //===========================================================
 //コンストラクタ
 //===========================================================
 CMap::CMap()
 {
-	m_nIdxModel = -1;
+	m_nNumAll = 0;
+	m_nIdx = -1;
+	ZeroMemory(m_filename, sizeof(char));
 }
 
 //================================================================
@@ -56,7 +59,7 @@ HRESULT CMap::Init(void)
 //================================================================
 void CMap::Uninit(void)
 {
-	for (int nCount = 0; nCount < MAX_MODEL; nCount++)
+	for (int nCount = 0; nCount < m_nNumAll; nCount++)
 	{
 		if (m_apModel[nCount] != NULL)
 		{//使用していたら
@@ -69,7 +72,9 @@ void CMap::Uninit(void)
 		}
 	}
 
-	Release();
+	m_nNumAll = 0;
+
+	//Release();
 }
 
 //================================================================
@@ -77,15 +82,15 @@ void CMap::Uninit(void)
 //================================================================
 void CMap::Update(void)
 {
-	for (int nCount = 0; nCount < MAX_MODEL; nCount++)
-	{
-		if (m_apModel[nCount] != NULL)
-		{//使用していたら
+	//for (int nCount = 0; nCount < MAX_MODEL; nCount++)
+	//{
+	//	if (m_apModel[nCount] != NULL)
+	//	{//使用していたら
 
-			//更新処理
-			m_apModel[nCount]->Update();
-		}
-	}
+	//		//更新処理
+	//		m_apModel[nCount]->Update();
+	//	}
+	//}
 }
 
 //================================================================
@@ -93,15 +98,15 @@ void CMap::Update(void)
 //================================================================
 void CMap::Draw(void)
 {
-	for (int nCount = 0; nCount < MAX_MODEL; nCount++)
-	{
-		if (m_apModel[nCount] != NULL)
-		{//使用していたら
+	//for (int nCount = 0; nCount < MAX_MODEL; nCount++)
+	//{
+	//	if (m_apModel[nCount] != NULL)
+	//	{//使用していたら
 
-			//描画処理
-			m_apModel[nCount]->Draw();
-		}
-	}
+	//		//描画処理
+	//		m_apModel[nCount]->Draw();
+	//	}
+	//}
 }
 
 //================================================================
@@ -109,13 +114,9 @@ void CMap::Draw(void)
 //================================================================
 void CMap::ReadText(void)
 {
-	char aString[128] = {};
-	char aComment[128] = {};
+	char aString[MAX_CHAR] = {};
 	int nCntModel = 0;
 	int nIdx = 0;
-
-	//モデルのポインタ取得
-	CModel *pModel = CManager::Getinstance()->GetModel();
 
 	D3DXVECTOR3 pos = { 0.0f,0.0f,0.0f };
 	D3DXVECTOR3 rot = { 0.0f,0.0f,0.0f };
@@ -183,7 +184,11 @@ void CMap::ReadText(void)
 					if (m_apModel[nIdx] == NULL)
 					{//使用していなかったら
 
-						m_apModel[nIdx] = CObjectX::Create(pos, rot, m_filename[m_nIdx]);
+						//m_apModel[nIdx] = CObjectX::Create(pos, rot, m_filename[m_nIdx]);
+
+						m_apModel[nIdx] = new CObjectX(pos, rot, m_filename[m_nIdx]);
+
+						m_apModel[nIdx]->Init();
 					}
 					
 					nIdx++;  //カウントアップ
@@ -194,5 +199,9 @@ void CMap::ReadText(void)
 
 		//ファイルを閉じる
 		fclose(pFile);
+	}
+	else
+	{
+		return;
 	}
 }

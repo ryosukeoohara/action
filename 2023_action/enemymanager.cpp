@@ -56,8 +56,8 @@ void CEnemyManager::Uninit(void)
 		if (m_pEnemy[nCount] != NULL)
 		{//使用されていたら
 
-			//終了処理
-			m_pEnemy[nCount]->Uninit();
+			////終了処理
+			//m_pEnemy[nCount]->Uninit();
 
 			//使用していない状態にする
 			m_pEnemy[nCount] = NULL;
@@ -70,28 +70,28 @@ void CEnemyManager::Uninit(void)
 //=============================================================================
 void CEnemyManager::Update(void)
 {
-	for (int nCount = 0; nCount < MAX_ENEMY; nCount++)
-	{
-		if (m_pEnemy[nCount] != NULL)
-		{//使用されていたら
+	//for (int nCount = 0; nCount < MAX_ENEMY; nCount++)
+	//{
+	//	if (m_pEnemy[nCount] != NULL)
+	//	{//使用されていたら
 
-			//更新処理
-			m_pEnemy[nCount]->Update();
-		}
-	}
+	//		//更新処理
+	//		m_pEnemy[nCount]->Update();
+	//	}
+	//}
 }
 
 void CEnemyManager::Draw(void)
 {
-	for (int nCount = 0; nCount < MAX_ENEMY; nCount++)
-	{
-		if (m_pEnemy[nCount] != NULL)
-		{//使用されていたら
+	//for (int nCount = 0; nCount < MAX_ENEMY; nCount++)
+	//{
+	//	if (m_pEnemy[nCount] != NULL)
+	//	{//使用されていたら
 
-			//更新処理
-			m_pEnemy[nCount]->Draw();
-		}
-	}
+	//		//更新処理
+	//		m_pEnemy[nCount]->Draw();
+	//	}
+	//}
 }
 
 //=============================================================================

@@ -177,7 +177,7 @@ protected:
 private:
 	void ReadText(const char *fliename);       //外部ファイル読み込み
 	STATE m_State;
-	//D3DXVECTOR3 m_pos;  //位置
+	D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
 						   //D3DXVECTOR3 m_rot;  //向き
 	D3DXVECTOR3 m_move;   //移動
@@ -297,7 +297,7 @@ protected:
 private:
 	void ReadText(const char *fliename);       //外部ファイル読み込み
 	STATE m_State;
-	//D3DXVECTOR3 m_pos;  //位置
+	D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
 						   //D3DXVECTOR3 m_rot;  //向き
 	D3DXVECTOR3 m_move;   //移動

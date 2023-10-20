@@ -20,12 +20,12 @@ class CFoot;
 #define PLAYERMOVE   (1.0f)
 
 //プレイヤークラス
-class CPlayer : public CObject
+class CAppear : public CObject
 {
 public:
-	CPlayer();  //コンストラクタ
-	CPlayer(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
-	~CPlayer();  //デストラクタ
+	CAppear();  //コンストラクタ
+	CAppear(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
+	~CAppear();  //デストラクタ
 
 				 //状態
 	typedef enum
@@ -50,27 +50,12 @@ public:
 		MOTIONTYPE_MAX
 	} MOTIONTYPE;
 
-	struct CHIBI
-	{
-
-	};
-
-	struct FOOT
-	{
-
-	};
-
-	struct PLAYER
-	{
-
-	};
-
 	HRESULT Init(void);        //プレイヤーの初期化処理    
 	void Uninit(void);		   //プレイヤーの終了処理
 	void Update(void);         //プレイヤーの更新処理
 	void Draw(void);           //プレイヤーの描画処理
 
-	static CPlayer *Create(D3DXVECTOR3 pos);  //生成
+	static CAppear *Create(D3DXVECTOR3 pos);  //生成
 											  //static CPlayer *GetPlayer(void) { return m_Player; };
 	void SetState(STATE state) { m_State = state; };
 	STATE GetState(void) { return m_State; };
@@ -107,7 +92,7 @@ private:
 	CChibi *m_Chibi;
 	CFoot *m_Foot;
 
-	PLAYER m_Player[2];
+	//PLAYER m_Player[2];
 
 	D3DXVECTOR3 m_Readpos;
 	D3DXVECTOR3 m_Readrot;

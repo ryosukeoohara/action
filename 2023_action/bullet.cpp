@@ -130,11 +130,10 @@ void CBullet::Update(void)
 {
 	CDebugProc *pDebugProc = CManager::Getinstance()->GetDebugProc();
 
-	//マップモデルの情報を取得
-	CObjectX **pMap = CMap::GetX();
+	CMap *pmap = CGame::GetMap();
 
 	//当たり判定の情報取得
-	CCollision *pCollision = CManager::Getinstance()->GetCollsion();
+	CCollision *pCollision = CGame::GetCollsion();
 
 	//プレイヤーの情報取得
 	CPlayer *pPlayer = CGame::GetPlayerFoot();
@@ -172,15 +171,25 @@ void CBullet::Update(void)
 
 	case CBullet::TYPE_PLAYER:
 
-		if (pCollision->BulletEnemy(&pos, 20.0f, 100.0f, pEnemy) == true)
+		if (pmap != NULL)
 		{
-			m_nLife = 0;
-		}
-		else if(pCollision->BulletMap(&pos, pMap) == true)
-		{
-			m_nLife = 0;
-		}
+			//マップモデルの情報を取得
+			//CObjectX **pMap = CMap::GetX();
 
+			if (pCollision != NULL && pmap->GetX() != NULL)
+			{
+				if (pCollision->BulletEnemy(&pos, 20.0f, 100.0f, pEnemy) == true)
+				{
+					m_nLife = 0;
+				}
+				else if (pCollision->BulletMap(&pos, pmap->GetX()) == true)
+				{
+					m_nLife = 0;
+				}
+			}
+		}
+		
+		
 		break;
 
 	case CBullet::TYPE_ENEMY:

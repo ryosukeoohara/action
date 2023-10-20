@@ -179,13 +179,13 @@ void CGame::Uninit(void)
 	if (m_Map != NULL)
 	{//使用されていなかったら
 
-	 ////マップの終了処理
-	 //m_Map->Uninit();
+		//マップの終了処理
+		m_Map->Uninit();
 
-	 ////メモリを開放
-	 //delete m_Map;
+		//メモリを開放
+		delete m_Map;
 
-	 //使用していない状態にする
+		//使用していない状態にする
 		m_Map = NULL;
 	}
 
@@ -255,7 +255,6 @@ void CGame::Uninit(void)
 	}
 
 	m_nCounter = 0;
-
 
 	//すべてのオブジェクト破棄
 	CObject::ReleaseAll();
