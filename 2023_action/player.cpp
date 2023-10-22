@@ -239,6 +239,9 @@ void CPlayer::Update(void)
 	//キーボードの情報を取得
 	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
+	//ゲームパッドを取得
+	CInputJoyPad *pInputJoyPad = CManager::Getinstance()->GetInputJoyPad();
+
 	//フェードの情報を取得
 	CFade *pFade = CManager::Getinstance()->GetFade();
 
@@ -251,7 +254,7 @@ void CPlayer::Update(void)
 	//プレイヤー(チビデブ)の情報を取得
 	CChibi *pChibi = CGame::GetPlayerChibi();
 
-	if (InputKeyboard->GetTrigger(DIK_SPACE) == true
+	if ((InputKeyboard->GetTrigger(DIK_SPACE) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_Y, 0) == true)
 	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
 	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
 	 && pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK)
@@ -373,6 +376,9 @@ void CChibi::Control(void)
 	//マウスを取得
 	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
+	//ゲームパッドを取得
+	CInputJoyPad *pInputJoyPad = CManager::Getinstance()->GetInputJoyPad();
+
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 
@@ -407,18 +413,18 @@ void CChibi::Control(void)
 
 	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
 	{
-		//上に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_W) == true)
-		{//Wキーが押された
+		////上に移動----------------------------------------------
+		//if (InputKeyboard->GetPress(DIK_W) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LY, 0) > 0)
+		//{//Wキーが押された
 
-		}
-		//下に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_S) == true)
-		{//Sキーが押された
+		//}
+		////下に移動----------------------------------------------
+		//else if (InputKeyboard->GetPress(DIK_S) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LY, 0) < 0)
+		//{//Sキーが押された
 
-		}
+		//}
 		//右に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_D) == true)
+		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
 		{//Dキーだけ押した
 
 			//移動量
@@ -431,7 +437,7 @@ void CChibi::Control(void)
 			m_bDash = true;
 		}
 		//左に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_A) == true)
+		else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
 		{//Aキーだけ押した
 
 			//移動量
@@ -446,7 +452,7 @@ void CChibi::Control(void)
 
 		PlayerRot.y = m_fDest;
 
-		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
+		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false)
 		{//SPACEキーが押された
 
 			m_bJump = true;
@@ -521,7 +527,7 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (InputKeyboard->GetPress(DIK_K) == true)
+	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_A, 0) == true)
 	{//Kキーが押された
 
 		m_bAction = true;
@@ -586,6 +592,9 @@ void CFoot::Control(void)
 	//マウスを取得
 	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
 
+	//ゲームパッドを取得
+	CInputJoyPad *pInputJoyPad = CManager::Getinstance()->GetInputJoyPad();
+
 	//マウスの位置を取得
 	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
 
@@ -626,18 +635,18 @@ void CFoot::Control(void)
 
 	if (m_State != STATE_APPR)
 	{
-		//上に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_W) == true)
-		{//Wキーが押された
+		////上に移動----------------------------------------------
+		//if (InputKeyboard->GetPress(DIK_W) == true)
+		//{//Wキーが押された
 
-		}
-		//下に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_S) == true)
-		{//Sキーが押された
+		//}
+		////下に移動----------------------------------------------
+		//else if (InputKeyboard->GetPress(DIK_S) == true)
+		//{//Sキーが押された
 
-		}
+		//}
 		//右に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_D) == true)
+		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
 		{//Dキーだけ押した
 
 			//移動量
@@ -651,7 +660,7 @@ void CFoot::Control(void)
 			m_bDash = true;
 		}
 		//左に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_A) == true)
+		else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
 		{//Aキーだけ押した
 
 			//移動量
@@ -667,7 +676,7 @@ void CFoot::Control(void)
 
 		PlayerRot.y = m_fDest;
 
-		if (InputKeyboard->GetTrigger(DIK_J) == true && m_bJump == false)
+		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false)
 		{//SPACEキーが押された
 
 			m_bJump = true;
@@ -675,7 +684,7 @@ void CFoot::Control(void)
 			m_move.y += FOOTJUMP;
 		}
 
-		if (InputKeyboard->GetTrigger(DIK_K) == true)
+		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true)
 		{//Kキーが押された
 
 			m_bAttack = true;

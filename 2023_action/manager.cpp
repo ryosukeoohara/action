@@ -428,6 +428,8 @@ void CManager::Update(void)
 			//ƒ|[ƒY‚ÌI—¹ˆ—
 			m_Pause->Uninit();
 
+			//delete m_Pause;
+
 			//Žg—p‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
 			m_Pause = NULL;
 		}
@@ -445,7 +447,7 @@ void CManager::Update(void)
 		}
 	}
 
-	if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_TITLE)
+	if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_START, 0) == true) && m_pScene->GetMode() == CScene::MODE_TITLE)
 	{//ENTERƒL[‚ð‰Ÿ‚µ‚½‚©‚ÂƒV[ƒ“‚ªƒ^ƒCƒgƒ‹‚Ì‚Æ‚«
 
 		if (m_Fade->Get() != m_Fade->FADE_OUT)
@@ -540,22 +542,38 @@ void CManager::Update(void)
 		m_DebugProc->Print("\ntrue‚¾‚æ``````");
 	}
 
-	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_LTHUMB, 0) == true)
+	if (m_InputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) != 0)
 	{//ENTERƒL[‚ð‰Ÿ‚µ‚½‚©‚ÂƒV[ƒ“‚ªƒ^ƒCƒgƒ‹‚Ì‚Æ‚«
 
 		int n = 0;
 
-		m_DebugProc->Print("\ntrue‚¾‚æ``````");
+		m_DebugProc->Print("\nX‚¾‚æ``````");
 	}
 
-	if (m_InputJoyPad->GetPress(CInputJoyPad::BUTTON_LTHUMB, 0) == true)
+	if (m_InputJoyPad->GetYStick(CInputJoyPad::STICK_LY, 0) != 0)
 	{//ENTERƒL[‚ð‰Ÿ‚µ‚½‚©‚ÂƒV[ƒ“‚ªƒ^ƒCƒgƒ‹‚Ì‚Æ‚«
 
 		int n = 0;
 
-		m_DebugProc->Print("\ntrue‚¾‚æ``````");
+		m_DebugProc->Print("\nY‚¾‚æ``````");
 	}
 	
+	if (m_InputJoyPad->GetLeftTirgger(CInputJoyPad::BUTTON_RT, 0) == true)
+	{//ENTERƒL[‚ð‰Ÿ‚µ‚½‚©‚ÂƒV[ƒ“‚ªƒ^ƒCƒgƒ‹‚Ì‚Æ‚«
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrue‚¾‚æ``````");
+	}
+
+	if (m_InputJoyPad->GetRightTirgger(CInputJoyPad::BUTTON_LT, 0) == true)
+	{//ENTERƒL[‚ð‰Ÿ‚µ‚½‚©‚ÂƒV[ƒ“‚ªƒ^ƒCƒgƒ‹‚Ì‚Æ‚«
+
+		int n = 0;
+
+		m_DebugProc->Print("\ntrue‚¾‚æ``````");
+	}
+
 	//Žg—p‚µ‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚Ì‡Œv–‡”
 	int nTexAll = m_Texture->GetNumTexture();
 
@@ -577,6 +595,14 @@ void CManager::Draw(void)
 	if (m_pScene != NULL)
 	{
 		m_pScene->Draw();
+	}
+
+	if (m_bPause == true)
+	{
+		if (pPause != NULL)
+		{
+			pPause->Draw();
+		}
 	}
 }
 

@@ -412,6 +412,14 @@ void CInputJoyPad::Update(void)
 	{
 		if (XInputGetState(nCount, &aState[nCount]) == ERROR_SUCCESS)
 		{
+			//ゲームパッドアナログスティックのデッドゾーン処理
+			if ((m_StateTrigger[nCount].Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && m_StateTrigger[nCount].Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
+				(m_StateTrigger[nCount].Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && m_StateTrigger[nCount].Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
+			{
+				m_StateTrigger[nCount].Gamepad.sThumbLX = 0;
+				m_StateTrigger[nCount].Gamepad.sThumbLY = 0;
+			}
+
 			//とりがー
 			m_StateTrigger[nCount].Gamepad.wButtons =
 				(m_State[nCount].Gamepad.wButtons ^ aState[nCount].Gamepad.wButtons)
@@ -446,4 +454,24 @@ bool CInputJoyPad::GetTrigger(PADBUTTON nKey, int nCntPlayer)
 bool CInputJoyPad::GetRelease(PADBUTTON nKey, int nCntPlayer)
 {
 	return (m_StateRelease[nCntPlayer].Gamepad.wButtons & (0x01 << nKey)) ? true : false;
+}
+
+bool CInputJoyPad::GetLeftTirgger(PADBUTTON nKey, int nCntPlayer)
+{
+	return (m_StateTrigger[nCntPlayer].Gamepad.bLeftTrigger & (0x01 << nKey)) ? true : false;
+}
+
+bool CInputJoyPad::GetRightTirgger(PADBUTTON nKey, int nCntPlayer)
+{
+	return (m_StateTrigger[nCntPlayer].Gamepad.bRightTrigger & (0x01 << nKey)) ? true : false;
+}
+
+float CInputJoyPad::GetXStick(PADBUTTON nKey, int nCntPlayer)
+{
+	return m_State[nCntPlayer].Gamepad.sThumbLX;
+}
+
+float CInputJoyPad::GetYStick(PADBUTTON nKey, int nCntPlayer)
+{
+	return m_State[nCntPlayer].Gamepad.sThumbLY;
 }

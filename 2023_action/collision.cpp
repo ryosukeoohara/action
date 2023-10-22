@@ -550,11 +550,11 @@ void CCollision::MapEnemy(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, CObjectX ** p
 			D3DXVECTOR3 vtxMax = pObjectX[nCount]->GetVtxMax();
 
 			if (pos->x + 20.0f > Mappos.x + vtxMin.x
-				&& pos->x - 20.0f < Mappos.x + vtxMax.x
-				&& pos->y + 60.0f > Mappos.y + vtxMin.y
-				&& pos->y < Mappos.y + vtxMax.y
-				&& pos->z + 20.0f > Mappos.z + vtxMin.z
-				&& pos->z - 20.0f < Mappos.z + vtxMax.z)
+			 && pos->x - 20.0f < Mappos.x + vtxMax.x
+			 && pos->y + 60.0f > Mappos.y + vtxMin.y
+			 && pos->y < Mappos.y + vtxMax.y
+			 && pos->z + 20.0f > Mappos.z + vtxMin.z
+			 && pos->z - 20.0f < Mappos.z + vtxMax.z)
 			{
 				//ブロックの上======================================
 				if (pos->y <= Mappos.y + vtxMax.y
@@ -565,10 +565,9 @@ void CCollision::MapEnemy(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, CObjectX ** p
 					penemy->SetPos(pos);
 					penemy->SetMoveY(0.0f); 
 				}
-
 				//ブロックの下======================================
 				else if (pos->y + 60.0f >= Mappos.y + vtxMin.y
-					&& posOld->y + 60.0f <= Mappos.y + vtxMin.y)
+					/*&& posOld->y + 60.0f <= Mappos.y + vtxMin.y*/)
 				{
 					pos->y = Mappos.y + vtxMin.y - 60.0f;
 
@@ -578,22 +577,21 @@ void CCollision::MapEnemy(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, CObjectX ** p
 
 				//ブロックの左側面==================================
 				if (pos->x + 20.0f >= Mappos.x + vtxMin.x
-					&& posOld->x + 20.0f <= Mappos.x + vtxMin.x)
+					/*&& posOld->x + 20.0f <= Mappos.x + vtxMin.x*/)
 				{
 					pos->x = Mappos.x + vtxMin.x - 20.0f;
 
 					penemy->SetPos(pos);
-					penemy->SetMoveX(0.0f);
+					//penemy->SetMoveX(0.0f);
 				}
-
 				//ブロックの右側面==================================
-				if (pos->x - 20.0f <= Mappos.x + vtxMax.x
-					&& posOld->x - 20.0f >= Mappos.x + vtxMax.x)
+				else if (pos->x - 20.0f <= Mappos.x + vtxMax.x
+					/*&& posOld->x - 20.0f >= Mappos.x + vtxMax.x*/)
 				{
 					pos->x = Mappos.x + vtxMax.x + 20.0f;
 
 					penemy->SetPos(pos);
-					penemy->SetMoveX(0.0f);
+					//penemy->SetMoveX(0.0f);
 				}
 			}
 		}

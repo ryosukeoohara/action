@@ -139,6 +139,8 @@ public:
 		BUTTON_B,
 		BUTTON_X,
 		BUTTON_Y,
+		STICK_LX,
+		STICK_LY,
 		BUTTON_MAX
 	};
 
@@ -152,6 +154,14 @@ public:
 	bool GetPress(PADBUTTON nKey, int nCntPlayer);
 	bool GetTrigger(PADBUTTON nKey, int nCntPlayer);
 	bool GetRelease(PADBUTTON nKey, int nCntPlayer);
+
+	bool GetLeftTirgger(PADBUTTON nKey, int nCntPlayer);
+	bool GetRightTirgger(PADBUTTON nKey, int nCntPlayer);
+
+	float GetXStick(PADBUTTON nKey, int nCntPlayer);
+	float GetYStick(PADBUTTON nKey, int nCntPlayer);
+
+	
 
 private:
 	XINPUT_STATE m_State[MAX_PLAYER];

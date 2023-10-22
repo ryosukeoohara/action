@@ -89,40 +89,50 @@ HRESULT CPause::Init(void)
 		}
 	}
 
-	/*if (m_Pause.pBackGround == NULL)
-	{
-		m_Pause.pBackGround = new CObject2D({SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f});
-		m_Pause.pBackGround->Init();
-		m_Pause.pBackGround->SetIdxTex(pTexture->Regist("data\\TEXTURE\\kuro.jpg"));
-	}
+	//if (m_Pause.pBackGround == NULL)
+	//{
+	//	m_Pause.pBackGround = new CObject2D({SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f});
+	//	m_Pause.pBackGround->Init();
+	//	m_Pause.pBackGround->SetIdxTex(pTexture->Regist("data\\TEXTURE\\kuro.jpg"));
 
-	if (m_Pause.pFrame == NULL)
-	{
-		m_Pause.pFrame = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
-		m_Pause.pFrame->Init();
-		m_Pause.pFrame->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause100.png"));
-	}
+	//	//m_Pause.pBackGround->SetVtxUI(m_Pause.pBackGround->Getpos(), 640.0f, 360.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+	//}
 
-	if (m_Pause.pContinue == NULL)
-	{
-		m_Pause.pContinue = new CObject2D({ SCREEN_WIDTH * 0.5f, 210.0f, 0.0f });
-		m_Pause.pContinue->Init();
-		m_Pause.pContinue->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause000.png"));
-	}
+	//if (m_Pause.pFrame == NULL)
+	//{
+	//	m_Pause.pFrame = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
+	//	m_Pause.pFrame->Init();
+	//	m_Pause.pFrame->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause100.png"));
 
-	if (m_Pause.pReStart == NULL)
-	{
-		m_Pause.pReStart = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
-		m_Pause.pReStart->Init();
-		m_Pause.pReStart->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause001.png"));
-	}
+	//	//m_Pause.pFrame->SetVtxUI(m_Pause.pFrame->Getpos(), 300.0f, 200.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+	//}
 
-	if (m_Pause.pTitleBack == NULL)
-	{
-		m_Pause.pTitleBack = new CObject2D({ SCREEN_WIDTH * 0.5f, 510.0f, 0.0f });
-		m_Pause.pTitleBack->Init();
-		m_Pause.pTitleBack->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause002.png"));
-	}*/
+	//if (m_Pause.pContinue == NULL)
+	//{
+	//	m_Pause.pContinue = new CObject2D({ SCREEN_WIDTH * 0.5f, 210.0f, 0.0f });
+	//	m_Pause.pContinue->Init();
+	//	m_Pause.pContinue->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause000.png"));
+
+	//	//m_Pause.pContinue->SetVtxUI(m_Pause.pContinue->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+	//}
+
+	//if (m_Pause.pReStart == NULL)
+	//{
+	//	m_Pause.pReStart = new CObject2D({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f });
+	//	m_Pause.pReStart->Init();
+	//	m_Pause.pReStart->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause001.png"));
+
+	//	//m_Pause.pReStart->SetVtxUI(m_Pause.pReStart->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+	//}
+
+	//if (m_Pause.pTitleBack == NULL)
+	//{
+	//	m_Pause.pTitleBack = new CObject2D({ SCREEN_WIDTH * 0.5f, 510.0f, 0.0f });
+	//	m_Pause.pTitleBack->Init();
+	//	m_Pause.pTitleBack->SetIdxTex(pTexture->Regist("data\\TEXTURE\\pause002.png"));
+
+	//	//m_Pause.pTitleBack->SetVtxUI(m_Pause.pTitleBack->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
+	//}
 
 	return S_OK;
 }
@@ -142,7 +152,42 @@ void CPause::Uninit(void)
 		}
 	}
 
-	Release();
+	//Release();
+
+	//if (m_Pause.pBackGround != NULL)
+	//{
+	//	m_Pause.pBackGround->Uninit();
+	//	//delete m_Pause.pBackGround;
+	//	m_Pause.pBackGround = NULL;
+	//}
+
+	//if (m_Pause.pFrame != NULL)
+	//{
+	//	m_Pause.pFrame->Uninit();
+	//	//delete m_Pause.pFrame;
+	//	m_Pause.pFrame = NULL;
+	//}
+
+	//if (m_Pause.pContinue != NULL)
+	//{
+	//	m_Pause.pContinue->Uninit();
+	//	//delete m_Pause.pContinue;
+	//	m_Pause.pContinue = NULL;
+	//}
+
+	//if (m_Pause.pReStart != NULL)
+	//{
+	//	m_Pause.pReStart->Uninit();
+	//	//delete m_Pause.pReStart;
+	//	m_Pause.pReStart = NULL;
+	//}
+
+	//if (m_Pause.pTitleBack != NULL)
+	//{
+	//	m_Pause.pTitleBack->Uninit();
+	//	//delete m_Pause.pTitleBack;
+	//	m_Pause.pTitleBack = NULL;
+	//}
 }
 
 //===========================================================
@@ -262,7 +307,7 @@ void CPause::Update(void)
 		{
 			if (m_Object2D[nCount] != NULL)
 			{
-				//m_Object2D[nCount]->Update();
+				m_Object2D[nCount]->Update();
 
 				D3DXVECTOR3 pos = m_Object2D[nCount]->Getpos();
 
@@ -313,9 +358,9 @@ void CPause::Draw(void)
 		{
 			if (m_Object2D[nCount] != NULL)
 			{
-				//pDevice->SetTexture(0, pTexture->GetAddress(m_Object2D[nCount]->GetIdxTex()));
+				pDevice->SetTexture(0, pTexture->GetAddress(m_Object2D[nCount]->GetIdxTex()));
 
-				//m_Object2D[nCount]->Draw();
+				m_Object2D[nCount]->Draw();
 			}
 		}
 	}
