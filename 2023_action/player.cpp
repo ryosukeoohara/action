@@ -362,6 +362,11 @@ void CPlayer::ControlPlayer(void)
 	}
 }
 
+int CChibi::Hit(void)
+{
+	return 10;
+}
+
 //================================================================
 //プレイヤーの制御処理(チビデブ)
 //================================================================
@@ -405,13 +410,16 @@ void CChibi::Control(void)
 	
 	//float fHeight;
 
-	//重力
-	m_move.y -= CHIBIGRAVITY;   
-
+	if (m_State != STATE_ATTACK || (m_State == STATE_ATTACK && m_bJump == true))
+	{
+		//重力
+		m_move.y -= CHIBIGRAVITY;
+	}
+		
 	//走っていない状態
 	m_bDash = false;
 
-	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
+	if (m_State != STATE_APPR)
 	{
 		////上に移動----------------------------------------------
 		//if (InputKeyboard->GetPress(DIK_W) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LY, 0) > 0)
@@ -489,9 +497,12 @@ void CChibi::Control(void)
 		}
 	}
 	
-	//位置に移動量加算----------------------------------------------------
-	m_pos.x += m_move.x;
-	m_pos.y += m_move.y;
+	if ((m_bAction != true && m_bJump != true) || m_bJump == true)
+	{
+		//位置に移動量加算----------------------------------------------------
+		m_pos.x += m_move.x;
+		m_pos.y += m_move.y;
+	}
 
 	//移動量を更新(減衰させる)--------------------------------------------
 	m_move.x += (0.0f - m_move.x) * 0.1f;
@@ -527,7 +538,7 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_A, 0) == true)
+	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_A, 0) == true && m_RestBullet > 0)
 	{//Kキーが押された
 
 		m_bAction = true;
@@ -538,6 +549,8 @@ void CChibi::Control(void)
 
 			//弾生成
 			CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+
+			m_RestBullet--;
 		}
 
 		if (m_bDash == true)
@@ -546,6 +559,11 @@ void CChibi::Control(void)
 		}
 
 		m_nCntBullet++;
+	}
+
+	if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
+	{
+		m_RestBullet = 30;
 	}
 	
 	if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
@@ -570,12 +588,23 @@ void CChibi::Control(void)
 		m_bJump = false;
 	}
 
+	if (m_RestBullet <= 0)
+	{
+		pDebugProc->Print("\n球切れだよ～～\n");
+	}
+
 	SetPos(&m_pos);
 	SetRot(&PlayerRot);
 
 	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", m_pos.x, m_pos.y, m_pos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
-	pDebugProc->Print("プレイヤーの移動量：%f,%f,%f", m_move.x, m_move.y, m_move.z);
+	pDebugProc->Print("プレイヤーの移動量：%f,%f,%f\n", m_move.x, m_move.y, m_move.z);
+	pDebugProc->Print("残りの弾数：%d", m_RestBullet);
+}
+
+int CFoot::Hit(void)
+{
+	return 30;
 }
 
 //================================================================
@@ -624,12 +653,21 @@ void CFoot::Control(void)
 	D3DXVECTOR3 PlayerRot = pFoot->GetRot();
 
 	m_posOld = m_pos;  //位置を代入
-	
+	 
 	//float fHeight;
 
-	//重力
-	m_move.y -= FOOTGRAVITY;	   
+	m_bRand = false;
 
+	if (m_bRand != true || m_bJump == true)
+	{
+		//重力
+		m_move.y -= FOOTGRAVITY;
+	}
+	else
+	{
+		int n = 0;
+	}
+	  
 	//走っていない状態
 	m_bDash = false;
 
@@ -660,7 +698,7 @@ void CFoot::Control(void)
 			m_bDash = true;
 		}
 		//左に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
+		if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
 		{//Aキーだけ押した
 
 			//移動量
@@ -676,7 +714,7 @@ void CFoot::Control(void)
 
 		PlayerRot.y = m_fDest;
 
-		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false)
+		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false && m_bAttack != true)
 		{//SPACEキーが押された
 
 			m_bJump = true;
@@ -690,13 +728,13 @@ void CFoot::Control(void)
 			m_bAttack = true;
 		}
 
-		if (m_bAttack != true)
+		if ((m_bAttack != true && m_bJump != true) || m_bJump == true)
 		{
 			//位置に移動量加算----------------------------------------------------
 			m_pos.x += m_move.x;
+			m_pos.y += m_move.y;
 		}
-		
-		m_pos.y += m_move.y;
+
 		//m_pos.y = fHeight + 18.0f;
 
 		//移動量を更新(減衰させる)--------------------------------------------
@@ -1200,6 +1238,8 @@ HRESULT CChibi::Init(void)
 		m_motion->Init();
 	}
 
+	m_RestBullet = 30;
+
 	ReadText(PLAYER02_TEXT);
 
 	SetbDisp(false);
@@ -1412,6 +1452,8 @@ void CFoot::Update(void)
 
 	if (m_bAppr == true)
 	{
+		m_bRand = false;
+
 		Control();
 
 		if (pmap != NULL)
@@ -1422,6 +1464,8 @@ void CFoot::Update(void)
 			if (pCollision != NULL && pmap->GetX() != NULL)
 			{
 				(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+
+				
 			}
 		}
 	}

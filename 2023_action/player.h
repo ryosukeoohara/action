@@ -164,11 +164,14 @@ public:
 	void SetbAppr(bool appr) { m_bAppr = appr; }
 
 	void SetMoveY(float move) { m_move.y = move; }
+	float GetMoveY(void) { return m_move.y; }
 
 	void SetbJump(bool bjump) { m_bJump = bjump; }
 
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
+
+	int Hit(void);
 
 	void Control(void);    //プレイヤーの制御
 
@@ -284,11 +287,14 @@ public:
 	void SetbAppr(bool appr) { m_bAppr = appr; }
 
 	void SetMoveY(float move) { m_move.y = move; }
+	float GetMoveY(void) { return m_move.y; }
 
 	void SetbJump(bool bjump) { m_bJump = bjump; }
 
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
+
+	int Hit(void);
 
 	void Control(void);    //プレイヤーの制御
 

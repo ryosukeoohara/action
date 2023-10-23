@@ -103,7 +103,7 @@ private:
 	INFO m_aOldInfo;
 	int  m_nNumAll;              //モーションの総数
 	int  m_nType;                //モーションの種類
-	int m_nTypeold;
+	int m_nTypeold;              //前回のモーションの種類
 	bool m_bLoop;                //ループするかどうか
 	int  m_nNumKey;              //キーの総数
 	int  m_nKey;                 //現在のキー

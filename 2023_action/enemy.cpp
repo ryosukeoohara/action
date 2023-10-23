@@ -251,7 +251,7 @@ void CEnemy::Controll(void)
 
 	m_move.y -= 0.9f;
 
-	pCollision->MapEnemy(&Getpos(), &m_posOld, pmap->GetX(), this);
+	pCollision->MapEnemy(&Getpos(), &m_posOld, pmap->GetX(), m_pEnemy[m_nidxID]);
 
 	if ((pCollision->Circle(&EnemyPos, 400.0f, pPlayer) == true))
 	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき

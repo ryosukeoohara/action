@@ -393,6 +393,18 @@ void CCollision::Map(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, CObjectX **pObjectX)
 						pChibi->SetbRand(true);
 					}
 				}
+				/*else
+				{
+					if (pFoot->GetbAppr() == true)
+					{
+						pFoot->SetbRand(false);
+					}
+
+					if (pChibi->GetbAppr() == true)
+					{
+						pChibi->SetbRand(false);
+					}
+				}*/
 
 				//ブロックの下======================================
 				else if (pos->y + 60.0f >= Mappos.y + vtxMin.y
@@ -519,7 +531,7 @@ bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy 
 				D3DXVECTOR3 rot = pEnemy[nCount]->GetRot();
 
 				//パーティクルを生成
-				CParticl::Create({ Enepos.x, Enepos.y + 50.0f, Enepos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, CParticl::TYPEPAR_BULLET);
+				CParticl::Create({ Enepos.x, Enepos.y + 50.0f, Enepos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, CParticl::TYPEPAR_BLOOD);
 
 				return true;
 			}

@@ -221,21 +221,15 @@ void CParticl::Blood(void)
 
 	for (int nCnt = 0; nCnt < TYPE_BLOOD; nCnt++)
 	{
-		float fMove, fRot, fRange;
+		float fMove, fRot;
 
 		fMove = (float)(rand() % 50) / 100.0f * 8.0f;
-		fRot = GetRot().y;
-		fRange = (float)(rand() % 10) - D3DX_PI * 2;
+		fRot = (float)(rand() % 629 - 314) / 100.0f;
 
-		m_move.x = sinf(fRot * fRange) * fMove;
-		m_move.y = cosf(fRot * fRange) * fMove;
-		m_move.z = cosf(fRot * fRange) * fMove;
+		m_move.x = sinf(fRot) * fMove;
+		m_move.y = cosf(fRot) * fMove;
+		m_move.z = cosf(fRot) * fMove;
 
-		if (m_move.z > 0.0f)
-		{
-			m_move.z *= -1;
-		}
-		
 		CEffect::Create(pos, { m_move.x, m_move.y, m_move.z }, { 1.0f, 0.0f, 0.0f, 1.0f }, m_fRadius, 30, CEffect::TYPEEFF_BLOOD);
 	}
 

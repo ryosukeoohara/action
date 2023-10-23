@@ -159,7 +159,7 @@ HRESULT CGame::Init(void)
 	//}
 
 	//éûä‘
-	//CTime::Create();
+	CTime::Create();
 
 	//ÉXÉRÉA
 	CScore::Create();

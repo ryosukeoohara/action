@@ -92,8 +92,8 @@ void CMotion::Update(void)
 			D3DXVECTOR3 posOrigin = m_ppModel[nCount]->GetPositionOri();
 			D3DXVECTOR3 rotOrigin = m_ppModel[nCount]->GetRotOrigin();
 
-			fDiffpos = m_aOldInfo.m_KeySet[Next].m_aKey[nCount].m_pos - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_pos;
-			fDiffrot = m_aOldInfo.m_KeySet[Next].m_aKey[nCount].m_rot - m_aInfo[m_nType].m_KeySet[m_nKey].m_aKey[nCount].m_rot;
+			fDiffpos = m_aInfo[m_nType].m_KeySet[Next].m_aKey[nCount].m_pos - m_aOldInfo.m_KeySet[m_nKey].m_aKey[nCount].m_pos;
+			fDiffrot = m_aInfo[m_nType].m_KeySet[Next].m_aKey[nCount].m_rot - m_aOldInfo.m_KeySet[m_nKey].m_aKey[nCount].m_rot;
 
 			if (fDiffrot.x > D3DX_PI)
 			{
@@ -138,9 +138,11 @@ void CMotion::Update(void)
 		{
 			m_aInfo[m_nType].m_bFinish = true;
 		}
+
+		SetInfo(m_aInfo[m_nType]);
 	}
 
-	SetInfo(m_aInfo[m_nType]);
+	//SetInfo(m_aInfo[m_nType]);
 }
 
 //===========================================================
@@ -148,6 +150,10 @@ void CMotion::Update(void)
 //===========================================================
 void CMotion::Set(int nType)
 {	
+	SetInfo(m_aInfo[m_nType]);
+
+	m_nTypeold = m_nType;
+
 	m_nType = nType;
 
 	m_aInfo[nType].m_bFinish = false;
