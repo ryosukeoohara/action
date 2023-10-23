@@ -169,7 +169,7 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 			{
 				int nLife = pEnemy[nCount]->GetLife();
 
-				nLife--;
+				nLife -= 10;
 
 				pEnemy[nCount]->SetLife(nLife);
 
@@ -524,7 +524,7 @@ bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy 
 			{
 				int nLife = pEnemy[nCount]->GetLife();
 
-				nLife--;
+				nLife -= 30;
 
 				pEnemy[nCount]->SetLife(nLife);
 

@@ -1338,7 +1338,7 @@ MOTIONSET
 	NUM_KEY = 2		# ÉLÅ[êî
 
 	KEYSET			# --- << 0 / 2 >> ---
-		FRAME = 60
+		FRAME = 30
 		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.16 0.00 0.00
@@ -1431,7 +1431,7 @@ MOTIONSET
 	END_KEYSET
 	
 	KEYSET			# --- << 1 / 2 >> ---
-		FRAME = 60
+		FRAME = 30
 		PARTS	# ----- [ 0 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = 0.16 0.00 0.00

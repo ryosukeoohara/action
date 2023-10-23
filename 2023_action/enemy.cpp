@@ -20,6 +20,7 @@
 #include "map.h"
 #include "debugproc.h"
 #include "score.h"
+#include "player.h"
 #include <assert.h>
 
 //*=============================================================================
@@ -160,16 +161,8 @@ void CEnemy::Update(void)
 	//“–‚½‚è”»’è‚Ìî•ñæ“¾
 	CCollision *pCollision = CGame::GetCollsion();
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
-
-	if (m_motion != NULL)
-	{
-		//‰Šú‰»ˆ—
-		m_motion->Update();
-	}
+	CFoot *pPlayerFoot = CGame::GetPlayerFoot();
+	CChibi *pPlayerChibi = CGame::GetPlayerChibi();
 
 	if (GetLife() <= 0)
 	{
@@ -185,8 +178,22 @@ void CEnemy::Update(void)
 	}
 	else
 	{
-		//§Œäˆ—
-		Controll();
+		if (pPlayerFoot->GetState() != CFoot::STATE_APPR && pPlayerChibi->GetState() != CChibi::STATE_APPR)
+		{
+			for (int nCount = 0; nCount < m_nNumModel; nCount++)
+			{
+				m_apModel[nCount]->Update();
+			}
+
+			if (m_motion != NULL)
+			{
+				//‰Šú‰»ˆ—
+				m_motion->Update();
+			}
+
+			//§Œäˆ—
+			Controll();
+		}
 	}
 }
 

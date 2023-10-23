@@ -38,15 +38,16 @@
 //================================================================
 //マクロ定義
 //================================================================
-#define MAX_LIFE      (10)                                        //プレイヤーの体力
+#define MAX_LIFECHIBI (10)                                        //チビの体力
+#define MAX_LIFEFOOT  (5)                                         //デブの体力
 #define REST_BULLET   (6)                                         //保持できる弾の数
 #define MUTEKITIME    (30)                                        //無敵時間
 #define PLAYER_X      (40.0f)                                     //プレイヤーのX軸の幅
 #define PLAYER_Z      (10.0f)                                     //プレイヤーのZ軸の幅
 #define CHIBISPEED    (0.9f)                                      //チビデブの走る速さ
 #define FOOTSPEED     (1.1f)                                      //クソデブの走る速さ
-#define CHIBIJUMP     (17.0f)                                     //チビデブのジャンプ力
-#define FOOTJUMP      (15.0f)                                     //クソデブのジャンプ力
+#define CHIBIJUMP     (18.0f)                                     //チビデブのジャンプ力
+#define FOOTJUMP      (20.0f)                                     //クソデブのジャンプ力
 #define CHIBIGRAVITY  (0.7f)                                      //チビデブの重力
 #define FOOTGRAVITY   (0.9f)                                      //クソデブの重力
 #define FRIST         (21)                                        //攻撃判定発生開始
@@ -88,8 +89,6 @@ CPlayer::CPlayer()
 	m_bDash = false;
 	m_bJump = false;
 	m_bAction = false;
-	/*m_bDisp = false;
-	m_bAppr = false;*/
 	m_bEncounter = false;
 	m_bIconDisp = false;
 	m_bAcFir = false;
@@ -208,8 +207,6 @@ HRESULT CPlayer::Init(void)
 	//	m_pShadow->Init();
 	//}
 
-	SetLife(MAX_LIFE);
-
 	m_RestBullet = REST_BULLET;
 
 	m_fDest = 1.57f;
@@ -257,7 +254,8 @@ void CPlayer::Update(void)
 	if ((InputKeyboard->GetTrigger(DIK_SPACE) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_Y, 0) == true)
 	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
 	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
-	 && pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK)
+	 && pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK
+	 && pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH)
 	{//SPACEキーが押された
 
    		if (pChibi->GetbAppr() == false)
@@ -362,9 +360,17 @@ void CPlayer::ControlPlayer(void)
 	}
 }
 
-int CChibi::Hit(void)
+//================================================================
+//攻撃くらった時の処理
+//================================================================
+void CChibi::Hit(void)
 {
-	return 10;
+	if (m_State != STATE_DAMAGE)
+	{
+		m_nLife--;
+
+		m_State = STATE_DAMAGE;
+	}
 }
 
 //================================================================
@@ -602,9 +608,12 @@ void CChibi::Control(void)
 	pDebugProc->Print("残りの弾数：%d", m_RestBullet);
 }
 
-int CFoot::Hit(void)
+//================================================================
+//攻撃くらった時の処理
+//================================================================
+void CFoot::Hit(void)
 {
-	return 30;
+	
 }
 
 //================================================================
@@ -1196,6 +1205,7 @@ CChibi::CChibi()
 	m_State = STATE_NONE;
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nCntBullet = 0;
+	m_nLife = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1211,6 +1221,7 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
 	m_nCntBullet = 0;
+	m_nLife = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1239,6 +1250,8 @@ HRESULT CChibi::Init(void)
 	}
 
 	m_RestBullet = 30;
+
+	m_nLife = MAX_LIFECHIBI;
 
 	ReadText(PLAYER02_TEXT);
 
@@ -1298,31 +1311,43 @@ void CChibi::Update(void)
 
 	CPlayer::Update();
 
-	if (m_bAppr == true)
+	if (m_nLife > 0)
 	{
-		Control();
-
-		if (pmap != NULL)
+		if (m_bAppr == true)
 		{
-			//マップモデルの情報を取得
-			//CObjectX **pMap = CMap::GetX();
+			m_bRand = false;
 
-			if (pCollision != NULL && pmap->GetX() != NULL)
+			Control();
+
+			if (pmap != NULL)
 			{
-				(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+				//マップモデルの情報を取得
+				//CObjectX **pMap = CMap::GetX();
+
+				if (pCollision != NULL && pmap->GetX() != NULL)
+				{
+					(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+				}
 			}
 		}
-	}
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
+		for (int nCount = 0; nCount < m_nNumModel; nCount++)
+		{
+			m_apModel[nCount]->Update();
+		}
 
-	if (m_motion != NULL)
+		if (m_motion != NULL)
+		{
+			//初期化処理
+			m_motion->Update();
+		}
+	}
+	else
 	{
-		//初期化処理
-		m_motion->Update();
+		//終了処理
+		//Uninit();
+
+		m_State = STATE_DEATH;
 	}
 }
 
@@ -1352,6 +1377,7 @@ CFoot::CFoot()
 {
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_nLife = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1365,6 +1391,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 	m_pos = pos;
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
+	m_nLife = 0;
 	m_State = STATE_NONE;
 	m_bRand = false;
 	m_motion = NULL;
@@ -1394,6 +1421,8 @@ HRESULT CFoot::Init(void)
 	}
 
 	ReadText(PLAYER01_TEXT);
+
+	m_nLife = MAX_LIFEFOOT;
 
 	SetbDisp(true);
 	SetbAppr(true);
@@ -1450,35 +1479,45 @@ void CFoot::Update(void)
 
 	CPlayer::Update();
 
-	if (m_bAppr == true)
+	if (m_nLife > 0)
 	{
-		m_bRand = false;
-
-		Control();
-
-		if (pmap != NULL)
+		if (m_bAppr == true)
 		{
-			//マップモデルの情報を取得
-			//CObjectX **pMap = CMap::GetX();
+			m_bRand = false;
 
-			if (pCollision != NULL && pmap->GetX() != NULL)
+			Control();
+
+			if (pmap != NULL)
 			{
-				(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+				//マップモデルの情報を取得
+				//CObjectX **pMap = CMap::GetX();
 
-				
+				if (pCollision != NULL && pmap->GetX() != NULL)
+				{
+					(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+
+
+				}
 			}
 		}
-	}
 
-	for (int nCount = 0; nCount < m_nNumModel; nCount++)
-	{
-		m_apModel[nCount]->Update();
-	}
+		for (int nCount = 0; nCount < m_nNumModel; nCount++)
+		{
+			m_apModel[nCount]->Update();
+		}
 
-	if (m_motion != NULL)
+		if (m_motion != NULL)
+		{
+			//初期化処理
+			m_motion->Update();
+		}
+	}
+	else
 	{
-		//初期化処理
-		m_motion->Update();
+		//終了処理
+		//Uninit();
+
+		m_State = STATE_DEATH;
 	}
 }
 

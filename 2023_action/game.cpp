@@ -164,12 +164,12 @@ HRESULT CGame::Init(void)
 	//ƒXƒRƒA
 	CScore::Create();
 
-	CEnemy::Create({ 0.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 10);
-	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 2);
-	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 4);
-	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 1);
-	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 3);
-	CEnemy::Create({ 3000.0f,830.0f,0.0f }, { 0.0f,0.0f,0.0f }, 6);
+	CEnemy::Create({ 0.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
+	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 80);
+	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 50);
+	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
+	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
+	CEnemy::Create({ 3000.0f,830.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 

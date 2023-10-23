@@ -31,8 +31,6 @@ public:
 	CPlayer(D3DXVECTOR3 pos);  //コンストラクタ(オーバーロード)
 	~CPlayer();  //デストラクタ
 
-	
-
 	HRESULT Init(void);        //プレイヤーの初期化処理    
 	void Uninit(void);		   //プレイヤーの終了処理
 	void Update(void);         //プレイヤーの更新処理
@@ -44,7 +42,7 @@ public:
 	void ReadText(const char *fliename);       //外部ファイル読み込み
 	void Hit(void);			//攻撃をくらった時の処理
 
-	D3DXVECTOR3 GetMove(void) { return m_move; }      //移動量取得
+	D3DXVECTOR3 GetMove(void) { return m_move; }       //移動量取得
 	void SetMove(D3DXVECTOR3 move) { m_move = move; }  //移動量設定
 
 	void SetBullet(int RestBullet) { m_RestBullet = RestBullet; }
@@ -131,6 +129,8 @@ public:
 		STATE_JUMP,                   //ジャンプ
 		STATE_ATTACK,                 //攻撃
 		STATE_APPR,                   //出現
+		STATE_DAMAGE,                 //ダメージ
+		STATE_DEATH,                  //死亡
 		STATE_MAX
 	} STATE;
 
@@ -171,7 +171,10 @@ public:
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
 
-	int Hit(void);
+	void SetLife(int life) { m_nLife = life; }
+	int GetLife(void) { return m_nLife; }
+
+	void Hit(void);
 
 	void Control(void);    //プレイヤーの制御
 
@@ -186,7 +189,8 @@ private:
 	D3DXVECTOR3 m_move;   //移動
 	D3DXMATRIX m_mtxWorld;              //ワールドマトリックス
 	CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
-	CMotion *m_motion;                   //モーションへのポインタ
+	CMotion *m_motion;                  //モーションへのポインタ
+	int m_nLife;                        //体力
 	int m_nNumModel;                    //モデル(パーツ)の総数
 	int m_nIdxTexture;
 	int m_nIdxShaadow;
@@ -254,6 +258,8 @@ public:
 		STATE_JUMP,                   //ジャンプ
 		STATE_ATTACK,                 //攻撃
 		STATE_APPR,                   //出現
+		STATE_DAMAGE,                 //ダメージ
+		STATE_DEATH,                  //死亡
 		STATE_MAX
 	} STATE;
 
@@ -294,7 +300,10 @@ public:
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
 
-	int Hit(void);
+	void SetLife(int life) { m_nLife = life; }
+	int GetLife(void) { return m_nLife; }
+
+	void Hit(void);
 
 	void Control(void);    //プレイヤーの制御
 
@@ -309,7 +318,8 @@ private:
 	D3DXVECTOR3 m_move;   //移動
 	D3DXMATRIX m_mtxWorld;              //ワールドマトリックス
 	CCharacter *m_apModel[MAX_PRATS];   //モデル(パーツ)へのポインタ
-	CMotion *m_motion;                   //モーションへのポインタ
+	CMotion *m_motion;                  //モーションへのポインタ
+	int m_nLife;                        //体力
 	int m_nNumModel;                    //モデル(パーツ)の総数
 	int m_nIdxTexture;
 	int m_nIdxShaadow;

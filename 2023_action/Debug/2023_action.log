@@ -6,6 +6,5 @@ object2D.obj : warning LNK4099: PDB 'vc140.pdb' が 'object2D.obj' で、また�
 main.obj : warning LNK4099: PDB 'vc140.pdb' が 'main.obj' で、または 'C:\Users\student\Desktop\2023_action\action\2023_action\vc140.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 light.obj : warning LNK4099: PDB 'vc140.pdb' が 'light.obj' で、または 'C:\Users\student\Desktop\2023_action\action\2023_action\vc140.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 fade.obj : warning LNK4099: PDB 'vc140.pdb' が 'fade.obj' で、または 'C:\Users\student\Desktop\2023_action\action\2023_action\vc140.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-effect.obj : warning LNK4099: PDB 'vc140.pdb' が 'effect.obj' で、または 'C:\Users\student\Desktop\2023_action\action\2023_action\vc140.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

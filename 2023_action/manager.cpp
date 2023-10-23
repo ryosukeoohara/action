@@ -447,7 +447,7 @@ void CManager::Update(void)
 		}
 	}
 
-	if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_START, 0) == true) && m_pScene->GetMode() == CScene::MODE_TITLE)
+	if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_pScene->GetMode() == CScene::MODE_TITLE)
 	{//ENTERキーを押したかつシーンがタイトルのとき
 
 		if (m_Fade->Get() != m_Fade->FADE_OUT)
@@ -465,7 +465,7 @@ void CManager::Update(void)
 			m_Fade->Set(CScene::MODE_RESULT);
 		}
 	}
-	else if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_RESULT)
+	else if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_pScene->GetMode() == CScene::MODE_RESULT)
 	{//ENTERキーを押したかつシーンがゲームのとき
 
 		if (m_Fade->Get() != m_Fade->FADE_OUT)
