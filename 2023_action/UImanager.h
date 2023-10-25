@@ -25,6 +25,12 @@ public:
 		TYPE_NONE = 0,                              //なんもない
 		TYPE_TITLE,                                 //タイトル
 		TYPE_RESULT,                                //リザルト
+		TYPE_GUNGAGE,                               //銃の残弾表示
+		TYPE_LIFEFOOT,                              //体力
+		TYPE_LIFECHIBI,                             //体力
+		TYPE_ICONFOOT,                              //デブの顔アイコン
+		TYPE_ICONCHIBI,                             //チビの顔アイコン
+		TYPE_MAGIC,                                 //魔法
 		TYPE_MAX
 	};
 

@@ -239,7 +239,7 @@ void CEdit::Draw(void)
 
 		for (int nCntMat = 0; nCntMat < (int)m_Model[m_nIdx].m_dwNumMat; nCntMat++)
 		{
-			pMat[nCntMat].MatD3D.Diffuse.a = 0.2f;
+			pMat[nCntMat].MatD3D.Diffuse.a = 0.7f;
 
 			//ƒ}ƒeƒŠƒAƒ‹‚ÌÝ’è
 			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);

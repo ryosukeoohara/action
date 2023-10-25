@@ -12,6 +12,8 @@
 #include "texture.h"
 #include "manager.h"
 #include "renderer.h"
+#include "game.h"
+#include "player.h"
 
 //===========================================================
 //コンストラクタ
@@ -90,6 +92,36 @@ HRESULT CUIManager::Init(void)
 		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\res.jpg");
 		break;
 
+	case CUIManager::TYPE_GUNGAGE:
+
+		m_nIdxTexture = -1;
+		break;
+
+	case CUIManager::TYPE_LIFEFOOT:
+
+		m_nIdxTexture = -1;
+		break;
+
+	case CUIManager::TYPE_LIFECHIBI:
+
+		m_nIdxTexture = -1;
+		break;
+
+	case CUIManager::TYPE_ICONFOOT:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\icon001.png");
+		break;
+
+	case CUIManager::TYPE_ICONCHIBI:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\icon000.png");
+		break;
+
+	case CUIManager::TYPE_MAGIC:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\magic.png");
+		break;
+
 	case CUIManager::TYPE_MAX:
 		break;
 
@@ -117,6 +149,12 @@ void CUIManager::Uninit(void)
 //===========================================================
 void CUIManager::Update(void)
 {
+	//チビの情報を取得
+	CChibi *pChibi = CGame::GetPlayerChibi();
+
+	//デブの情報を取得
+	CFoot *pFoot = CGame::GetPlayerFoot();
+
 	//更新処理
 	CObject2D::Update();
 
@@ -134,6 +172,48 @@ void CUIManager::Update(void)
 	case CUIManager::TYPE_RESULT:   //リザルト
 
 		CObject2D::SetVtxUI(Getpos(), 400.0f, 200.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_GUNGAGE:  //残弾数
+
+		if (pChibi != nullptr)
+		{
+			CObject2D::SetVtxUI(Getpos(), (float)pChibi->GetRestBullet() * 7.0f, 10.0f, { 0.0f,0.5f,0.5f,1.0f });
+		}
+		
+		break;
+
+	case CUIManager::TYPE_LIFEFOOT:
+
+		if (pFoot != nullptr)
+		{
+			CObject2D::SetVtxUI(Getpos(), (float)pFoot->GetLife() * 10.0f, 20.0f, { 1.0f,1.0f,1.0f,1.0f });
+		}
+
+		break;
+
+	case CUIManager::TYPE_LIFECHIBI:
+
+		if (pChibi != nullptr)
+		{
+			CObject2D::SetVtxUI(Getpos(), (float)pChibi->GetLife() * 10.0f, 20.0f, { 1.0f,1.0f,1.0f,1.0f });
+		}
+
+		break;
+
+	case CUIManager::TYPE_ICONFOOT:
+
+		CObject2D::SetVtxUI(Getpos(), 100.0f, 50.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_ICONCHIBI:
+
+		CObject2D::SetVtxUI(Getpos(), 100.0f, 50.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_MAGIC:
+
+		CObject2D::SetVtxUI(Getpos(), 50.0f, 25.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_MAX:

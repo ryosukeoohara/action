@@ -96,44 +96,38 @@ void CCamera::Update(void)
 
 		D3DXVECTOR3 pos = pPlayer->Getpos();
 
-		//if (pFoot->GetbAppr() == true)
-		//{
-		//	D3DXVECTOR3 pos = pFoot->Getpos();
+		//目標の注視点を設定
+		m_posRDest.x = pos.x;
+		m_posRDest.z = pos.z;
 
-		//	////目標の注視点を設定
-		//	//m_posRDest.x = pos.x;
-		//	//m_posRDest.z = pos.z;
+		//カメラの移動量
+		m_move.x = m_posRDest.x - m_posR.x;
+		m_move.z = m_posRDest.z - m_posR.z;
 
-		//	////カメラの移動量
-		//	//m_move.x = m_posRDest.x - m_posR.x;
-		//	//m_move.z = m_posRDest.z - m_posR.z;
-
-		//	////位置に移動量を保存
-		//	//m_posR.x += m_move.x;
-		//	//m_posR.z += m_move.z;
-		//}
-
-		//if (pChibi->GetbAppr() == true)
-		//{
-		//	D3DXVECTOR3 pos = pChibi->Getpos();
-
-		//	////目標の注視点を設定
-		//	//m_posRDest.x = pos.x;
-		//	//m_posRDest.z = pos.z;
-
-		//	////カメラの移動量
-		//	//m_move.x = m_posRDest.x - m_posR.x;
-		//	//m_move.z = m_posRDest.z - m_posR.z;
-
-		//	////位置に移動量を保存
-		//	//m_posR.x += m_move.x;
-		//	//m_posR.z += m_move.z;
-		//}
+		//位置に移動量を保存
+		m_posR.x += m_move.x;
+		m_posR.z += m_move.z;
 	}
 
 	if (pScene->GetMode() == CScene::MODE_GAME && m_type == TYPE_EDIT)
 	{
+		CPlayer *pPlayer = CGame::GetPlayer();
+
+		D3DXVECTOR3 pos = pPlayer->Getpos();
+
 		Edit();
+
+		////目標の注視点を設定
+		//m_posRDest.x = pos.x;
+		//m_posRDest.z = pos.z;
+
+		////カメラの移動量
+		//m_move.x = m_posRDest.x - m_posR.x;
+		//m_move.z = m_posRDest.z - m_posR.z;
+
+		////位置に移動量を保存
+		//m_posR.x += m_move.x;
+		//m_posR.z += m_move.z;
 	}
 
 	//向きを設定
@@ -197,7 +191,7 @@ void CCamera::CameraV(void)
 	//CFoot *pFoot = CGame::GetPlayerFoot();
 
 	////プレイヤー(チビデブ)の情報を取得
-	//CChibi *pChibi = CGame::GetPlayerChibi();
+	//CChibi *pChibi = CGame::GetPlayerChibi(); 
 
 	//m_rot.y += MousePos.x * 0.005f;
 
@@ -206,13 +200,11 @@ void CCamera::CameraV(void)
 	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
 
-	
 	D3DXVECTOR3 pos = pPlayer->Getpos();
 
 	m_posV = D3DXVECTOR3(0.0f + pos.x, 150.0f + pos.y, 30.0f - m_posV.z);
 	m_posR = D3DXVECTOR3(pos.x, pos.y, 10.0f);
 	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-	
 }
 
 //================================================================
@@ -264,35 +256,35 @@ void CCamera::Edit(void)
 	//キーボードの情報を取得
 	CInputKeyboard *InputKeyboard = CManager::Getinstance()->GetKeyBoard();
 
+	CInputMouse *pInputMouse = CManager::Getinstance()->GetInputMouse();
+
+	D3DXVECTOR2 MousePos = pInputMouse->GetMouseMove();
+
+	CPlayer *pPlayer = CGame::GetPlayer();
+
+	D3DXVECTOR3 pos = pPlayer->Getpos();
+
 	if (InputKeyboard->GetPress(DIK_F) == true)
 	{
-		m_move.x -= 5.0f;
+		m_move.x += sinf(m_rot.y) * 1.1f;
 	}
 
 	if (InputKeyboard->GetPress(DIK_H) == true)
 	{
-		m_move.x += 5.0f;
+		m_move.x -= sinf(m_rot.y) * 1.1f;
 	}
 
 	if (InputKeyboard->GetPress(DIK_T) == true)
 	{
-		m_move.y += 5.0f;
+		m_move.z += cosf(m_rot.y) * 1.1f;
 	}
 
 	if (InputKeyboard->GetPress(DIK_G) == true)
 	{
-		m_move.y -= 5.0f;
+		m_move.z -= cosf(m_rot.y) * 1.1f;
 	}
 
-	if (InputKeyboard->GetPress(DIK_R) == true)
-	{
-		m_rot.y -= 0.03f;
-	}
-
-	if (InputKeyboard->GetPress(DIK_Y) == true)
-	{
-		m_rot.y += 0.03f;
-	}
+	m_rot.y += MousePos.x * 0.005f;
 
 	if (m_rot.y > D3DX_PI)
 	{
@@ -303,17 +295,23 @@ void CCamera::Edit(void)
 		m_rot.y += D3DX_PI * 2.0f;
 	}
 
-	m_posR.x = m_posV.x - sinf(m_rot.y) * CAMERA_DISTNCE;
-	m_posR.z = m_posV.z - cosf(m_rot.y) * CAMERA_DISTNCE;
+	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
+	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
 
-	m_posR.x += m_move.x;
+	/*m_posR.x = m_posV.x - sinf(m_rot.y) * CAMERA_DISTNCE;
+	m_posR.z = m_posV.z - cosf(m_rot.y) * CAMERA_DISTNCE;*/
+
+	/*m_posR.x += m_move.x;
 	m_posV.x += m_move.x;
 
 	m_posR.y += m_move.y;
-	m_posV.y += m_move.y;
+	m_posV.y += m_move.y;*/
 
-	m_posV = D3DXVECTOR3(0.0f + m_posV.x, 200.0f + m_posV.y, -1500.0f);
-	m_posR = D3DXVECTOR3(0.0f + m_posR.x, 70.0f + m_posR.y, 50.0f);
+	//m_posV += m_move;
+	m_posR += m_move;
+
+	m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f, 30.0f + m_posV.z);
+	m_posR = D3DXVECTOR3(100.0f + m_posR.x, 50.0f, m_posR.z + 10.0f);
 	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 }
 

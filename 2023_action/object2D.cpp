@@ -9,6 +9,8 @@
 #include "renderer.h"
 #include "manager.h"
 #include "texture.h"
+#include "player.h"
+#include "game.h"
 
 //================================================================
 //コンストラクタ
@@ -260,20 +262,22 @@ void CObject2D::SetVtxFade(D3DXCOLOR col)
 //================================================================
 void CObject2D::SetVtxUI(D3DXVECTOR3 pos, float fWidth, float fHeight, D3DXCOLOR col)
 {
+	CChibi *pChibi = CGame::GetPlayerChibi();
+
 	VERTEX_2D * pVtx;     //頂点情報へのポインタ
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);        //頂点バッファをロックし、頂点情報へポインタを取得
 
 	//頂点座標の設定
-	pVtx[0].pos = D3DXVECTOR3(pos.x - fWidth, pos.y - fHeight, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(pos.x, pos.y - fHeight, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(pos.x + fWidth, pos.y - fHeight, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(pos.x - fWidth, pos.y + fHeight, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(pos.x, pos.y + fHeight, 0.0f);
 	pVtx[3].pos = D3DXVECTOR3(pos.x + fWidth, pos.y + fHeight, 0.0f);
 
 	//頂点カラーの設定
-	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, col.a);
-	pVtx[1].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, col.a);
-	pVtx[2].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, col.a);
-	pVtx[3].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, col.a);
+	pVtx[0].col = D3DXCOLOR(col.g, col.b, col.a, col.a);
+	pVtx[1].col = D3DXCOLOR(col.g, col.b, col.a, col.a);
+	pVtx[2].col = D3DXCOLOR(col.g, col.b, col.a, col.a);
+	pVtx[3].col = D3DXCOLOR(col.g, col.b, col.a, col.a);
 
 	//テクスチャ座標の設定
 	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);

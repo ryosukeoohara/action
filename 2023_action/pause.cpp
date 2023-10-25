@@ -303,7 +303,7 @@ void CPause::Update(void)
 			m_Pause.pTitleBack->SetVtxUI(m_Pause.pTitleBack->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
 		}*/
 
-		for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
+		/*for (int nCount = 0; nCount < MAX_PAUSEOBJ; nCount++)
 		{
 			if (m_Object2D[nCount] != NULL)
 			{
@@ -339,7 +339,7 @@ void CPause::Update(void)
 					break;
 				}
 			}
-		}
+		}*/
 	}
 }
 

@@ -23,6 +23,7 @@
 #include "map.h"
 #include "collision.h"
 #include "enemy.h"
+#include "UImanager.h"
 
 #include<stdio.h>
 #include<time.h>
@@ -39,15 +40,16 @@
 //マクロ定義
 //================================================================
 #define MAX_LIFECHIBI (10)                                        //チビの体力
-#define MAX_LIFEFOOT  (5)                                         //デブの体力
-#define REST_BULLET   (6)                                         //保持できる弾の数
+#define MAX_LIFEFOOT  (6)                                         //デブの体力
+#define REST_BULLET   (30)                                        //保持できる弾の数
+#define BULLETWAIT    (15)                                        //射撃の間隔
 #define MUTEKITIME    (30)                                        //無敵時間
 #define PLAYER_X      (40.0f)                                     //プレイヤーのX軸の幅
 #define PLAYER_Z      (10.0f)                                     //プレイヤーのZ軸の幅
 #define CHIBISPEED    (0.9f)                                      //チビデブの走る速さ
 #define FOOTSPEED     (1.1f)                                      //クソデブの走る速さ
-#define CHIBIJUMP     (18.0f)                                     //チビデブのジャンプ力
-#define FOOTJUMP      (20.0f)                                     //クソデブのジャンプ力
+#define CHIBIJUMP     (20.0f)                                     //チビデブのジャンプ力
+#define FOOTJUMP      (22.0f)                                     //クソデブのジャンプ力
 #define CHIBIGRAVITY  (0.7f)                                      //チビデブの重力
 #define FOOTGRAVITY   (0.9f)                                      //クソデブの重力
 #define FRIST         (21)                                        //攻撃判定発生開始
@@ -416,7 +418,7 @@ void CChibi::Control(void)
 	
 	//float fHeight;
 
-	if (m_State != STATE_ATTACK || (m_State == STATE_ATTACK && m_bJump == true))
+	if (m_State != STATE_ATTACK || (m_State == STATE_ATTACK && m_bJump == true) || m_bRand == false)
 	{
 		//重力
 		m_move.y -= CHIBIGRAVITY;
@@ -427,6 +429,18 @@ void CChibi::Control(void)
 
 	if (m_State != STATE_APPR)
 	{
+		if (InputKeyboard->GetPress(DIK_W) == true)
+		{//Wキーが押された
+
+			m_nLife--;
+		}
+
+		if (InputKeyboard->GetPress(DIK_S) == true)
+		{//Wキーが押された
+
+			m_nLife++;
+		}
+
 		////上に移動----------------------------------------------
 		//if (InputKeyboard->GetPress(DIK_W) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LY, 0) > 0)
 		//{//Wキーが押された
@@ -437,32 +451,37 @@ void CChibi::Control(void)
 		//{//Sキーが押された
 
 		//}
-		//右に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
-		{//Dキーだけ押した
 
-			//移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+		//if ((m_bAction == true && m_bJump == true && m_bRand == false))
+		//{
+			//右に移動----------------------------------------------
+			if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
+			{//Dキーだけ押した
 
-			//向き
-			m_fDest = D3DX_PI * -0.5f;
+				//移動量
+				m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
-			//走っている状態にする
-			m_bDash = true;
-		}
-		//左に移動----------------------------------------------
-		else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
-		{//Aキーだけ押した
+				//向き
+				m_fDest = D3DX_PI * -0.5f;
 
-			//移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+				//走っている状態にする
+				m_bDash = true;
+			}
+			//左に移動----------------------------------------------
+			else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
+			{//Aキーだけ押した
 
-			//向き
-			m_fDest = D3DX_PI * 0.5f;
+			 //移動量
+				m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
-			//走っている状態にする
-			m_bDash = true;
-		}
+				//向き
+				m_fDest = D3DX_PI * 0.5f;
+
+				//走っている状態にする
+				m_bDash = true;
+			}
+		//}
+		
 
 		PlayerRot.y = m_fDest;
 
@@ -503,7 +522,7 @@ void CChibi::Control(void)
 		}
 	}
 	
-	if ((m_bAction != true && m_bJump != true) || m_bJump == true)
+	if ((m_bAttack != true && m_bJump != true) || m_bJump == true || (m_bRand == false && m_bJump == false))
 	{
 		//位置に移動量加算----------------------------------------------------
 		m_pos.x += m_move.x;
@@ -544,7 +563,7 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_A, 0) == true && m_RestBullet > 0)
+	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
 	{//Kキーが押された
 
 		m_bAction = true;
@@ -569,7 +588,7 @@ void CChibi::Control(void)
 
 	if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
 	{
-		m_RestBullet = 30;
+		m_RestBullet = REST_BULLET;
 	}
 	
 	if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
@@ -580,19 +599,19 @@ void CChibi::Control(void)
 		m_State = STATE_ATTACK;
 	}
 	
-	if (m_nCntBullet >= 15)
+	if (m_nCntBullet >= BULLETWAIT)
 	{
 		m_nCntBullet = 0;
 	}
 
-	if (m_pos.y <= 0.0f)
+	/*if (m_pos.y <= 0.0f)
 	{
 		m_pos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
-	}
+	}*/
 
 	if (m_RestBullet <= 0)
 	{
@@ -697,11 +716,11 @@ void CFoot::Control(void)
 		{//Dキーだけ押した
 
 			//移動量
-			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
-			m_move.z += cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.x += sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.z += cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * -0.5f));
+			m_fDest = ((D3DX_PI * -0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -711,11 +730,11 @@ void CFoot::Control(void)
 		{//Aキーだけ押した
 
 			//移動量
-			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
-			m_move.z -= cosf(CameraRot.y + (D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.x -= sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
+			m_move.z -= cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
 
 			//向き
-			m_fDest = (CameraRot.y + (D3DX_PI * 0.5f));
+			m_fDest = ((D3DX_PI * 0.5f));
 
 			//走っている状態にする
 			m_bDash = true;
@@ -731,13 +750,13 @@ void CFoot::Control(void)
 			m_move.y += FOOTJUMP;
 		}
 
-		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true)
+		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_RB, 0) == true)
 		{//Kキーが押された
 
 			m_bAttack = true;
 		}
 
-		if ((m_bAttack != true && m_bJump != true) || m_bJump == true)
+		if ((m_bAttack != true && m_bJump != true) || m_bJump == true || (m_bRand == false && m_bJump == false))
 		{
 			//位置に移動量加算----------------------------------------------------
 			m_pos.x += m_move.x;
@@ -865,15 +884,6 @@ void CPlayer::Appear(void)
 	//それぞれの位置取得
 	D3DXVECTOR3 Chibipos = pChibi->Getpos();
 	D3DXVECTOR3 Footpos = pFoot->Getpos();
-
-	if (m_ApprCharcter == 0)
-	{
-
-	}
-	else
-	{
-
-	}
 
 	if (pChibi->GetState() == CChibi::STATE_APPR && pChibi->GetbAppr() == true)
 	{
@@ -1249,13 +1259,31 @@ HRESULT CChibi::Init(void)
 		m_motion->Init();
 	}
 
-	m_RestBullet = 30;
+	//弾の最大数設定
+	m_RestBullet = REST_BULLET;
 
-	m_nLife = MAX_LIFECHIBI;
-
+	//テキストファイル読み込み
 	ReadText(PLAYER02_TEXT);
 
+	//体力設定
+	m_nLife = MAX_LIFECHIBI;
+
+	//体力ゲージのUI
+	CUIManager::Create({ 125.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFECHIBI);
+
+	//アイコン
+	CUIManager::Create({ 25.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONCHIBI);
+
+	//残弾表示UI
+	CUIManager::Create({ 100.0f, 150.0f, 0.0f }, CUIManager::TYPE_GUNGAGE);
+
+	//魔法UI
+	CUIManager::Create({ 50.0f, 150.0f, 0.0f }, CUIManager::TYPE_MAGIC);
+
+	//描画しない
 	SetbDisp(false);
+
+	//出現しない
 	SetbAppr(false);
 
 	return S_OK;
@@ -1420,11 +1448,22 @@ HRESULT CFoot::Init(void)
 		m_motion->Init();
 	}
 
+	//テキストファイル読み込み
 	ReadText(PLAYER01_TEXT);
 
+	//体力設定
 	m_nLife = MAX_LIFEFOOT;
 
+	//体力ゲージのUI
+	CUIManager::Create({ 350.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFEFOOT);
+
+	//アイコン
+	CUIManager::Create({ 250.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONFOOT);
+
+	//描画する
 	SetbDisp(true);
+
+	//出現状態にする
 	SetbAppr(true);
 	
 	return S_OK;
@@ -1478,6 +1517,8 @@ void CFoot::Update(void)
 	CCollision *pCollision = CGame::GetCollsion();
 
 	CPlayer::Update();
+
+
 
 	if (m_nLife > 0)
 	{

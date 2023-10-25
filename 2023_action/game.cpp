@@ -25,6 +25,7 @@
 #include "fade.h"
 #include "time.h"
 #include "score.h"
+#include "UImanager.h"
 
 //================================================================
 //静的メンバ変数
@@ -94,7 +95,7 @@ HRESULT CGame::Init(void)
 
 	CSky::Create({0.0f,0.0f,0.0f});
 
-	CField::Create();
+	//CField::Create();
 
 	if (m_Map == NULL)
 	{//使用されていなかったら
@@ -159,7 +160,7 @@ HRESULT CGame::Init(void)
 	//}
 
 	//時間
-	CTime::Create();
+	//CTime::Create();
 
 	//スコア
 	CScore::Create();
@@ -170,6 +171,8 @@ HRESULT CGame::Init(void)
 	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
 	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
 	CEnemy::Create({ 3000.0f,830.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
+
+	
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 

@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 34
+NUM_MODEL = 78
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -28,6 +28,9 @@ MODEL_FILENAME = data/MODEL/EDIT/Depart_001.x        	# [9]デパート正面
 MODEL_FILENAME = data/MODEL/EDIT/Depart_002.x        	# [10]デパート入口
 MODEL_FILENAME = data/MODEL/EDIT/Depart_003.x        	# [11]デパート横
 MODEL_FILENAME = data/MODEL/EDIT/block_002.x        	# [12]壁
+MODEL_FILENAME = data/MODEL/EDIT/saku.x             	# [13]柵
+MODEL_FILENAME = data/MODEL/EDIT/load2.x        	    # [14]道2
+MODEL_FILENAME = data/MODEL/EDIT/load3.x        	    # [15]道3
 
 #------------------------------------------------------------------------------
 # モデルの情報
@@ -35,15 +38,17 @@ MODEL_FILENAME = data/MODEL/EDIT/block_002.x        	# [12]壁
 
 MODELSET
     TYPE = 6
-    POS = -617.00 0.00 0.00
+    POS = 75.00 0.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
 MODELSET
     TYPE = 6
-    POS = 1020.00 0.00 0.00
-    ROT = 0.00 0.00 0.00
+    POS = 1396.43 0.04 1833.71
+    ROT = 0.00 -1.56 0.00
 END_MODELSET
+
+
 
 MODELSET
     TYPE = 2
@@ -63,11 +68,7 @@ MODELSET
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
-MODELSET
-    TYPE = 2
-    POS = 1502.00 0.00 400.00
-    ROT = 0.00 0.00 0.00
-END_MODELSET
+
 
 MODELSET
     TYPE = 2
@@ -234,6 +235,246 @@ END_MODELSET
 MODELSET
     TYPE = 0
     POS = 3118.55 800.34 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -1160.82 17.70 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -1278.45 17.70 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -1397.89 17.70 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -1515.84 17.70 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -1038.98 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -919.26 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -799.54 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -679.82 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -560.09 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -438.36 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -320.41 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -202.41 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = -82.42 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 35.58 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 153.58 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 273.58 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 395.57 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 513.57 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 631.57 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 747.57 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 863.31 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 981.05 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 1100.78 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 1218.52 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 1340.25 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 1459.94 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 13
+    POS = 1579.64 17.64 -201.71
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 1001.42 18.24 1126.90
+    ROT = 0.00 -1.49 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 4
+    POS = 1037.41 18.24 1868.28
+    ROT = 0.00 -1.48 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 3
+    POS = 1044.03 28.73 2641.84
+    ROT = 0.00 -1.49 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 2568.77
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 2173.62
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 1807.68
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 1501.39
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 1249.91
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 1019.38
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 795.32
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 593.82
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 5
+    POS = 1604.67 31.32 403.60
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 15
+    POS = 1959.08 0.00 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

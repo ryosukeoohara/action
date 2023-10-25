@@ -176,6 +176,8 @@ public:
 
 	void Hit(void);
 
+	int GetRestBullet(void) { return m_RestBullet; }
+
 	void Control(void);    //ƒvƒŒƒCƒ„[‚Ì§Œä
 
 protected:
