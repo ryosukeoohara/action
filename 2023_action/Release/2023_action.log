@@ -1,32 +1,24 @@
-﻿  billboard.cpp
+﻿  UImanager.cpp
   bullet.cpp
   camera.cpp
   collision.cpp
   edit.cpp
   enemy.cpp
-  fade.cpp
+  enemymanager.cpp
   game.cpp
   life.cpp
-  main.cpp
   manager.cpp
+  map.cpp
   motion.cpp
   number.cpp
   object2D.cpp
   object3D.cpp
-  pause.cpp
   player.cpp
-  ranking.cpp
-  renderer.cpp
-  result.cpp
-  コンパイル中...
-  score.cpp
-  time.cpp
   title.cpp
-  UImanager.cpp
   コード生成しています。
-  36 of 513 functions ( 7.0%) were compiled, the rest were copied from previous compilation.
-    10 functions were new in current compilation
-    77 functions had inline decision re-evaluated but remain unchanged
+  64 of 520 functions (12.3%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    95 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

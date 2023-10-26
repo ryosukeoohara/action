@@ -57,6 +57,8 @@ public:
 	static CEnemy **GetEnemy(void) { return &m_pEnemy[0]; }
 	void SetMoveX(float move) { m_move.x = move; }
 	void SetMoveY(float move) { m_move.y = move; }
+
+	static int GetNumAll(void) { return m_nNumAll; }
 										       
 private:								       
 	void Controll(void);                       //制御処理
@@ -67,7 +69,8 @@ private:
 	D3DXVECTOR3 m_posOld;                      //前回の位置
 	D3DXVECTOR3 m_move;                        //移動
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス
-	int m_nidxID;
+	int m_nidxID;                              //インデックス番号
+	static int m_nNumAll;                      //敵の総数
 
 	//*=============================================================================
 	//外部ファイル読み込み用

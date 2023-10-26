@@ -1,8 +1,8 @@
 SCRIPT
 
 MODELSET
-    TYPE = 20
-    POS = 1959.08 0.00 0.00
+    TYPE = 22
+    POS = 2542.54 0.09 -11.77
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

@@ -205,3 +205,17 @@ void CMap::ReadText(void)
 		return;
 	}
 }
+
+CMap * CMap::Create(void)
+{
+	CMap *pMap = nullptr;
+
+	if (pMap == nullptr)
+	{
+		pMap = new CMap;
+
+		pMap->Init();
+	}
+
+	return pMap;
+}

@@ -166,7 +166,7 @@ void CUIManager::Update(void)
 
 	case CUIManager::TYPE_TITLE:    //タイトル
 
-		CObject2D::SetVtxUI(Getpos(), 400.0f, 200.0f, { 1.0f,1.0f,1.0f,1.0f });
+		CObject2D::SetVtxUI(Getpos(), 600.0f, 200.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_RESULT:   //リザルト
@@ -187,7 +187,7 @@ void CUIManager::Update(void)
 
 		if (pFoot != nullptr)
 		{
-			CObject2D::SetVtxUI(Getpos(), (float)pFoot->GetLife() * 10.0f, 20.0f, { 1.0f,1.0f,1.0f,1.0f });
+			CObject2D::SetVtxUI(Getpos(), (float)pFoot->GetLife() * 10.0f, 20.0f, { 0.5f,0.9f,0.5f,1.0f });
 		}
 
 		break;
@@ -196,7 +196,7 @@ void CUIManager::Update(void)
 
 		if (pChibi != nullptr)
 		{
-			CObject2D::SetVtxUI(Getpos(), (float)pChibi->GetLife() * 10.0f, 20.0f, { 1.0f,1.0f,1.0f,1.0f });
+			CObject2D::SetVtxUI(Getpos(), (float)pChibi->GetLife() * 10.0f, 20.0f, { 0.5f,0.0f,0.5f,1.0f });
 		}
 
 		break;

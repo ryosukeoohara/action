@@ -131,17 +131,28 @@ public:
 		STATE_APPR,                   //出現
 		STATE_DAMAGE,                 //ダメージ
 		STATE_DEATH,                  //死亡
+		STATE_TITLE,                  //タイトル
 		STATE_MAX
 	} STATE;
+
+	//タイトルの状態
+	enum TITLE_STATE
+	{
+		TITLE_STATE_NONE = 0,          //なんもない
+		TITLE_STATE_NEUTRAL,           //待機
+		TITLE_STATE_MOVE,              //移動
+		TITLE_STATE_MAX
+	};
 
 	//モーション
 	typedef enum
 	{
-		MOTIONTYPE_NEUTRAL = 0,               //ニュートラル
+		MOTIONTYPE_NEUTRAL = 0,              //ニュートラル
 		MOTIONTYPE_MOVE,                     //移動
 		MOTIONTYPE_JUMP,                     //ジャンプ
 		MOTIONTYPE_ATTACK,                   //攻撃
 		MOTIONTYPE_APPR,                     //出現
+		MOTIONTYPE_TITLE,                    //タイトル
 		MOTIONTYPE_MAX
 	} MOTIONTYPE;
 
@@ -154,8 +165,12 @@ public:
 	void Update(void);         //プレイヤーの更新処理
 	void Draw(void);           //プレイヤーの描画処理
 
+	static CChibi *Create(D3DXVECTOR3 pos);  //生成
+
 	void SetState(STATE state) { m_State = state; };
 	STATE GetState(void) { return m_State; };
+
+	void SetTState(TITLE_STATE state) { m_TitleState = state; };
 
 	bool GetbDisp(void) { return m_bDisp; }
 	void SetbDisp(bool disp) { m_bDisp = disp; }
@@ -184,7 +199,8 @@ protected:
 	
 private:
 	void ReadText(const char *fliename);       //外部ファイル読み込み
-	STATE m_State;
+	STATE m_State;                             //状態
+	TITLE_STATE m_TitleState;                  //タイトルの状態
 	D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
 						   //D3DXVECTOR3 m_rot;  //向き
@@ -262,17 +278,28 @@ public:
 		STATE_APPR,                   //出現
 		STATE_DAMAGE,                 //ダメージ
 		STATE_DEATH,                  //死亡
+		STATE_TITLE,                  //タイトル
 		STATE_MAX
 	} STATE;
+
+	//タイトルの状態
+	enum TITLE_STATE
+	{
+		TITLE_STATE_NONE = 0,          //なんもない
+		TITLE_STATE_NEUTRAL,           //待機
+		TITLE_STATE_MOVE,              //移動
+		TITLE_STATE_MAX
+	};
 
 	//モーション
 	typedef enum
 	{
-		MOTIONTYPE_NEUTRAL = 0,               //ニュートラル
+		MOTIONTYPE_NEUTRAL = 0,              //ニュートラル
 		MOTIONTYPE_MOVE,                     //移動
 		MOTIONTYPE_JUMP,                     //ジャンプ
 		MOTIONTYPE_ATTACK,                   //攻撃
 		MOTIONTYPE_APPR,                     //出現
+		MOTIONTYPE_TITLE,                    //タイトル
 		MOTIONTYPE_MAX
 	} MOTIONTYPE;
 
@@ -285,8 +312,13 @@ public:
 	void Update(void);         //プレイヤーの更新処理
 	void Draw(void);           //プレイヤーの描画処理
 
+	static CFoot *Create(D3DXVECTOR3 pos);  //生成
+
 	void SetState(STATE state) { m_State = state; };
 	STATE GetState(void) { return m_State; };
+
+	void SetTState(TITLE_STATE state) { m_TitleState = state; };
+	//TITLE_STATE GetState(void) { return m_TitleState; };
 
 	bool GetbDisp(void) { return m_bDisp; }
 	void SetbDisp(bool disp) { m_bDisp = disp; }
@@ -314,6 +346,7 @@ protected:
 private:
 	void ReadText(const char *fliename);       //外部ファイル読み込み
 	STATE m_State;
+	TITLE_STATE m_TitleState;                  //タイトルの状態
 	D3DXVECTOR3 m_pos;  //位置
 	D3DXVECTOR3 m_posOld;  //前回の位置
 						   //D3DXVECTOR3 m_rot;  //向き

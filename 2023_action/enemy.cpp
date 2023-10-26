@@ -33,6 +33,7 @@
 //静的メンバ変数
 //*=============================================================================
 CEnemy *CEnemy::m_pEnemy[64] = {};
+int CEnemy::m_nNumAll = 0;
 
 //==============================================================================
 //コンストラクタ
@@ -84,6 +85,8 @@ CEnemy * CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 			m_pEnemy[nCount] = pEnemy;
 
 			m_pEnemy[nCount]->m_nidxID = nCount;
+
+			m_nNumAll++;
 
 			break;
 		}
@@ -146,6 +149,8 @@ void CEnemy::Uninit(void)
 	if (m_pEnemy[m_nidxID] != NULL)
 	{
 		m_pEnemy[m_nidxID] = NULL;
+
+		m_nNumAll--;
 	}
 	
 	CObject::Release();

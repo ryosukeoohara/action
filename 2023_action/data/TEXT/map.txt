@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 78
+NUM_MODEL = 79
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -31,6 +31,8 @@ MODEL_FILENAME = data/MODEL/EDIT/block_002.x        	# [12]壁
 MODEL_FILENAME = data/MODEL/EDIT/saku.x             	# [13]柵
 MODEL_FILENAME = data/MODEL/EDIT/load2.x        	    # [14]道2
 MODEL_FILENAME = data/MODEL/EDIT/load3.x        	    # [15]道3
+MODEL_FILENAME = data/MODEL/EDIT/load4.x        	    # [16]道4
+MODEL_FILENAME = data/MODEL/EDIT/load6.x        	    # [17]道5
 
 #------------------------------------------------------------------------------
 # モデルの情報
@@ -475,6 +477,12 @@ END_MODELSET
 MODELSET
     TYPE = 15
     POS = 1959.08 0.00 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 17
+    POS = 2542.54 0.09 -11.77
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

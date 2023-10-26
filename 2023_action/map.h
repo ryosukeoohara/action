@@ -27,6 +27,8 @@ public:
 
 	void ReadText(void);  //外部ファイル読み込み
 
+	static CMap *Create(void);
+
 	CObjectX **GetX(void) { return &m_apModel[0]; }   //マップモデルを取得
 	int GetnNumAll(void) { return m_nNumAll; }        //総数を取得
 

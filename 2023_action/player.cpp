@@ -253,53 +253,56 @@ void CPlayer::Update(void)
 	//プレイヤー(チビデブ)の情報を取得
 	CChibi *pChibi = CGame::GetPlayerChibi();
 
-	if ((InputKeyboard->GetTrigger(DIK_SPACE) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_Y, 0) == true)
-	 &&	pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
-	 && pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
-	 && pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK
-	 && pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH)
-	{//SPACEキーが押された
+	if (pChibi != nullptr && pFoot != nullptr)
+	{
+		if ((InputKeyboard->GetTrigger(DIK_SPACE) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_Y, 0) == true)
+			&& pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
+			&& pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
+			&& pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK
+			&& pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH)
+		{//SPACEキーが押された
 
-   		if (pChibi->GetbAppr() == false)
-		{
-			pChibi->SetbDisp(true);
-		}
+			if (pChibi->GetbAppr() == false)
+			{
+				pChibi->SetbDisp(true);
+			}
 
-		if (pFoot->GetbAppr() == false)
-		{
-			pFoot->SetbDisp(true);
-		}
+			if (pFoot->GetbAppr() == false)
+			{
+				pFoot->SetbDisp(true);
+			}
 
-		pChibi->SetState(CChibi::STATE_APPR);
-		pFoot->SetState(CFoot::STATE_APPR);
+			pChibi->SetState(CChibi::STATE_APPR);
+			pFoot->SetState(CFoot::STATE_APPR);
 
-		m_ApprCharcter = m_ApprCharcter ? 0 : 1;
+			m_ApprCharcter = m_ApprCharcter ? 0 : 1;
 
-   		Appear();
+			Appear();
 
-		if (m_ApprCharcter == 0)
-		{
-			pChibi->SetbDisp(false);
-			pChibi->SetbAppr(false);
+			if (m_ApprCharcter == 0)
+			{
+				pChibi->SetbDisp(false);
+				pChibi->SetbAppr(false);
 
-			pFoot->SetbAppr(true);
+				pFoot->SetbAppr(true);
 
- 			pFoot->SetPos(&pChibi->Getpos());
-			pFoot->SetRot(&pChibi->GetRot());
+				pFoot->SetPos(&pChibi->Getpos());
+				pFoot->SetRot(&pChibi->GetRot());
 
-			CParticl::Create({ pFoot->Getpos().x, pFoot->Getpos().y, pFoot->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
-		}
-		else
-		{
-			pFoot->SetbDisp(false);
-			pFoot->SetbAppr(false);
+				CParticl::Create({ pFoot->Getpos().x, pFoot->Getpos().y, pFoot->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
+			}
+			else
+			{
+				pFoot->SetbDisp(false);
+				pFoot->SetbAppr(false);
 
-			pChibi->SetbAppr(true);
+				pChibi->SetbAppr(true);
 
-			pChibi->SetPos(&pFoot->Getpos());
-			pChibi->SetRot(&pFoot->GetRot());
+				pChibi->SetPos(&pFoot->Getpos());
+				pChibi->SetRot(&pFoot->GetRot());
 
-			CParticl::Create({ pChibi->Getpos().x, pChibi->Getpos().y, pChibi->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
+				CParticl::Create({ pChibi->Getpos().x, pChibi->Getpos().y, pChibi->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
+			}
 		}
 	}
 }
@@ -427,7 +430,7 @@ void CChibi::Control(void)
 	//走っていない状態
 	m_bDash = false;
 
-	if (m_State != STATE_APPR)
+	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
 	{
 		if (InputKeyboard->GetPress(DIK_W) == true)
 		{//Wキーが押された
@@ -471,7 +474,7 @@ void CChibi::Control(void)
 			else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
 			{//Aキーだけ押した
 
-			 //移動量
+				//移動量
 				m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
 				//向き
@@ -520,6 +523,31 @@ void CChibi::Control(void)
 
 			m_State = STATE_JUMP;
 		}
+
+		if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
+		{//Kキーが押された
+
+			m_bAction = true;
+
+			if (m_nCntBullet == 0)
+			{
+				D3DXMATRIX Matrix = m_apModel[5]->GetMtxWorld();
+
+				//弾生成
+				CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+
+				m_RestBullet--;
+			}
+
+			if (m_bDash == true)
+			{
+				m_bDash = false;
+			}
+
+			m_nCntBullet++;
+
+			//m_State = STATE_ATTACK;
+		}
 	}
 	
 	if ((m_bAttack != true && m_bJump != true) || m_bJump == true || (m_bRand == false && m_bJump == false))
@@ -563,29 +591,6 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
-	{//Kキーが押された
-
-		m_bAction = true;
-
-		if (m_nCntBullet == 0)
-		{
-			D3DXMATRIX Matrix = m_apModel[5]->GetMtxWorld();
-
-			//弾生成
-			CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
-
-			m_RestBullet--;
-		}
-
-		if (m_bDash == true)
-		{
-			m_bDash = false;
-		}
-
-		m_nCntBullet++;
-	}
-
 	if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
 	{
 		m_RestBullet = REST_BULLET;
@@ -604,14 +609,14 @@ void CChibi::Control(void)
 		m_nCntBullet = 0;
 	}
 
-	/*if (m_pos.y <= 0.0f)
+	if (m_pos.y <= 0.0f)
 	{
 		m_pos.y = 0.0f;
 
 		m_move.y = 0.0f;
 
 		m_bJump = false;
-	}*/
+	}
 
 	if (m_RestBullet <= 0)
 	{
@@ -1213,6 +1218,7 @@ void CChibi::ReadText(const char *fliename)
 CChibi::CChibi()
 {
 	m_State = STATE_NONE;
+	m_TitleState = TITLE_STATE_NONE;
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nCntBullet = 0;
 	m_nLife = 0;
@@ -1230,6 +1236,7 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_TitleState = TITLE_STATE_NONE;
 	m_nCntBullet = 0;
 	m_nLife = 0;
 	m_bRand = false;
@@ -1268,23 +1275,40 @@ HRESULT CChibi::Init(void)
 	//体力設定
 	m_nLife = MAX_LIFECHIBI;
 
-	//体力ゲージのUI
-	CUIManager::Create({ 125.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFECHIBI);
+	if (CScene::GetMode() == CScene::MODE_GAME)
+	{
+		//体力ゲージのUI
+		CUIManager::Create({ 125.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFECHIBI);
 
-	//アイコン
-	CUIManager::Create({ 25.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONCHIBI);
+		//アイコン
+		CUIManager::Create({ 25.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONCHIBI);
 
-	//残弾表示UI
-	CUIManager::Create({ 100.0f, 150.0f, 0.0f }, CUIManager::TYPE_GUNGAGE);
+		//残弾表示UI
+		CUIManager::Create({ 100.0f, 150.0f, 0.0f }, CUIManager::TYPE_GUNGAGE);
 
-	//魔法UI
-	CUIManager::Create({ 50.0f, 150.0f, 0.0f }, CUIManager::TYPE_MAGIC);
+		//魔法UI
+		CUIManager::Create({ 50.0f, 150.0f, 0.0f }, CUIManager::TYPE_MAGIC);
+	}
 
-	//描画しない
-	SetbDisp(false);
+	if (CScene::GetMode() == CScene::MODE_GAME)
+	{
+		//描画しない
+		SetbDisp(false);
 
-	//出現しない
-	SetbAppr(false);
+		//出現しない
+		SetbAppr(false);
+	}
+	else
+	{
+		//描画しない
+		SetbDisp(true);
+
+		//出現しない
+		SetbAppr(true);
+
+		SetRot(&D3DXVECTOR3( 0.0f , (D3DX_PI * -0.5f) , 0.0f ));
+	}
+
 
 	return S_OK;
 }
@@ -1337,15 +1361,49 @@ void CChibi::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
-	CPlayer::Update();
-
 	if (m_nLife > 0)
 	{
 		if (m_bAppr == true)
 		{
 			m_bRand = false;
 
-			Control();
+			if (CScene::GetMode() == CScene::MODE_GAME)
+			{
+				Control();
+
+				CPlayer::Update();
+			}
+			else
+			{
+				D3DXVECTOR3 pos = Getpos();
+
+				if (m_TitleState != TITLE_STATE_NEUTRAL && m_TitleState != TITLE_STATE_MOVE)
+				{
+					m_motion->Set(MOTIONTYPE_TITLE);
+
+					m_TitleState = TITLE_STATE_NEUTRAL;
+				}
+
+				if (m_TitleState == TITLE_STATE_MOVE && m_bDash != true)
+				{
+					m_motion->Set(MOTIONTYPE_MOVE);
+
+					m_bDash = true;
+				}
+
+				if (m_TitleState == TITLE_STATE_MOVE && m_bDash == true)
+				{
+					//移動量
+					m_move.x += sinf((D3DX_PI * 0.5f)) * CHIBISPEED;
+				}
+
+				pos.x += m_move.x;
+
+				//移動量を更新(減衰させる)--------------------------------------------
+				m_move.x += (0.0f - m_move.x) * 0.1f;
+
+				SetPos(&pos);
+			}
 
 			if (pmap != NULL)
 			{
@@ -1395,6 +1453,25 @@ void CChibi::Draw(void)
 		}
 	}
 }
+CChibi * CChibi::Create(D3DXVECTOR3 pos)
+{
+	//オブジェクト2Dのポインタ
+	CChibi *pPlayer = NULL;
+
+	if (CObject::GetNumAll() < MAX_OBJECT)
+	{
+		if (pPlayer == NULL)
+		{
+			//オブジェクト2Dの生成
+			pPlayer = new CChibi(pos);
+
+			//初期化処理
+			pPlayer->Init();
+		}
+	}
+
+	return pPlayer;
+}
 //******************************************************************************************************************************************************
 //クソデブ
 //******************************************************************************************************************************************************
@@ -1405,6 +1482,7 @@ CFoot::CFoot()
 {
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
+	m_TitleState = TITLE_STATE_NONE;
 	m_nLife = 0;
 	m_bRand = false;
 	m_motion = NULL;
@@ -1421,6 +1499,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nLife = 0;
 	m_State = STATE_NONE;
+	m_TitleState = TITLE_STATE_NONE;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1454,12 +1533,19 @@ HRESULT CFoot::Init(void)
 	//体力設定
 	m_nLife = MAX_LIFEFOOT;
 
-	//体力ゲージのUI
-	CUIManager::Create({ 350.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFEFOOT);
+	if (CScene::GetMode() == CScene::MODE_GAME)
+	{
+		//体力ゲージのUI
+		CUIManager::Create({ 350.0f, 50.0f, 0.0f }, CUIManager::TYPE_LIFEFOOT);
 
-	//アイコン
-	CUIManager::Create({ 250.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONFOOT);
-
+		//アイコン
+		CUIManager::Create({ 250.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONFOOT);
+	}
+	else
+	{
+		SetRot(&D3DXVECTOR3(0.0f, (D3DX_PI * -0.5f), 0.0f));
+	}
+	
 	//描画する
 	SetbDisp(true);
 
@@ -1516,17 +1602,49 @@ void CFoot::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
-	CPlayer::Update();
-
-
-
 	if (m_nLife > 0)
 	{
 		if (m_bAppr == true)
 		{
 			m_bRand = false;
 
-			Control();
+			if (CScene::GetMode() == CScene::MODE_GAME)
+			{
+				Control();
+
+				CPlayer::Update();
+			}
+			else
+			{
+				D3DXVECTOR3 pos = Getpos();
+
+				if (m_TitleState != TITLE_STATE_NEUTRAL && m_TitleState != TITLE_STATE_MOVE)
+				{
+					m_motion->Set(MOTIONTYPE_TITLE);
+
+					m_TitleState = TITLE_STATE_NEUTRAL;
+				}
+
+				if (m_TitleState == TITLE_STATE_MOVE && m_bDash != true)
+				{
+					m_motion->Set(MOTIONTYPE_MOVE);
+
+					m_bDash = true;
+				}
+
+				if (m_TitleState == TITLE_STATE_MOVE && m_bDash == true)
+				{
+					//移動量
+					m_move.x += sinf((D3DX_PI * 0.5f)) * CHIBISPEED;
+				}
+
+				pos.x += m_move.x;
+
+				//移動量を更新(減衰させる)--------------------------------------------
+				m_move.x += (0.0f - m_move.x) * 0.1f;
+
+				SetPos(&pos);
+			}
 
 			if (pmap != NULL)
 			{
@@ -1536,8 +1654,6 @@ void CFoot::Update(void)
 				if (pCollision != NULL && pmap->GetX() != NULL)
 				{
 					(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
-
-
 				}
 			}
 		}
@@ -1577,4 +1693,24 @@ void CFoot::Draw(void)
 			m_apModel[nCount]->Draw();
 		}
 	}
+}
+
+CFoot * CFoot::Create(D3DXVECTOR3 pos)
+{
+	//オブジェクト2Dのポインタ
+	CFoot *pPlayer = NULL;
+
+	if (CObject::GetNumAll() < MAX_OBJECT)
+	{
+		if (pPlayer == NULL)
+		{
+			//オブジェクト2Dの生成
+			pPlayer = new CFoot(pos);
+
+			//初期化処理
+			pPlayer->Init();
+		}
+	}
+
+	return pPlayer;
 }

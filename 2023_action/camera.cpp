@@ -49,12 +49,12 @@ void CCamera::Init(void)
 {
 	CScene *pScene = CManager::Getinstance()->GetScene();
 
-	if (pScene->GetMode() == CScene::MODE_TITLE)
-	{
-		m_posV = D3DXVECTOR3(0.0f, 150.0f, -30.0f);
-		m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-	}
+	//if (pScene->GetMode() == CScene::MODE_TITLE)
+	//{
+	//	m_posV = D3DXVECTOR3(0.0f, 150.0f, -30.0f);
+	//	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+	//}
 }
 
 //================================================================
@@ -80,8 +80,6 @@ void CCamera::Update(void)
 
 	////プレイヤー(チビデブ)の情報を取得
 	//CChibi *pChibi = CGame::GetPlayerChibi();
-
-	
 
 	if (pScene->GetMode() == CScene::MODE_TITLE || pScene->GetMode() == CScene::MODE_RESULT)
 	{
@@ -231,20 +229,8 @@ void CCamera::CameraR(void)
 //================================================================
 void CCamera::Title(void)
 {
-	if (m_rot.y > D3DX_PI)
-	{
-		m_rot.y -= D3DX_PI * 2.0f;
-	}
-	else if (m_rot.y < -D3DX_PI)
-	{
-		m_rot.y += D3DX_PI * 2.0f;
-	}
-
-	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
-	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
-
-	m_posV = D3DXVECTOR3(0.0f + m_posV.x, 10.0f, 0.0f + m_posV.z);
-	m_posR = D3DXVECTOR3(0.0f, 70.0f, 50.0f);
+	m_posV = D3DXVECTOR3(-500.0f, 80.0f, -200.0f);
+	m_posR = D3DXVECTOR3(-875.0f, 70.0f, 50.0f);
 	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 }
 
