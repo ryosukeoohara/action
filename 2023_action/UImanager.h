@@ -31,6 +31,7 @@ public:
 		TYPE_ICONFOOT,                              //デブの顔アイコン
 		TYPE_ICONCHIBI,                             //チビの顔アイコン
 		TYPE_MAGIC,                                 //魔法
+		TYPE_TITLESELECT,                           //ゲームスタート
 		TYPE_MAX
 	};
 

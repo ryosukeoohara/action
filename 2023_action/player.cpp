@@ -265,44 +265,33 @@ void CPlayer::Update(void)
 			if (pChibi->GetbAppr() == false)
 			{
 				pChibi->SetbDisp(true);
-			}
+				pChibi->SetbAppr(true);
 
-			if (pFoot->GetbAppr() == false)
-			{
-				pFoot->SetbDisp(true);
-			}
-
-			pChibi->SetState(CChibi::STATE_APPR);
-			pFoot->SetState(CFoot::STATE_APPR);
-
-			m_ApprCharcter = m_ApprCharcter ? 0 : 1;
-
-			Appear();
-
-			if (m_ApprCharcter == 0)
-			{
-				pChibi->SetbDisp(false);
-				pChibi->SetbAppr(false);
-
-				pFoot->SetbAppr(true);
-
-				pFoot->SetPos(&pChibi->Getpos());
-				pFoot->SetRot(&pChibi->GetRot());
-
-				CParticl::Create({ pFoot->Getpos().x, pFoot->Getpos().y, pFoot->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
-			}
-			else
-			{
 				pFoot->SetbDisp(false);
 				pFoot->SetbAppr(false);
-
-				pChibi->SetbAppr(true);
 
 				pChibi->SetPos(&pFoot->Getpos());
 				pChibi->SetRot(&pFoot->GetRot());
 
 				CParticl::Create({ pChibi->Getpos().x, pChibi->Getpos().y, pChibi->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
 			}
+
+			else if (pFoot->GetbAppr() == false)
+			{
+				pFoot->SetbDisp(true);
+				pFoot->SetbAppr(true);
+
+				pChibi->SetbDisp(false);
+				pChibi->SetbAppr(false);
+
+				pFoot->SetPos(&pChibi->Getpos());
+				pFoot->SetRot(&pChibi->GetRot());
+
+				CParticl::Create({ pFoot->Getpos().x, pFoot->Getpos().y, pFoot->Getpos().z }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f,1.0f }, 10.0f, CParticl::TYPEPAR_CIRCLE);
+			}
+
+			pChibi->SetState(CChibi::STATE_APPR);
+			pFoot->SetState(CFoot::STATE_APPR);
 		}
 	}
 }
@@ -458,7 +447,7 @@ void CChibi::Control(void)
 		//if ((m_bAction == true && m_bJump == true && m_bRand == false))
 		//{
 			//右に移動----------------------------------------------
-			if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
+			if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAction != true)
 			{//Dキーだけ押した
 
 				//移動量
@@ -471,7 +460,8 @@ void CChibi::Control(void)
 				m_bDash = true;
 			}
 			//左に移動----------------------------------------------
-			else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
+			else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAction != true
+				)
 			{//Aキーだけ押した
 
 				//移動量
@@ -485,15 +475,45 @@ void CChibi::Control(void)
 			}
 		//}
 		
-
 		PlayerRot.y = m_fDest;
 
+		
+			
+	}
+
+	if (m_State != STATE_APPR)
+	{
+		//ジャンプ---------------
 		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false)
 		{//SPACEキーが押された
 
 			m_bJump = true;
 
 			m_move.y += CHIBIJUMP;
+		}
+
+		//攻撃-------------------
+		if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
+		{//Kキーが押された
+
+			m_bAction = true;
+
+			if (m_nCntBullet == 0)
+			{
+				D3DXMATRIX Matrix = m_apModel[5]->GetMtxWorld();
+
+				//弾生成
+				CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+
+				m_RestBullet--;
+			}
+
+			if (m_bDash == true)
+			{
+				m_bDash = false;
+			}
+
+			m_nCntBullet++;
 		}
 
 		if (m_bDash == true && m_State != STATE_MOVE && m_State != STATE_ATTACK)
@@ -524,38 +544,30 @@ void CChibi::Control(void)
 			m_State = STATE_JUMP;
 		}
 
-		if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
-		{//Kキーが押された
+		if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
+		{
+			m_RestBullet = REST_BULLET;
+		}
 
-			m_bAction = true;
+		if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
+		{
+			//モーションをセット(攻撃)
+			m_motion->Set(MOTIONTYPE_ATTACK);
 
-			if (m_nCntBullet == 0)
-			{
-				D3DXMATRIX Matrix = m_apModel[5]->GetMtxWorld();
+			m_State = STATE_ATTACK;
+		}
 
-				//弾生成
-				CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
-
-				m_RestBullet--;
-			}
-
-			if (m_bDash == true)
-			{
-				m_bDash = false;
-			}
-
-			m_nCntBullet++;
-
-			//m_State = STATE_ATTACK;
+		if (m_nCntBullet >= BULLETWAIT)
+		{
+			m_nCntBullet = 0;
 		}
 	}
-	
-	if ((m_bAttack != true && m_bJump != true) || m_bJump == true || (m_bRand == false && m_bJump == false))
-	{
-		//位置に移動量加算----------------------------------------------------
-		m_pos.x += m_move.x;
-		m_pos.y += m_move.y;
-	}
+
+	//位置に移動量加算----------------------------------------------------
+	m_pos.x += m_move.x;
+	m_pos.y += m_move.y;
+
+	//m_pos.y = fHeight + 18.0f;
 
 	//移動量を更新(減衰させる)--------------------------------------------
 	m_move.x += (0.0f - m_move.x) * 0.1f;
@@ -591,24 +603,6 @@ void CChibi::Control(void)
 		}
 	}
 
-	if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
-	{
-		m_RestBullet = REST_BULLET;
-	}
-	
-	if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
-	{
-		//モーションをセット(攻撃)
-		m_motion->Set(MOTIONTYPE_ATTACK);
-
-		m_State = STATE_ATTACK;
-	}
-	
-	if (m_nCntBullet >= BULLETWAIT)
-	{
-		m_nCntBullet = 0;
-	}
-
 	if (m_pos.y <= 0.0f)
 	{
 		m_pos.y = 0.0f;
@@ -625,6 +619,8 @@ void CChibi::Control(void)
 
 	SetPos(&m_pos);
 	SetRot(&PlayerRot);
+
+	pFoot->SetPos(&m_pos);
 
 	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", m_pos.x, m_pos.y, m_pos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
@@ -704,7 +700,7 @@ void CFoot::Control(void)
 	//走っていない状態
 	m_bDash = false;
 
-	if (m_State != STATE_APPR)
+	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
 	{
 		////上に移動----------------------------------------------
 		//if (InputKeyboard->GetPress(DIK_W) == true)
@@ -746,7 +742,11 @@ void CFoot::Control(void)
 		}
 
 		PlayerRot.y = m_fDest;
+	}
 
+	if (m_State != STATE_APPR)
+	{
+		//ジャンプ------------
 		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false && m_bAttack != true)
 		{//SPACEキーが押された
 
@@ -755,26 +755,36 @@ void CFoot::Control(void)
 			m_move.y += FOOTJUMP;
 		}
 
-		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_RB, 0) == true)
+		//攻撃----------------
+		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_RB, 0) == true && m_bAttack == false)
 		{//Kキーが押された
 
 			m_bAttack = true;
+
+			//モーションをセット(攻撃)
+			m_motion->Set(MOTIONTYPE_ATTACK);
+
+			m_State = STATE_ATTACK;
 		}
 
-		if ((m_bAttack != true && m_bJump != true) || m_bJump == true || (m_bRand == false && m_bJump == false))
+		if (m_State == STATE_ATTACK)
 		{
-			//位置に移動量加算----------------------------------------------------
-			m_pos.x += m_move.x;
-			m_pos.y += m_move.y;
+			m_nCntColi++;
+
+			if (m_nCntColi >= 10 && 30 >= m_nCntColi)
+			{
+				if (pCollision != NULL)
+				{
+					if (pCollision->Sword(m_apModel[28]->GetMtxWorld(), m_apModel[28]->GetMtxWorld(), 100.0f, pEnemy) == true)
+					{
+						int n = 0;
+					}
+				}
+			}
 		}
 
-		//m_pos.y = fHeight + 18.0f;
-
-		//移動量を更新(減衰させる)--------------------------------------------
-		m_move.x += (0.0f - m_move.x) * 0.1f;
-
-		if (m_bDash == true && m_bAttack == false 
-		 && m_State != STATE_MOVE && m_State != STATE_ATTACK)
+		if (m_bDash == true && m_bAttack == false
+			&& m_State != STATE_MOVE && m_State != STATE_ATTACK)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_MOVE);
@@ -784,8 +794,8 @@ void CFoot::Control(void)
 			m_bAction = false;
 		}
 
-		if (m_bDash == false && m_bAttack == false 
-		 && m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
+		if (m_bDash == false && m_bAttack == false
+			&& m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_NEUTRAL);
@@ -802,31 +812,16 @@ void CFoot::Control(void)
 
 			m_State = STATE_JUMP;
 		}
-
-		if (m_bAttack == true && m_State != STATE_ATTACK)
-		{
-			//モーションをセット(攻撃)
-			m_motion->Set(MOTIONTYPE_ATTACK);
-
-			m_State = STATE_ATTACK;
-		}
 	}
 
-	if (m_State == STATE_ATTACK)
-	{
-		m_nCntColi++;
+	//位置に移動量加算----------------------------------------------------
+	m_pos.x += m_move.x;
+	m_pos.y += m_move.y;
+	
+	//m_pos.y = fHeight + 18.0f;
 
-		if (m_nCntColi >= 10 && 30 >= m_nCntColi)
-		{
-			if (pCollision != NULL)
-			{
-				if (pCollision->Sword(m_apModel[28]->GetMtxWorld(), m_apModel[28]->GetMtxWorld(), 100.0f, pEnemy) == true)
-				{
-					int n = 0;
-				}
-			}
-		}
-	}
+	//移動量を更新(減衰させる)--------------------------------------------
+	m_move.x += (0.0f - m_move.x) * 0.1f;
 
 	if (m_State == STATE_APPR && m_WaitApper == false)
 	{
@@ -868,6 +863,8 @@ void CFoot::Control(void)
 
 	SetPos(&m_pos);
 	SetRot(&PlayerRot);
+
+	pChibi->SetPos(&m_pos);
 
 	pDebugProc->Print("\nプレイヤーの位置：%f,%f,%f\n", m_pos.x, m_pos.y, m_pos.z);
 	pDebugProc->Print("プレイヤーの向き：%f,%f,%f\n", PlayerRot.x, PlayerRot.y, PlayerRot.z);
@@ -1233,7 +1230,7 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 {
 	CObject::SetPos(&pos);  //位置
 	m_pos = pos;
-	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
+	SetRot(&D3DXVECTOR3(0.0f, -1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_State = STATE_NONE;
 	m_TitleState = TITLE_STATE_NONE;
@@ -1288,6 +1285,8 @@ HRESULT CChibi::Init(void)
 
 		//魔法UI
 		CUIManager::Create({ 50.0f, 150.0f, 0.0f }, CUIManager::TYPE_MAGIC);
+
+		m_fDest = -1.57f;
 	}
 
 	if (CScene::GetMode() == CScene::MODE_GAME)
@@ -1495,7 +1494,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 {
 	CObject::SetPos(&pos);  //位置]
 	m_pos = pos;
-	SetRot(&D3DXVECTOR3(0.0f, 1.57f, 0.0f));
+	SetRot(&D3DXVECTOR3(0.0f, -1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nLife = 0;
 	m_State = STATE_NONE;
@@ -1540,12 +1539,14 @@ HRESULT CFoot::Init(void)
 
 		//アイコン
 		CUIManager::Create({ 250.0f, 50.0f, 0.0f }, CUIManager::TYPE_ICONFOOT);
+
+		m_fDest = -1.57f;
 	}
 	else
 	{
 		SetRot(&D3DXVECTOR3(0.0f, (D3DX_PI * -0.5f), 0.0f));
 	}
-	
+
 	//描画する
 	SetbDisp(true);
 

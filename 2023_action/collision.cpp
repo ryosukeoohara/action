@@ -154,7 +154,7 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 	//int nNumEnemy = CEnemyManager::GetNumAll();
 	float c = 0.0f;
 
-	for (int nCount = 0; nCount < CEnemy::GetNumAll(); nCount++)
+	for (int nCount = 0; nCount < 6; nCount++)
 	{
 		float EnemyfRadius = 50.0f;
 

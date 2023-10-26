@@ -93,6 +93,9 @@ HRESULT CTitle::Init(void)
 	//タイトルのロゴ生成
 	CUIManager::Create({ 100.0f, 180.0f, 0.0f }, CUIManager::TYPE_TITLE);
 
+	//スタートorエンター
+	CUIManager::Create({ 100.0f, 500.0f, 0.0f }, CUIManager::TYPE_TITLESELECT);
+
 	//サウンドを取得
 	CSound *pSound = CManager::Getinstance()->GetSound();
 	pSound->Play(CSound::SOUND_LABEL_BGM002);

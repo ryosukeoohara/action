@@ -84,7 +84,7 @@ HRESULT CUIManager::Init(void)
 
 	case CUIManager::TYPE_TITLE:    //タイトル
 
-		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\taitoru.jpg");
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\title.png");
 		break;
 
 	case CUIManager::TYPE_RESULT:   //リザルト
@@ -120,6 +120,11 @@ HRESULT CUIManager::Init(void)
 	case CUIManager::TYPE_MAGIC:
 
 		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\magic.png");
+		break;
+
+	case CUIManager::TYPE_TITLESELECT:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\titleselect.png");
 		break;
 
 	case CUIManager::TYPE_MAX:
@@ -166,7 +171,7 @@ void CUIManager::Update(void)
 
 	case CUIManager::TYPE_TITLE:    //タイトル
 
-		CObject2D::SetVtxUI(Getpos(), 600.0f, 200.0f, { 1.0f,1.0f,1.0f,1.0f });
+		CObject2D::SetVtxUI(Getpos(), 500.0f, 150.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_RESULT:   //リザルト
@@ -214,6 +219,11 @@ void CUIManager::Update(void)
 	case CUIManager::TYPE_MAGIC:
 
 		CObject2D::SetVtxUI(Getpos(), 50.0f, 25.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_TITLESELECT:
+
+		CObject2D::SetVtxUI(Getpos(), 400.0f, 50.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_MAX:
