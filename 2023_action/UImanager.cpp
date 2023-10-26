@@ -124,7 +124,17 @@ HRESULT CUIManager::Init(void)
 
 	case CUIManager::TYPE_TITLESELECT:
 
-		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\titleselect.png");
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\titlesele.png");
+		break;
+
+	case CUIManager::TYPE_RANK:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\rank.png");
+		break;
+
+	case CUIManager::TYPE_SCORE:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\score.png");
 		break;
 
 	case CUIManager::TYPE_MAX:
@@ -223,7 +233,17 @@ void CUIManager::Update(void)
 
 	case CUIManager::TYPE_TITLESELECT:
 
-		CObject2D::SetVtxUI(Getpos(), 400.0f, 50.0f, { 1.0f,1.0f,1.0f,1.0f });
+		CObject2D::SetVtxUI(Getpos(), 500.0f, 50.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_RANK:
+
+		CObject2D::SetVtxUI(Getpos(), 100.0f, 250.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_SCORE:
+
+		CObject2D::SetVtxUI(Getpos(), 400.0f, 40.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_MAX:

@@ -32,6 +32,8 @@ public:
 		TYPE_ICONCHIBI,                             //チビの顔アイコン
 		TYPE_MAGIC,                                 //魔法
 		TYPE_TITLESELECT,                           //ゲームスタート
+		TYPE_RANK,                                  //順位
+		TYPE_SCORE,                                 //ランキングの上の見出し
 		TYPE_MAX
 	};
 

@@ -17,6 +17,9 @@
 #include "UImanager.h"
 #include "ranking.h"
 #include "score.h"
+#include "camera.h"
+#include "sky.h"
+#include "map.h"
 
 //===========================================================
 //コンストラクタ
@@ -56,11 +59,27 @@ CResult *CResult::Create(void)
 //===========================================================
 HRESULT CResult::Init(void)
 {
-	//タイトルのロゴ生成
-	//CUIManager::Create({ SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_RESULT);
+	//カメラ取得
+	CCamera *pCamera = CManager::Getinstance()->GetCamera();
 
+	pCamera->SetType(CCamera::TYPE_TITLE);
+
+	//空生成
+	CSky::Create({ 0.0f,0.0f,0.0f });
+
+	//マップ生成
+	CMap::Create();
+
+	//ランキング上の見出し
+	CUIManager::Create({ 400.0f, 100.0f, 0.0f }, CUIManager::TYPE_SCORE);
+
+	//ランク表示
+	CUIManager::Create({ 300.0f, 380.0f, 0.0f }, CUIManager::TYPE_RANK);
+
+	//ランキングの生成
 	CRanking::Create();
 
+	//ランキング設定
 	CRanking::SetRanking(CScore::Getscore());
 
 	//サウンドを取得
@@ -80,8 +99,10 @@ void CResult::Uninit(void)
 	//サウンドを取得
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
+	//サウンド停止
 	pSound->Stop();
 
+	//すべてのオブジェクト破棄
 	CObject::ReleaseAll();
 }
 

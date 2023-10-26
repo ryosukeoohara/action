@@ -259,7 +259,8 @@ void CPlayer::Update(void)
 			&& pFoot->GetState() != CFoot::STATE_APPR && pChibi->GetState() != CChibi::STATE_APPR
 			&& pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
 			&& pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK
-			&& pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH)
+			&& pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH
+			&& pChibi->GetState() != CChibi::STATE_RELOAD)
 		{//SPACEキーが押された
 
 			if (pChibi->GetbAppr() == false)
@@ -444,41 +445,35 @@ void CChibi::Control(void)
 
 		//}
 
-		//if ((m_bAction == true && m_bJump == true && m_bRand == false))
-		//{
-			//右に移動----------------------------------------------
-			if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAction != true)
-			{//Dキーだけ押した
+		//右に移動----------------------------------------------
+		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAction != true)
+		{//Dキーだけ押した
 
-				//移動量
-				m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+		 //移動量
+			m_move.x += sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
-				//向き
-				m_fDest = D3DX_PI * -0.5f;
+			//向き
+			m_fDest = D3DX_PI * -0.5f;
 
-				//走っている状態にする
-				m_bDash = true;
-			}
-			//左に移動----------------------------------------------
-			else if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAction != true
-				)
-			{//Aキーだけ押した
+			//走っている状態にする
+			m_bDash = true;
+		}
+		//左に移動----------------------------------------------
+		if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAction != true)
+		{//Aキーだけ押した
 
-				//移動量
-				m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
+		 //移動量
+			m_move.x -= sinf(CameraRot.y + (D3DX_PI * 0.5f)) * CHIBISPEED;
 
-				//向き
-				m_fDest = D3DX_PI * 0.5f;
+			//向き
+			m_fDest = D3DX_PI * 0.5f;
 
-				//走っている状態にする
-				m_bDash = true;
-			}
-		//}
+			//走っている状態にする
+			m_bDash = true;
+		}
 		
+		//向き代入
 		PlayerRot.y = m_fDest;
-
-		
-			
 	}
 
 	if (m_State != STATE_APPR)
@@ -526,7 +521,7 @@ void CChibi::Control(void)
 			m_bAction = false;
 		}
 
-		if (m_bDash == false && m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
+		if (m_bDash == false && m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR && m_State != STATE_RELOAD)
 		{
 			//モーションをセット(移動)
 			m_motion->Set(MOTIONTYPE_NEUTRAL);
@@ -544,9 +539,11 @@ void CChibi::Control(void)
 			m_State = STATE_JUMP;
 		}
 
-		if (pInputJoyPad->GetPress(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true)
+		if (pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true && m_State != STATE_RELOAD)
 		{
-			m_RestBullet = REST_BULLET;
+			m_State = STATE_RELOAD;
+
+			m_motion->Set(MOTIONTYPE_RELOAD);
 		}
 
 		if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
@@ -594,6 +591,12 @@ void CChibi::Control(void)
 
 			pChibi->SetState(STATE_NONE);
 			pFoot->SetState(CFoot::STATE_NONE);
+		}
+		else if (m_State == STATE_RELOAD)
+		{
+			m_RestBullet = REST_BULLET;
+
+			m_State = STATE_NONE;
 		}
 		else
 		{
@@ -700,7 +703,7 @@ void CFoot::Control(void)
 	//走っていない状態
 	m_bDash = false;
 
-	if (m_State != STATE_APPR && m_State != STATE_ATTACK)
+	if (m_State != STATE_APPR)
 	{
 		////上に移動----------------------------------------------
 		//if (InputKeyboard->GetPress(DIK_W) == true)
@@ -713,7 +716,7 @@ void CFoot::Control(void)
 
 		//}
 		//右に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0)
+		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAttack != true)
 		{//Dキーだけ押した
 
 			//移動量
@@ -727,7 +730,7 @@ void CFoot::Control(void)
 			m_bDash = true;
 		}
 		//左に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0)
+		if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAttack != true)
 		{//Aキーだけ押した
 
 			//移動量
@@ -761,13 +764,10 @@ void CFoot::Control(void)
 
 			m_bAttack = true;
 
-			//モーションをセット(攻撃)
-			m_motion->Set(MOTIONTYPE_ATTACK);
-
-			m_State = STATE_ATTACK;
+			//m_State = STATE_ATTACK;
 		}
 
-		if (m_State == STATE_ATTACK)
+		if (m_bAttack == true)
 		{
 			m_nCntColi++;
 
@@ -790,8 +790,6 @@ void CFoot::Control(void)
 			m_motion->Set(MOTIONTYPE_MOVE);
 
 			m_State = STATE_MOVE;
-
-			m_bAction = false;
 		}
 
 		if (m_bDash == false && m_bAttack == false
@@ -811,6 +809,14 @@ void CFoot::Control(void)
 			m_motion->Set(MOTIONTYPE_JUMP);
 
 			m_State = STATE_JUMP;
+		}
+
+		if (m_bAttack == true && m_bDash != true && m_State != STATE_ATTACK)
+		{
+			//モーションをセット(攻撃)
+			m_motion->Set(MOTIONTYPE_ATTACK);
+
+			m_State = STATE_ATTACK;
 		}
 	}
 

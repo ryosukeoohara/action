@@ -161,7 +161,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (m_DebugProc == NULL)
 	{//使用されていなかったら
 
-	 //デバッグプロックの生成
+		//デバッグプロックの生成
 		m_DebugProc = new CDebugProc;
 
 		//初期化処理

@@ -132,6 +132,7 @@ public:
 		STATE_DAMAGE,                 //ダメージ
 		STATE_DEATH,                  //死亡
 		STATE_TITLE,                  //タイトル
+		STATE_RELOAD,                 //リロード
 		STATE_MAX
 	} STATE;
 
@@ -153,6 +154,7 @@ public:
 		MOTIONTYPE_ATTACK,                   //攻撃
 		MOTIONTYPE_APPR,                     //出現
 		MOTIONTYPE_TITLE,                    //タイトル
+		MOTIONTYPE_RELOAD,                   //リロード
 		MOTIONTYPE_MAX
 	} MOTIONTYPE;
 
