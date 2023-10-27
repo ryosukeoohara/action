@@ -137,6 +137,26 @@ HRESULT CUIManager::Init(void)
 		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\score.png");
 		break;
 
+	case CUIManager::TYPE_PAUSEFRAME:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\fream.png");
+		break;
+
+	case CUIManager::TYPE_COUTINUE:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\pause000.png");
+		break;
+
+	case CUIManager::TYPE_RETRY:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\pause001.png");
+		break;
+
+	case CUIManager::TYPE_QUIT:
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\pause002.png");
+		break;
+
 	case CUIManager::TYPE_MAX:
 		break;
 
@@ -242,6 +262,26 @@ void CUIManager::Update(void)
 		break;
 
 	case CUIManager::TYPE_SCORE:
+
+		CObject2D::SetVtxUI(Getpos(), 400.0f, 40.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_PAUSEFRAME:
+
+		CObject2D::SetVtxUI(Getpos(), 300.0f, 200.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_COUTINUE:
+
+		CObject2D::SetVtxUI(Getpos(), 400.0f, 40.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_RETRY:
+
+		CObject2D::SetVtxUI(Getpos(), 400.0f, 40.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_QUIT:
 
 		CObject2D::SetVtxUI(Getpos(), 400.0f, 40.0f, { 1.0f,1.0f,1.0f,1.0f });
 		break;

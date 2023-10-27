@@ -34,7 +34,11 @@ public:
 		TYPE_TITLESELECT,                           //ゲームスタート
 		TYPE_RANK,                                  //順位
 		TYPE_SCORE,                                 //ランキングの上の見出し
-		TYPE_MAX
+		TYPE_PAUSEFRAME,                            //ポーズのフレーム
+		TYPE_COUTINUE,                              //ゲームに戻る
+		TYPE_RETRY,                                 //ゲームをやり直す
+		TYPE_QUIT,                                  //タイトル画面に戻る
+		TYPE_MAX							        
 	};
 
 	CUIManager();                                   //コンストラクタ

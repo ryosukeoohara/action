@@ -250,6 +250,7 @@ private:
 	bool m_bAcThr;                       //連劇中
 	bool m_WaitApper;                    //出現待ち状態
 	bool m_bRand;                        //地面に着地しているかどうか
+	bool m_bDamage;                      //ダメージを受けた
 	D3DXVECTOR3 m_posOrigin;
 
 	//チュートリアルで使う関数,変数
@@ -394,6 +395,7 @@ private:
 	bool m_bAcThr;                       //連劇中
 	bool m_WaitApper;                    //出現待ち状態
 	bool m_bRand;                        //地面に着地しているかどうか
+	bool m_bDamage;                      //ダメージを受けた
 	D3DXVECTOR3 m_posOrigin;
 	//CMotion *m_motion;                   //モーションへのポインタ
 

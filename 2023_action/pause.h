@@ -12,7 +12,7 @@
 //マクロ定義
 #define MAX_PAUSEOBJ   (5)
 
-class CPause : public CObject
+class CPause
 {
 public:
 	CPause();                                  //コンストラクタ
