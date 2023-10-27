@@ -260,7 +260,8 @@ void CPlayer::Update(void)
 			&& pFoot->GetState() != CFoot::STATE_JUMP && pChibi->GetState() != CChibi::STATE_JUMP
 			&& pFoot->GetState() != CFoot::STATE_ATTACK && pChibi->GetState() != CChibi::STATE_ATTACK
 			&& pFoot->GetState() != CFoot::STATE_DEATH && pChibi->GetState() != CChibi::STATE_DEATH
-			&& pChibi->GetState() != CChibi::STATE_RELOAD)
+			&& pChibi->GetState() != CChibi::STATE_RELOAD
+			&& pChibi->GetState() != CChibi::STATE_DAMAGE && pFoot->GetState() != CFoot::STATE_DAMAGE)
 		{//SPACEキーが押された
 
 			if (pChibi->GetbAppr() == false)
@@ -365,6 +366,8 @@ void CChibi::Hit(void)
 		m_nLife--;
 
 		m_State = STATE_DAMAGE;
+
+		m_nCntDamage = 80;
 	}
 }
 
@@ -479,12 +482,15 @@ void CChibi::Control(void)
 	if (m_State != STATE_APPR)
 	{
 		//ジャンプ---------------
-		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false)
+		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_bJump == false)
 		{//SPACEキーが押された
 
 			m_bJump = true;
 
 			m_move.y += CHIBIJUMP;
+
+			//サウンドストップ
+			pSound->Play(CSound::SOUND_LABEL_SEJUMP00);
 		}
 
 		//攻撃-------------------
@@ -499,6 +505,9 @@ void CChibi::Control(void)
 
 				//弾生成
 				CBullet::Create(D3DXVECTOR3(Matrix._41, Matrix._42, Matrix._43), D3DXVECTOR3(0.0f, m_fDest, 0.0f), CBullet::TYPE_PLAYER);
+
+				//サウンドストップ
+				pSound->Play(CSound::SOUND_LABEL_SEMAGIC);
 
 				m_RestBullet--;
 			}
@@ -539,11 +548,13 @@ void CChibi::Control(void)
 			m_State = STATE_JUMP;
 		}
 
-		if (pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_LB, 0) == true && m_bJump != true && m_bAction != true && m_State != STATE_RELOAD)
+		if ((InputKeyboard->GetPress(DIK_R) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_LB, 0) == true) && m_bJump != true && m_bAction != true && m_State != STATE_RELOAD)
 		{
 			m_State = STATE_RELOAD;
 
 			m_motion->Set(MOTIONTYPE_RELOAD);
+
+			pSound->Play(CSound::SOUND_LABEL_SEMAGICPOWER);
 		}
 
 		if (m_bAction == true && m_bDash != true && m_State != STATE_ATTACK)
@@ -620,6 +631,18 @@ void CChibi::Control(void)
 		pDebugProc->Print("\n球切れだよ～～\n");
 	}
 
+	if (m_bDash == true && m_nCntSound == 0)
+	{
+		m_nCntSound = 35;
+
+		pSound->Play(CSound::SOUND_LABEL_SEASIOTO);
+	}
+
+	if (m_nCntSound > 0)
+	{
+		m_nCntSound--;
+	}
+
 	SetPos(&m_pos);
 	SetRot(&PlayerRot);
 
@@ -636,7 +659,14 @@ void CChibi::Control(void)
 //================================================================
 void CFoot::Hit(void)
 {
-	
+	if (m_State != STATE_DAMAGE)
+	{
+		m_nLife--;
+
+		m_State = STATE_DAMAGE;
+
+		m_nCntDamage = 80;
+	}
 }
 
 //================================================================
@@ -703,122 +733,130 @@ void CFoot::Control(void)
 	//走っていない状態
 	m_bDash = false;
 
-	if (m_State != STATE_APPR)
-	{
-		////上に移動----------------------------------------------
-		//if (InputKeyboard->GetPress(DIK_W) == true)
-		//{//Wキーが押された
-
-		//}
-		////下に移動----------------------------------------------
-		//else if (InputKeyboard->GetPress(DIK_S) == true)
-		//{//Sキーが押された
-
-		//}
-		//右に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAttack != true)
-		{//Dキーだけ押した
-
-			//移動量
-			m_move.x += sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
-			m_move.z += cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
-
-			//向き
-			m_fDest = ((D3DX_PI * -0.5f));
-
-			//走っている状態にする
-			m_bDash = true;
-		}
-		//左に移動----------------------------------------------
-		if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAttack != true)
-		{//Aキーだけ押した
-
-			//移動量
-			m_move.x -= sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
-			m_move.z -= cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
-
-			//向き
-			m_fDest = ((D3DX_PI * 0.5f));
-
-			//走っている状態にする
-			m_bDash = true;
-		}
-
-		PlayerRot.y = m_fDest;
-	}
-
-	if (m_State != STATE_APPR)
-	{
-		//ジャンプ------------
-		if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_B, 0) == true) && m_bJump == false && m_bAttack != true)
-		{//SPACEキーが押された
-
-			m_bJump = true;
-
-			m_move.y += FOOTJUMP;
-		}
-
-		//攻撃----------------
-		if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_RB, 0) == true && m_bAttack == false)
-		{//Kキーが押された
-
-			m_bAttack = true;
-
-			//m_State = STATE_ATTACK;
-		}
-
-		if (m_bAttack == true)
+	
+		if (m_State != STATE_APPR)
 		{
-			m_nCntColi++;
+			////上に移動----------------------------------------------
+			//if (InputKeyboard->GetPress(DIK_W) == true)
+			//{//Wキーが押された
 
-			if (m_nCntColi >= 10 && 30 >= m_nCntColi)
+			//}
+			////下に移動----------------------------------------------
+			//else if (InputKeyboard->GetPress(DIK_S) == true)
+			//{//Sキーが押された
+
+			//}
+			//右に移動----------------------------------------------
+			if (InputKeyboard->GetPress(DIK_D) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) > 0 && m_bAttack != true)
+			{//Dキーだけ押した
+
+			 //移動量
+				m_move.x += sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
+				m_move.z += cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
+
+				//向き
+				m_fDest = ((D3DX_PI * -0.5f));
+
+				//走っている状態にする
+				m_bDash = true;
+			}
+			//左に移動----------------------------------------------
+			if (InputKeyboard->GetPress(DIK_A) == true || pInputJoyPad->GetXStick(CInputJoyPad::STICK_LX, 0) < 0 && m_bAttack != true)
+			{//Aキーだけ押した
+
+			 //移動量
+				m_move.x -= sinf((D3DX_PI * 0.5f)) * FOOTSPEED;
+				m_move.z -= cosf((D3DX_PI * 0.5f)) * FOOTSPEED;
+
+				//向き
+				m_fDest = ((D3DX_PI * 0.5f));
+
+				//走っている状態にする
+				m_bDash = true;
+			}
+
+			PlayerRot.y = m_fDest;
+		}
+
+		if (m_State != STATE_APPR)
+		{
+			//ジャンプ------------
+			if ((InputKeyboard->GetTrigger(DIK_J) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_bJump == false && m_bAttack != true)
+			{//SPACEキーが押された
+
+				m_bJump = true;
+
+				m_move.y += FOOTJUMP;
+
+				//サウンドストップ
+				pSound->Play(CSound::SOUND_LABEL_SEJUMP01);
+			}
+
+			//攻撃----------------
+			if (InputKeyboard->GetTrigger(DIK_K) == true || pInputJoyPad->GetTrigger(CInputJoyPad::BUTTON_RB, 0) == true && m_bAttack == false)
+			{//Kキーが押された
+
+				m_bAttack = true;
+
+				//サウンドストップ
+				pSound->Play(CSound::SOUND_LABEL_SESWORD);
+
+				//m_State = STATE_ATTACK;
+			}
+
+			if (m_bAttack == true)
 			{
-				if (pCollision != NULL)
+				m_nCntColi++;
+
+				if (m_nCntColi >= 10 && 30 >= m_nCntColi)
 				{
-					if (pCollision->Sword(m_apModel[28]->GetMtxWorld(), m_apModel[28]->GetMtxWorld(), 100.0f, pEnemy) == true)
+					if (pCollision != NULL)
 					{
-						int n = 0;
+						if (pCollision->Sword(m_apModel[28]->GetMtxWorld(), m_apModel[28]->GetMtxWorld(), 100.0f, pEnemy) == true)
+						{
+							int n = 0;
+						}
 					}
 				}
 			}
+
+			if (m_bDash == true && m_bAttack == false
+				&& m_State != STATE_MOVE && m_State != STATE_ATTACK)
+			{
+				//モーションをセット(移動)
+				m_motion->Set(MOTIONTYPE_MOVE);
+
+				m_State = STATE_MOVE;
+			}
+
+			if (m_bDash == false && m_bAttack == false
+				&& m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
+			{
+				//モーションをセット(移動)
+				m_motion->Set(MOTIONTYPE_NEUTRAL);
+
+				m_State = STATE_NEUTRAL;
+			}
+
+			if (m_bJump == true && m_bAttack == false && m_State != STATE_JUMP)
+			{
+				//モーションをセット(移動)
+				m_motion->Set(MOTIONTYPE_JUMP);
+
+				m_State = STATE_JUMP;
+			}
+
+			if (m_bAttack == true && m_bDash != true && m_State != STATE_ATTACK)
+			{
+				//モーションをセット(攻撃)
+				m_motion->Set(MOTIONTYPE_ATTACK);
+
+				m_State = STATE_ATTACK;
+			}
 		}
+	
 
-		if (m_bDash == true && m_bAttack == false
-			&& m_State != STATE_MOVE && m_State != STATE_ATTACK)
-		{
-			//モーションをセット(移動)
-			m_motion->Set(MOTIONTYPE_MOVE);
-
-			m_State = STATE_MOVE;
-		}
-
-		if (m_bDash == false && m_bAttack == false
-			&& m_State != STATE_NEUTRAL && m_State != STATE_ATTACK && m_State != STATE_APPR)
-		{
-			//モーションをセット(移動)
-			m_motion->Set(MOTIONTYPE_NEUTRAL);
-
-			m_State = STATE_NEUTRAL;
-
-			m_bAttack = false;
-		}
-
-		if (m_bJump == true && m_bAttack == false && m_State != STATE_JUMP)
-		{
-			//モーションをセット(移動)
-			m_motion->Set(MOTIONTYPE_JUMP);
-
-			m_State = STATE_JUMP;
-		}
-
-		if (m_bAttack == true && m_bDash != true && m_State != STATE_ATTACK)
-		{
-			//モーションをセット(攻撃)
-			m_motion->Set(MOTIONTYPE_ATTACK);
-
-			m_State = STATE_ATTACK;
-		}
-	}
+	
 
 	//位置に移動量加算----------------------------------------------------
 	m_pos.x += m_move.x;
@@ -865,6 +903,18 @@ void CFoot::Control(void)
 		m_move.y = 0.0f;
 
 		m_bJump = false;
+	}
+
+	if (m_bDash == true && m_nCntSound == 0)
+	{
+		m_nCntSound = 35;
+
+		pSound->Play(CSound::SOUND_LABEL_SEASIOTO);
+	}
+
+	if (m_nCntSound > 0)
+	{
+		m_nCntSound--;
 	}
 
 	SetPos(&m_pos);
@@ -1225,6 +1275,7 @@ CChibi::CChibi()
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nCntBullet = 0;
 	m_nLife = 0;
+	m_nCntDamage = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1242,6 +1293,7 @@ CChibi::CChibi(D3DXVECTOR3 pos)
 	m_TitleState = TITLE_STATE_NONE;
 	m_nCntBullet = 0;
 	m_nLife = 0;
+	m_nCntDamage = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1366,6 +1418,9 @@ void CChibi::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
+	//敵の情報取得
+	CEnemy **pEnemy = CEnemy::GetEnemy();
+
 	if (m_nLife > 0)
 	{
 		if (m_bAppr == true)
@@ -1418,6 +1473,14 @@ void CChibi::Update(void)
 				if (pCollision != NULL && pmap->GetX() != NULL)
 				{
 					(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+				}
+
+				if (pCollision != nullptr)
+				{
+					if (pCollision->Enemy(&Getpos(), &m_posOld, 30.0f, 30.0f, pEnemy) == true)
+					{
+						//Hit();
+					}
 				}
 			}
 		}
@@ -1489,6 +1552,7 @@ CFoot::CFoot()
 	m_State = STATE_NONE;
 	m_TitleState = TITLE_STATE_NONE;
 	m_nLife = 0;
+	m_nCntDamage = 0;
 	m_bRand = false;
 	m_motion = NULL;
 }
@@ -1503,6 +1567,7 @@ CFoot::CFoot(D3DXVECTOR3 pos)
 	SetRot(&D3DXVECTOR3(0.0f, -1.57f, 0.0f));
 	m_move = { 0.0f,0.0f,0.0f };
 	m_nLife = 0;
+	m_nCntDamage = 0;
 	m_State = STATE_NONE;
 	m_TitleState = TITLE_STATE_NONE;
 	m_bRand = false;
@@ -1609,6 +1674,9 @@ void CFoot::Update(void)
 	//当たり判定の情報取得
 	CCollision *pCollision = CGame::GetCollsion();
 
+	//敵の情報取得
+	CEnemy **pEnemy = CEnemy::GetEnemy();
+
 	if (m_nLife > 0)
 	{
 		if (m_bAppr == true)
@@ -1661,6 +1729,14 @@ void CFoot::Update(void)
 				if (pCollision != NULL && pmap->GetX() != NULL)
 				{
 					(pCollision->Map(&Getpos(), &m_posOld, pmap->GetX()));
+				}
+
+				if (pCollision != nullptr)
+				{
+					if (pCollision->Enemy(&Getpos(), &m_posOld, 30.0f, 30.0f, pEnemy) == true)
+					{
+						//Hit();
+					}
 				}
 			}
 		}

@@ -155,12 +155,12 @@ HRESULT CGame::Init(void)
 	//	//¶¬
 	//	m_EnemyManager = new CEnemyManager;
 
-	//	//‰Šú‰»ˆ—
 	//	m_EnemyManager->Init();
+	//	//‰Šú‰»ˆ—
 	//}
 
 	//ŽžŠÔ
-	CTime::Create();
+	//CTime::Create();
 
 	//ƒXƒRƒA
 	CScore::Create();
@@ -170,11 +170,12 @@ HRESULT CGame::Init(void)
 	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 50);
 	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
 	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
-	CEnemy::Create({ 3000.0f,830.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
 
-	
+	CEnemy::Create({ 5600.0f,620.0f,0.0f }, { 0.0f,0.0f,0.0f }, 250);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
+
+	pSound->Play(CSound::SOUND_LABEL_BGM000);
 
 	return S_OK;
 }

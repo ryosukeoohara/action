@@ -124,7 +124,7 @@ void CEnemy::Uninit(void)
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	//サウンドストップ
-	pSound->Stop();
+	//pSound->Stop();
 
 	if (m_motion != NULL)
 	{

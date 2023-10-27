@@ -262,12 +262,12 @@ void CCamera::Edit(void)
 
 	if (InputKeyboard->GetPress(DIK_T) == true)
 	{
-		m_move.z += cosf(m_rot.y) * 1.1f;
+		m_move.y += 1.0f;
 	}
 
 	if (InputKeyboard->GetPress(DIK_G) == true)
 	{
-		m_move.z -= cosf(m_rot.y) * 1.1f;
+		m_move.y -= 1.0f;
 	}
 
 	m_rot.y += MousePos.x * 0.005f;
@@ -284,20 +284,20 @@ void CCamera::Edit(void)
 	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
 	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
 
-	/*m_posR.x = m_posV.x - sinf(m_rot.y) * CAMERA_DISTNCE;
-	m_posR.z = m_posV.z - cosf(m_rot.y) * CAMERA_DISTNCE;*/
+	m_posR.x = m_posV.x - sinf(m_rot.y) * CAMERA_DISTNCE;
+	m_posR.z = m_posV.z - cosf(m_rot.y) * CAMERA_DISTNCE;
 
-	/*m_posR.x += m_move.x;
+	m_posR.x += m_move.x;
 	m_posV.x += m_move.x;
 
 	m_posR.y += m_move.y;
-	m_posV.y += m_move.y;*/
+	m_posV.y += m_move.y;
 
 	//m_posV += m_move;
-	m_posR += m_move;
+	//m_posR += m_move;
 
-	m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f, 30.0f + m_posV.z);
-	m_posR = D3DXVECTOR3(100.0f + m_posR.x, 50.0f, m_posR.z + 10.0f);
+	m_posV = D3DXVECTOR3(0.0f + m_posV.x, 150.0f + m_posV.y, 30.0f + m_posV.z);
+	m_posR = D3DXVECTOR3(100.0f + m_posR.x, 50.0f + m_posR.y, m_posR.z + 10.0f);
 	m_posU = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 }
 

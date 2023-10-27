@@ -59,89 +59,55 @@ void CCollision::Uninit(void)
 //=============================================================================
 //敵とオブジェクトの当たり判定処理
 //=============================================================================
-bool CCollision::Enemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy *pEnemy)
+bool CCollision::Enemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy **pEnemy)
 {
-	////デバッグプロック
-	//CDebugProc *pDebugProc = CManager::GetDebugProc();
+	for (int nCount = 0; nCount < 7; nCount++)
+	{
+		if (pEnemy[nCount] != nullptr)  //わすれてた
+		{
+			//敵の位置取得
+			D3DXVECTOR3 Enepos = pEnemy[nCount]->Getpos();
 
-	//for (int nCount = 0; nCount < MAX_OBJECT; nCount++)
-	//{
-	//	CObject *pObj;
+			if (pos->x + fWidthX >= Enepos.x - 10.0f
+				&& pos->x - fWidthX <= Enepos.x + 10.0f
+				&& pos->y + fWidthZ >= Enepos.y
+				&& pos->y - fWidthZ <= Enepos.y + 80.0f)
+			{
+				//正面======================================
+				if (pos->y + fWidthZ >= Enepos.y
+				 && posOld->y + fWidthZ <= Enepos.y)
+				{
+					return true;
+				}
 
-	//	//オブジェクトを取得
-	//	pObj = CObject::Getobject(nCount);
+				//背面======================================
+				else if (pos->y <= Enepos.y + 80.0f
+					  && posOld->y >= Enepos.y + 80.0f)
+				{
+					return true;
+				}
 
-	//	if (pObj != NULL)  //わすれてた
-	//	{
-	//		//種類を取得
-	//		CObject::TYPE type = pObj->GetType();
+				//横からめり込んだ
+				else if (pos->x + fWidthX >= Enepos.x - 10.0f
+					  && pos->x - fWidthX <= Enepos.x + 10.0f)
+				{
+					//左==================================
+					if (pos->x + fWidthX >= Enepos.x - 10.0f
+					 /*&& posOld->x + fWidthX <= Enepos.x - 10.0f*/)
+					{
+						return true;
+					}
 
-	//		if (type == TYPE_ENEMY)
-	//		{//種類が敵の場合
-
-	//		 //キャストして代入
-	//			CEnemy *pEnemy = (CEnemy*)pObj;
-
-	//			//敵の位置取得
-	//			D3DXVECTOR3 Enepos = pEnemy->Getpos();
-
-	//			if (pos->x + fWidthX >= Enepos.x - 10.0f
-	//				&& pos->x - fWidthX <= Enepos.x + 10.0f
-	//				&& pos->z + fWidthZ >= Enepos.z - 10.0f
-	//				&& pos->z - fWidthZ <= Enepos.z + 10.0f)
-	//			{
-	//				//正面======================================
-	//				if (pos->z + fWidthZ >= Enepos.z - 10.0f
-	//				 && posOld->z + fWidthZ <= Enepos.z - 10.0f)
-	//				{
-	//					pos->z = Enepos.z - fWidthZ - 10.0f;
-
-	//					pDebugProc->Print("正面あったり～\n");
-
-	//					return true;
-	//				}
-
-	//				//背面======================================
-	//				else if (pos->z - fWidthZ <= Enepos.z + 10.0f
-	//					&& posOld->z - fWidthZ >= Enepos.z + 10.0f)
-	//				{
-	//					pos->z = Enepos.z + fWidthZ + 10.0f;
-
-	//					pDebugProc->Print("背面あったり～\n");
-
-	//					return true;
-	//				}
-
-	//				//横からめり込んだ
-	//				else if (pos->x + fWidthX >= Enepos.x - 10.0f
-	//					&& pos->x - fWidthX <= Enepos.x + 10.0f)
-	//				{
-	//					//左==================================
-	//					if (pos->x + fWidthX >= Enepos.x - 10.0f
-	//						&& posOld->x + fWidthX <= Enepos.x - 10.0f)
-	//					{
-	//						pos->x = Enepos.x - fWidthX - 10.0f;
-
-	//						pDebugProc->Print("左あったり～\n");
-
-	//						return true;
-	//					}
-
-	//					//右==================================
-	//					else if (pos->x - fWidthX <= Enepos.x + 10.0f
-	//						&& posOld->x - fWidthX >= Enepos.x + 10.0f)
-	//					{
-	//						pos->x = Enepos.x + fWidthX + 10.0f;
-
-	//						pDebugProc->Print("右あったり～\n");
-
-	//						return true;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+					//右==================================
+					else if (pos->x - fWidthX <= Enepos.x + 10.0f
+						  /*&& posOld->x - fWidthX >= Enepos.x + 10.0f*/)
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
 
 	return false;
 }
@@ -154,7 +120,7 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 	//int nNumEnemy = CEnemyManager::GetNumAll();
 	float c = 0.0f;
 
-	for (int nCount = 0; nCount < 6; nCount++)
+	for (int nCount = 0; nCount < 7; nCount++)
 	{
 		float EnemyfRadius = 50.0f;
 
@@ -509,7 +475,7 @@ bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &Matrix);
 
-	for (int nCount = 0; nCount < 6; nCount++)
+	for (int nCount = 0; nCount < 7; nCount++)
 	{
 		if (pEnemy[nCount] != NULL)
 		{

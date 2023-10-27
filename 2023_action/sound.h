@@ -34,17 +34,13 @@ public:
 		SOUND_LABEL_BGM001,
 		SOUND_LABEL_BGM002,
 		SOUND_LABEL_BGM003,
-		SOUND_LABEL_SE00,
-		SOUND_LABEL_SE01,
-		SOUND_LABEL_SE02,
-		SOUND_LABEL_SE03,
-		SOUND_LABEL_SE04,
-		SOUND_LABEL_SE05,
-		SOUND_LABEL_SE06,
-		SOUND_LABEL_SE07,
-		SOUND_LABEL_SE08,
-		SOUND_LABEL_SE09,
-		SOUND_LABEL_SE10,
+		SOUND_LABEL_SESWORD,
+		SOUND_LABEL_SELOOSER,
+		SOUND_LABEL_SEJUMP00,
+		SOUND_LABEL_SEJUMP01,
+		SOUND_LABEL_SEASIOTO,
+		SOUND_LABEL_SEMAGIC,
+		SOUND_LABEL_SEMAGICPOWER,
 		SOUND_LABEL_MAX
 	} SOUND_LABEL;
 
@@ -65,17 +61,13 @@ private:
 		{ "data/SOUND/BGM/result.wav", -1 },   //リザルトのBGM
 		{ "data/SOUND/BGM/title.wav", -1 },    //タイトルのBGM
 		{ "data/SOUND/BGM/tutorial.wav", -1 }, //チュートリアルのBGM
-		{ "data/SOUND/SE/sword00.wav", 0 },    //刀で切る音
-		{ "data/SOUND/SE/sword01.wav", 0 },    //撃つ音
-		{ "data/SOUND/SE/shot00.wav", 0 },     //
-		{ "data/SOUND/SE/shot01.wav", 0 },     //撃つ音
-		{ "data/SOUND/SE/nobullet.wav", 0 },   //玉切れ
+		{ "data/SOUND/SE/swing.wav", 0 },    //刀で切る音
 		{ "data/SOUND/SE/looser.wav", 0 },     //倒れる音
-		{ "data/SOUND/SE/bom.wav", 0 },        //爆発音
-		{ "data/SOUND/SE/swing.wav", 0 },      //バットを振る音
-		{ "data/SOUND/SE/jump.wav", 0 },       //ジャンプ
+		{ "data/SOUND/SE/jump000.wav", 0 },       //ジャンプ
+		{ "data/SOUND/SE/jump001.wav", 0 },       //ジャンプ
 		{ "data/SOUND/SE/asioto.wav", 0 },     //足音
-		{ "data/SOUND/SE/avoi.wav", 0 },       //回避
+		{ "data/SOUND/SE/magic.wav", 0 },     //魔法
+		{ "data/SOUND/SE/magicpower.wav", 0 },     //魔力をためる
 	}; 
 
 	IXAudio2 *m_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス

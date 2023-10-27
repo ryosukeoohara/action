@@ -1,3 +1,20 @@
-﻿  player.cpp
+﻿  title.cpp
+  player.cpp
+  object3D.cpp
+  object2D.cpp
+  number.cpp
+  motion.cpp
+  life.cpp
+  enemy.cpp
+  edit.cpp
+  collision.cpp
+  camera.cpp
+  bullet.cpp
+  UImanager.cpp
+  コードを生成中...
+  コンパイル中...
+  game.cpp
+  コードを生成中...
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)

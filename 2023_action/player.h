@@ -235,6 +235,7 @@ private:
 	int m_nLifeGage;
 	int m_RestBullet;                    //残弾数
 	int m_nCntBullet;                    //弾の出る間隔
+	int m_nCntDamage;                    //ダメージ状態になっているカウント
 	float m_fDiff;
 	float m_fDest;
 	bool m_bDash;                        //走っているかどうか
@@ -378,6 +379,7 @@ private:
 	int m_nCntMotion;
 	int m_nCnterMotion;
 	int m_nNumkey;
+	int m_nCntDamage;                    //ダメージ状態になっているカウント
 	float m_fDiff;
 	float m_fDest;
 	bool m_bDash;                        //走っているかどうか

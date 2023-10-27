@@ -280,6 +280,8 @@ void CEdit::Save(void)
 
 		fprintf(pFile, "\n");
 
+		fprintf(pFile, "NUM_MODEL = %d\n", m_SetModel);
+
 		for (int nCount = 0; nCount < m_SetModel; nCount++)
 		{
 			D3DXVECTOR3 pos = m_apModel[nCount]->Getpos();  //ˆÊ’uŽæ“¾
@@ -663,12 +665,12 @@ void CEdit::Control(void)
 	if (InputKeyboard->GetPress(DIK_RSHIFT) == true)
 	{
 		//ˆÚ“®—Ê
-		m_Model[m_nIdx].m_move.z += sinf(CameraRot.y + (-D3DX_PI * 0.5f)) * MOVE;
+		m_Model[m_nIdx].m_move.z += MOVE;
 	}
 	else if (InputKeyboard->GetPress(DIK_LSHIFT) == true)
 	{
 		//ˆÚ“®—Ê
-		m_Model[m_nIdx].m_move.z -= sinf(CameraRot.y + (-D3DX_PI * 0.5f)) * MOVE;
+		m_Model[m_nIdx].m_move.z -= MOVE;
 	}
 
 	if (InputKeyboard->GetPress(DIK_U) == true)
