@@ -41,6 +41,8 @@ public:
 		return m_nScore; 
 	};
 
+	static void GameEndScore(void);     //ゲーム終了時に加算するスコア
+
 protected:
 	static int m_nScore;
 

@@ -496,7 +496,7 @@ void CChibi::Control(void)
 		}
 
 		//UŒ‚-------------------
-		if (InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true && m_RestBullet > 0)
+		if ((InputKeyboard->GetPress(DIK_K) == true || pInputJoyPad->GetPress(CInputJoyPad::BUTTON_RB, 0) == true) && m_RestBullet > 0)
 		{//KƒL[‚ª‰Ÿ‚³‚ê‚½
 
 			m_bAction = true;

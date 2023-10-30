@@ -12,6 +12,7 @@
 #include "input.h"
 #include "texture.h"
 #include "game.h"
+#include "time.h"
 
 //================================================================
 //静的メンバ変数宣言
@@ -174,35 +175,14 @@ void CScore::AddScore(int nScore)
 	}
 }
 
-////================================================================
-////テクスチャの生成(読み込み)
-////================================================================
-//HRESULT CScore::Load(void)
-//{
-//	CRenderer *pRenderer;
-//	pRenderer = CManager::GetRenderer();
-//
-//	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-//
-//	//テクスチャの読み込み
-//	D3DXCreateTextureFromFile(pDevice,
-//		"data\\TEXTURE\\number000.png",
-//		&m_pTexture
-//	);
-//
-//	return S_OK;
-//}
-//
-////================================================================
-////テクスチャの破棄
-////================================================================
-//void CScore::UnLoad(void)
-//{
-//	//テクスチャの処理
-//	if (m_pTexture != NULL)
-//	{//使用されていたら
-//
-//		m_pTexture->Release();
-//		m_pTexture = NULL;
-//	}
-//}
+//================================================================
+//スコア加算処理
+//================================================================
+void CScore::GameEndScore(void)
+{
+	int time = CTime::Gettime();
+
+	time *= 100;
+
+	m_nScore = time;
+}

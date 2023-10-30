@@ -120,7 +120,7 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 	//int nNumEnemy = CEnemyManager::GetNumAll();
 	float c = 0.0f;
 
-	for (int nCount = 0; nCount < 7; nCount++)
+	for (int nCount = 0; nCount < 10; nCount++)
 	{
 		float EnemyfRadius = 50.0f;
 
@@ -157,28 +157,27 @@ bool CCollision::BulletEnemy(D3DXVECTOR3 *pos, float fWidthX, float fWidthY, CEn
 //=============================================================================
 bool CCollision::BulletPlayer(D3DXVECTOR3 *pPos, float fWidthX, float fWidthZ, CPlayer *pPlayer)
 {
-	//if (pPlayer != NULL)
-	//{//使用されているとき
+	if (pPlayer != NULL)
+	{//使用されているとき
 
-	//    //敵の位置取得
-	//	D3DXVECTOR3 pos = pPlayer->Getpos();
+	    //敵の位置取得
+		D3DXVECTOR3 pos = pPlayer->Getpos();
 
-	//	if (pPos->x <= pos.x + fWidthX
-	//	 && pPos->x >= pos.x - fWidthX
-	//	 && pPos->z <= pos.z + fWidthZ
-	//	 && pPos->z >= pos.z - fWidthZ)
-	//	{
-	//		D3DXVECTOR3 rot = pPlayer->GetRot();
+		if (pPos->x <= pos.x + fWidthX
+		 && pPos->x >= pos.x - fWidthX
+		 && pPos->y <= pos.y + fWidthZ
+		 && pPos->y >= pos.y)
+		{
+			D3DXVECTOR3 rot = pPlayer->GetRot();
 
-	//		pPlayer->Hit();
+			pPlayer->Hit();
 
-	//		//パーティクルを生成
-	//		CParticl::Create({ pos.x, pos.y + 50.0f, pos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, TYPEPAR_BLOOD);
+			//パーティクルを生成
+			CParticl::Create({ pos.x, pos.y + 50.0f, pos.z }, { rot.x, rot.y, rot.z }, { 1.0f, 0.5f, 5.0f, 1.0f }, 5.0f, CParticl::TYPEPAR_BULLET);
 
-	//		return true;
-	//	}
-	//}
-
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -475,7 +474,7 @@ bool CCollision::Sword(D3DXMATRIX pos, D3DXMATRIX matrix, float flength, CEnemy 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &Matrix);
 
-	for (int nCount = 0; nCount < 7; nCount++)
+	for (int nCount = 0; nCount < 10; nCount++)
 	{
 		if (pEnemy[nCount] != NULL)
 		{
@@ -555,21 +554,21 @@ void CCollision::MapEnemy(D3DXVECTOR3 * pos, D3DXVECTOR3 * posOld, CObjectX ** p
 
 				//ブロックの左側面==================================
 				if (pos->x + 20.0f >= Mappos.x + vtxMin.x
-					/*&& posOld->x + 20.0f <= Mappos.x + vtxMin.x*/)
+					&& posOld->x + 20.0f <= Mappos.x + vtxMin.x)
 				{
 					pos->x = Mappos.x + vtxMin.x - 20.0f;
 
 					penemy->SetPos(pos);
-					//penemy->SetMoveX(0.0f);
+					penemy->SetMoveX(0.0f);
 				}
 				//ブロックの右側面==================================
 				else if (pos->x - 20.0f <= Mappos.x + vtxMax.x
-					/*&& posOld->x - 20.0f >= Mappos.x + vtxMax.x*/)
+					&& posOld->x - 20.0f >= Mappos.x + vtxMax.x)
 				{
 					pos->x = Mappos.x + vtxMax.x + 20.0f;
 
 					penemy->SetPos(pos);
-					//penemy->SetMoveX(0.0f);
+					penemy->SetMoveX(0.0f);
 				}
 			}
 		}

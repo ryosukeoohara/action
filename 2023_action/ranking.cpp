@@ -94,7 +94,7 @@ void CRanking::Uninit(void)
 			if (m_apObject2D[nCntRank][nCntScore] != NULL)
 			{//使用されいる状態のとき
 
-			 //終了処理
+				//終了処理
 				m_apObject2D[nCntRank][nCntScore]->Uninit();
 
 				//使用していない状態にする
@@ -118,7 +118,7 @@ void CRanking::Update(void)
 			if (m_apObject2D[nCntRank][nCntScore] != NULL)
 			{//使用されている状態のとき
 
-			 //更新処理
+				//更新処理
 				m_apObject2D[nCntRank][nCntScore]->Update();
 			}
 		}

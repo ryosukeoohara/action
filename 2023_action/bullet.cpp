@@ -136,7 +136,10 @@ void CBullet::Update(void)
 	CCollision *pCollision = CGame::GetCollsion();
 
 	//プレイヤーの情報取得
-	CPlayer *pPlayer = CGame::GetPlayerFoot();
+	CPlayer *pPlayer = CGame::GetPlayer();
+
+	CFoot *pPlayerFoot = CGame::GetPlayerFoot();
+	CChibi *pPlayerChibi = CGame::GetPlayerChibi();
 
 	//敵の情報取得
 	CEnemy **pEnemy = CEnemy::GetEnemy();
@@ -155,8 +158,11 @@ void CBullet::Update(void)
 
 	SetVtxBullet(pos, BULLET_WIDTH, BULLET_HEIGHT);
 
-	//位置を更新
-	pos.x += sinf(rot.y) * BULLETMOVE;
+	if (pPlayerFoot->GetState() != CFoot::STATE_APPR && pPlayerChibi->GetState() != CChibi::STATE_APPR)
+	{
+		//位置を更新
+		pos.x += sinf(rot.y) * BULLETMOVE;
+	}
 
 	//更新処理
 	CBillBoard::Update();
@@ -193,6 +199,30 @@ void CBullet::Update(void)
 		break;
 
 	case CBullet::TYPE_ENEMY:
+
+		if (pCollision != NULL && pmap->GetX() != NULL)
+		{
+			if (pPlayerFoot->GetbAppr() == true)
+			{
+				if (pCollision->BulletPlayer(&pos, 20.0f, 100.0f, pPlayer) == true)
+				{
+					m_nLife = 0;
+				}
+			}
+
+			if (pPlayerChibi->GetbAppr() == true)
+			{
+				if (pCollision->BulletPlayer(&pos, 20.0f, 80.0f, pPlayer) == true)
+				{
+					m_nLife = 0;
+				}
+			}
+
+			if (pCollision->BulletMap(&pos, pmap->GetX()) == true)
+			{
+				m_nLife = 0;
+			}
+		}
 		break;
 
 	case CBullet::TYPE_BOM:

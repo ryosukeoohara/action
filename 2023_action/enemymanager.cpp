@@ -41,7 +41,15 @@ CEnemyManager::~CEnemyManager()
 HRESULT CEnemyManager::Init(void)
 {
 	//テキストファイル読み込み
-	ReadText();
+	//ReadText();
+
+	/*CEnemy::Create({ 0.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
+	CEnemy::Create({ 3600.0f,115.0f,0.0f }, { 0.0f,0.0f,0.0f }, 80);
+	CEnemy::Create({ 3000.0f,455.0f,0.0f }, { 0.0f,0.0f,0.0f }, 50);
+	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
+	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
+
+	CEnemy::Create({ 5600.0f,620.0f,0.0f }, { 0.0f,0.0f,0.0f }, 250);*/
 
 	return S_OK;
 }
@@ -57,7 +65,7 @@ void CEnemyManager::Uninit(void)
 		{//使用されていたら
 
 			////終了処理
-			//m_pEnemy[nCount]->Uninit();
+			m_pEnemy[nCount]->Uninit();
 
 			//使用していない状態にする
 			m_pEnemy[nCount] = NULL;
@@ -161,9 +169,11 @@ void CEnemyManager::ReadText(void)
 						if (m_pEnemy[nCount] == NULL)
 						{//使用されていなかったら
 
-							m_pEnemy[nCount] = new CEnemy(m_Readpos, m_Readrot, nLife);
+							//CEnemy *pEnemy = new CEnemy(m_Readpos, m_Readrot, nLife);
 
-							m_pEnemy[nCount]->Init();
+							//m_pEnemy[nCount] = CEnemy::Create(m_Readpos, m_Readrot, nLife);
+
+							//m_pEnemy[nCount]->Init();
 
 							break;
 						}

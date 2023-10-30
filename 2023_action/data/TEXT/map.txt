@@ -10,7 +10,7 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 98
+NUM_MODEL = 105
 
 #------------------------------------------------------------------------------
 # モデルファイル名
@@ -40,6 +40,7 @@ MODEL_FILENAME = data/MODEL/EDIT/block_007.x        	# [21]ブロック
 MODEL_FILENAME = data/MODEL/EDIT/block_008.x        	# [22]ブロック
 MODEL_FILENAME = data/MODEL/EDIT/block_003.x        	# [23]ブロック
 MODEL_FILENAME = data/MODEL/EDIT/block_009.x            # [24]壁
+MODEL_FILENAME = data/MODEL/EDIT/block_010.x            # [25]高さがある道
 
 #------------------------------------------------------------------------------
 # モデルの情報
@@ -53,7 +54,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 6
-    POS = 1396.43 0.04 1833.71
+    POS = 1500.43 0.04 1833.71
     ROT = 0.00 -1.56 0.00
 END_MODELSET
 
@@ -558,7 +559,7 @@ END_MODELSET
 
 MODELSET
     TYPE = 17
-    POS = 2542.54 0.09 -11.77
+    POS = 2425.54 0.09 -11.77
     ROT = 0.00 0.00 0.00
 END_MODELSET
 
@@ -595,6 +596,48 @@ END_MODELSET
 MODELSET
     TYPE = 24
     POS = 5811.38 613.41 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 25
+    POS = 7245.84 609.30 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 8191.19 548.03 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 9000.41 548.03 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 8923.63 500.78 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 9429.59 548.17 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 0
+    POS = 10415.13 599.42 0.00
+    ROT = 0.00 0.00 0.00
+END_MODELSET
+
+MODELSET
+    TYPE = 8
+    POS = 9883.33 516.12 0.00
     ROT = 0.00 0.00 0.00
 END_MODELSET
 

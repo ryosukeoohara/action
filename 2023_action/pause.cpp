@@ -140,8 +140,17 @@ HRESULT CPause::Init(void)
 	//	//m_Pause.pTitleBack->SetVtxUI(m_Pause.pTitleBack->Getpos(), 200.0f, 50.0f, { 1.0f, 1.0f, 1.0f, 0.5f });
 	//}
 
-	//スタートorエンター
-	CUIManager::Create({ 100.0f, 500.0f, 0.0f }, CUIManager::TYPE_TITLESELECT);
+	////スタートorエンター
+	//CUIManager::Create({ 100.0f, SCREEN_HEIGHT * 0.5f, 0.0f }, CUIManager::TYPE_PAUSEFRAME);
+
+	////スタートorエンター
+	//CUIManager::Create({ 100.0f, SCREEN_WIDTH * 0.25f, 0.0f }, CUIManager::TYPE_COUTINUE);
+
+	////スタートorエンター
+	//CUIManager::Create({ 100.0f, SCREEN_WIDTH * 0.5f, 0.0f }, CUIManager::TYPE_RETRY);
+
+	////スタートorエンター
+	//CUIManager::Create({ 100.0f, SCREEN_WIDTH * 0.75f, 0.0f }, CUIManager::TYPE_QUIT);
 
 	return S_OK;
 }

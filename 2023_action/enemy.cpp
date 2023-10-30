@@ -84,7 +84,7 @@ CEnemy * CEnemy::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nlife)
 		{
 			m_pEnemy[nCount] = pEnemy;
 
-			m_pEnemy[nCount]->m_nidxID = nCount;
+			m_pEnemy[nCount]->SetIdx(nCount);
 
 			m_nNumAll++;
 
@@ -198,6 +198,14 @@ void CEnemy::Update(void)
 
 			//制御処理
 			Controll();
+
+			if (pCollision != NULL && pmap->GetX() != NULL)
+			{
+				//位置と向き取得
+				D3DXVECTOR3 EnemyPos = Getpos();
+
+				pCollision->MapEnemy(&EnemyPos, &m_posOld, pmap->GetX(), m_pEnemy[m_nidxID]);
+			}
 		}
 	}
 }
@@ -263,7 +271,7 @@ void CEnemy::Controll(void)
 
 	m_move.y -= 0.9f;
 
-	pCollision->MapEnemy(&Getpos(), &m_posOld, pmap->GetX(), m_pEnemy[m_nidxID]);
+	EnemyPos.y += m_move.y;
 
 	if ((pCollision->Circle(&EnemyPos, 400.0f, pPlayer) == true))
 	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき
@@ -332,8 +340,6 @@ void CEnemy::Controll(void)
 	{
 		m_state = STATE_NEUTRAL;
 	}
-
-	EnemyPos.y += m_move.y;
 
 	if (EnemyPos.y <= 0.0f)
 	{

@@ -3,7 +3,7 @@ SCRIPT
 ALL_ENEMY = 1
 
 ENEMYSET
-   POS = 0.0 10.0 0.0
+   POS = 0.0 50.0 0.0
    ROT = 0.0 1.57 0.0
    LIFE = 5
 ENEMYSET_END

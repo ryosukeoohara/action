@@ -55,22 +55,33 @@ public:
 	void ReadText(char *fliename);             //テキストファイル読み込み
 
 	static CEnemy **GetEnemy(void) { return &m_pEnemy[0]; }
+	
 	void SetMoveX(float move) { m_move.x = move; }
 	void SetMoveY(float move) { m_move.y = move; }
 
+	D3DXVECTOR3 GetMove(void) { return m_move; }
+
+	void SetIdx(int idx) { m_nidxID = idx; }
+
 	static int GetNumAll(void) { return m_nNumAll; }
+
+protected:
+
+	static CEnemy *m_pEnemy[64];               //敵のポインタ
+	int m_nidxID;                              //インデックス番号
+	static int m_nNumAll;                      //敵の総数
 										       
 private:								       
 	void Controll(void);                       //制御処理
 	CMotion *m_motion;                         //モーションへのポインタ
 	CCharacter *m_apModel[MAX_PRATS];          //モデル(パーツ)へのポインタ
 	STATE m_state;                             //状態
-	static CEnemy *m_pEnemy[64];               //敵のポインタ
+	
 	D3DXVECTOR3 m_posOld;                      //前回の位置
 	D3DXVECTOR3 m_move;                        //移動
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス
-	int m_nidxID;                              //インデックス番号
-	static int m_nNumAll;                      //敵の総数
+	
+	
 
 	//*=============================================================================
 	//外部ファイル読み込み用
