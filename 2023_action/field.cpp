@@ -63,7 +63,7 @@ HRESULT CField::Init(void)
 	m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\field001.jpg");
 
 	//‰Šú‰»ˆ—
-	CObjectMesh::Init();
+	CObject3D::Init();
 
 	return S_OK;
 }
@@ -74,7 +74,7 @@ HRESULT CField::Init(void)
 void CField::Uninit(void)
 {
 	//I—¹ˆ—
-	CObjectMesh::Uninit();
+	CObject3D::Uninit();
 }
 
 //===========================================================
@@ -83,7 +83,7 @@ void CField::Uninit(void)
 void CField::Update(void)
 {
 	//XVˆ—
-	CObjectMesh::Update();
+	CObject3D::Update();
 	//CObject3D::SetVtxField();
 }
 
@@ -99,5 +99,5 @@ void CField::Draw(void)
 	pDevice->SetTexture(0, pTexture->GetAddress(m_nIdxTexture));
 
 	//•`‰æˆ—
-	CObjectMesh::Draw();
+	CObject3D::Draw();
 }

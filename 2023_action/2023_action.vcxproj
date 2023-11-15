@@ -181,7 +181,6 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3D.cpp" />
-    <ClCompile Include="objectMesh.cpp" />
     <ClCompile Include="objectX.cpp" />
     <ClCompile Include="particl.cpp" />
     <ClCompile Include="pause.cpp" />
@@ -226,7 +225,6 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3D.h" />
-    <ClInclude Include="objectMesh.h" />
     <ClInclude Include="objectX.h" />
     <ClInclude Include="particl.h" />
     <ClInclude Include="pause.h" />

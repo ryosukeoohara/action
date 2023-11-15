@@ -1,8 +1,11 @@
-﻿  object.cpp
+﻿  field.cpp
+  game.cpp
+  sky.cpp
+  title.cpp
   コード生成しています。
-  96 of 543 functions (17.7%) were compiled, the rest were copied from previous compilation.
+  9 of 537 functions ( 1.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    19 functions had inline decision re-evaluated but remain unchanged
+    66 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.exe
   2023_action.vcxproj -> C:\Users\student\Desktop\2023_action\action\2023_action\2023_action.pdb (Full PDB)
