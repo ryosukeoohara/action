@@ -123,8 +123,6 @@ HRESULT CGame::Init(void)
 	{//使用されていなかったら
 
 	    //プレイヤーの生成
-		//m_PlayerChibi = new CChibi({ 3180.0f, 150.0f, 0.0f });
-
 		m_PlayerChibi = new CChibi({ -1180.0f, 50.0f, 0.0f });
 
 		//初期化処理
@@ -136,8 +134,6 @@ HRESULT CGame::Init(void)
 	{//使用されていなかったら
 
 		//プレイヤーの生成
-		//m_PlayerFoot = new CFoot({ 3180.0f, 150.0f, 0.0f });
-
 		m_PlayerFoot = new CFoot({ -1180.0f, 50.0f, 0.0f });
 
 		//初期化処理
@@ -176,12 +172,11 @@ HRESULT CGame::Init(void)
 	CEnemy::Create({ 4800.0f,310.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
 	CEnemy::Create({ 4300.0f,650.0f,0.0f }, { 0.0f,0.0f,0.0f }, 90);
 
-	CEnemy::Create({ 5600.0f,620.0f,0.0f }, { 0.0f,0.0f,0.0f }, 250);
-
 	CEnemyFar::Create({ 1440.0f,10.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
 	CEnemyFar::Create({ 7400.0f,651.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
-	CEnemyFar::Create({ 9000.0f,556.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
-	CEnemyFar::Create({ 9440.0f,556.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
+	CEnemyFar::Create({ 6500.0f,756.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
+	CEnemyFar::Create({ 7256.0f,75.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
+	CEnemyFar::Create({ 7800.0f,90.0f,0.0f }, { 0.0f,0.0f,0.0f }, 100);
 
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
@@ -198,6 +193,8 @@ void CGame::Uninit(void)
 	CSound *pSound = CManager::Getinstance()->GetSound();
 
 	pSound->Stop();
+
+	CScore::GameEndScore();
 
 	//マップの破棄
 	if (m_Map != NULL)
@@ -341,7 +338,7 @@ void CGame::Update(void)
 		pCamera->SetType(CCamera::TYPE_GAME);
 	}
 
-	if (m_nCounter >= 6)
+	if (m_nCounter >= 10)
 	{
 		CScore::GameEndScore();
 

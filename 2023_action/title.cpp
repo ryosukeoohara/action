@@ -72,7 +72,7 @@ HRESULT CTitle::Init(void)
 
 	pCamera->SetType(CCamera::TYPE_TITLE);
 
-	CSky::Create({ 0.0f,0.0f,0.0f });
+	//CSky::Create({ 0.0f,0.0f,0.0f });
 
 	CMap::Create();
 
@@ -159,7 +159,7 @@ void CTitle::Update(void)
 		if (pFade->Get() != pFade->FADE_OUT)
 		{
 			//ƒV[ƒ“‚ðƒQ[ƒ€‚É‘JˆÚ
-			pFade->Set(CScene::MODE_GAME);
+			pFade->Set(CScene::MODE_TUTORIAL);
 		}
 	}
 

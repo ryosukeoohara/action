@@ -87,6 +87,11 @@ HRESULT CUIManager::Init(void)
 		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\title.png");
 		break;
 
+	case CUIManager::TYPE_TUTORIAL: //チュートリアル
+
+		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\tutorial.jpg");
+		break;
+
 	case CUIManager::TYPE_RESULT:   //リザルト
 
 		m_nIdxTexture = pTexture->Regist("data\\TEXTURE\\res.jpg");
@@ -202,6 +207,11 @@ void CUIManager::Update(void)
 	case CUIManager::TYPE_TITLE:    //タイトル
 
 		CObject2D::SetVtxUI(Getpos(), 500.0f, 150.0f, { 1.0f,1.0f,1.0f,1.0f });
+		break;
+
+	case CUIManager::TYPE_TUTORIAL: //チュートリアル
+
+		CObject2D::SetVtxUI(Getpos(),SCREEN_WIDTH, SCREEN_HEIGHT * 0.5f, { 1.0f,1.0f,1.0f,1.0f });
 		break;
 
 	case CUIManager::TYPE_RESULT:   //リザルト

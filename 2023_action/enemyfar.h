@@ -71,6 +71,7 @@ private:
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス
 	//int m_nidxID;                              //インデックス番号
 	int m_nActionCounter;                      //次に攻撃するまでのカウント
+	int m_nLife;
 	//static int m_nNumAll;                      //敵の総数
 
 	//*=============================================================================
@@ -81,6 +82,7 @@ private:
 	int m_nIdx;                                //インデックス番号
 	int m_nParent;                             //親のインデックス番号
 	int m_nNumModel;                           //モデル(パーツ)の総数
+	
 	char m_filename[128] = {};                 //文字読み込み用
 
 };

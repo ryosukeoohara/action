@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "game.h"
 #include "time.h"
+#include "player.h"
 
 //================================================================
 //Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -180,9 +181,24 @@ void CScore::AddScore(int nScore)
 //================================================================
 void CScore::GameEndScore(void)
 {
+	CChibi *pPlayerChibi = CGame::GetPlayerChibi();
+	CFoot *pPlayerFoot = CGame::GetPlayerFoot();
+
 	int time = CTime::Gettime();
 
 	time *= 100;
 
-	m_nScore = time;
+	m_nScore += time;
+
+	int life = pPlayerFoot->GetLife();
+
+	life *= 500;
+
+	m_nScore += life;
+
+	int nlife = pPlayerChibi->GetLife();
+
+	nlife *= 500;
+
+	m_nScore += nlife;
 }

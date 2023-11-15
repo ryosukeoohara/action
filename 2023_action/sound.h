@@ -41,6 +41,7 @@ public:
 		SOUND_LABEL_SEASIOTO,
 		SOUND_LABEL_SEMAGIC,
 		SOUND_LABEL_SEMAGICPOWER,
+		SOUND_LABEL_CHANGE,
 		SOUND_LABEL_MAX
 	} SOUND_LABEL;
 
@@ -68,6 +69,7 @@ private:
 		{ "data/SOUND/SE/asioto.wav", 0 },     //足音
 		{ "data/SOUND/SE/magic.wav", 0 },     //魔法
 		{ "data/SOUND/SE/magicpower.wav", 0 },     //魔力をためる
+		{ "data/SOUND/SE/change.wav", 0 },     //キャラチェン
 	}; 
 
 	IXAudio2 *m_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス

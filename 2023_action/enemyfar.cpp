@@ -166,6 +166,8 @@ void CEnemyFar::Update(void)
 	CFoot *pPlayerFoot = CGame::GetPlayerFoot();
 	CChibi *pPlayerChibi = CGame::GetPlayerChibi();
 
+	int n = GetLife();
+
 	if (GetLife() <= 0)
 	{
 		int n = CGame::GetCounter();
@@ -271,7 +273,7 @@ void CEnemyFar::Controll(void)
 
 	EnemyPos.y += EneMove.y;
 
-	if ((pCollision->Circle(&EnemyPos, 500.0f, pPlayer) == true))
+	if ((pCollision->Circle(&EnemyPos, 700.0f, pPlayer) == true))
 	{//円の中にプレイヤーが入ったまたは、状態がダメージのとき
 
 		D3DXVECTOR3 fDest, pos = pPlayer->Getpos();

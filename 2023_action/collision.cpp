@@ -61,7 +61,7 @@ void CCollision::Uninit(void)
 //=============================================================================
 bool CCollision::Enemy(D3DXVECTOR3 *pos, D3DXVECTOR3 *posOld, float fWidthX, float fWidthZ, CEnemy **pEnemy)
 {
-	for (int nCount = 0; nCount < 7; nCount++)
+	for (int nCount = 0; nCount < 10; nCount++)
 	{
 		if (pEnemy[nCount] != nullptr)  //‚í‚·‚ê‚Ä‚½
 		{

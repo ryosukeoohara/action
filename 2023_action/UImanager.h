@@ -24,6 +24,7 @@ public:
 	{
 		TYPE_NONE = 0,                              //なんもない
 		TYPE_TITLE,                                 //タイトル
+		TYPE_TUTORIAL,                              //チュートリアル
 		TYPE_RESULT,                                //リザルト
 		TYPE_GUNGAGE,                               //銃の残弾表示
 		TYPE_LIFEFOOT,                              //体力

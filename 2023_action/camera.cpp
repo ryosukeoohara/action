@@ -86,7 +86,7 @@ void CCamera::Update(void)
 		Title();
 	}
 
-	if (pScene->GetMode() == CScene::MODE_GAME || pScene->GetMode() == CScene::MODE_TUTORIAL)
+	if (pScene->GetMode() == CScene::MODE_GAME)
 	{
 		CPlayer *pPlayer = CGame::GetPlayer();
 
@@ -281,11 +281,11 @@ void CCamera::Edit(void)
 		m_rot.y += D3DX_PI * 2.0f;
 	}
 
-	m_posV.x = m_posR.x - sinf(m_rot.y) * -CAMERA_DISTNCE;
-	m_posV.z = m_posR.z - cosf(m_rot.y) * -CAMERA_DISTNCE;
+	m_posV.x = m_posR.x - sinf(m_rot.y) * -2300.0f;
+	m_posV.z = m_posR.z - cosf(m_rot.y) * -2300.0f;
 
-	m_posR.x = m_posV.x - sinf(m_rot.y) * CAMERA_DISTNCE;
-	m_posR.z = m_posV.z - cosf(m_rot.y) * CAMERA_DISTNCE;
+	m_posR.x = m_posV.x - sinf(m_rot.y) * 2300.0f;
+	m_posR.z = m_posV.z - cosf(m_rot.y) * 2300.0f;
 
 	m_posR.x += m_move.x;
 	m_posV.x += m_move.x;

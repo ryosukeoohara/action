@@ -177,7 +177,7 @@ Mesh {
  4;26,27,14,23;;
  
  MeshMaterialList {
-  2;
+  4;
   12;
   1,
   1,
@@ -205,6 +205,21 @@ Mesh {
    TextureFilename {
     "C:\\Users\\student\\Downloads\\brick1_15_sume.jpg";
    }
+  }
+  Material {
+   0.800000;0.800000;0.800000;1.000000;;
+   5.000000;
+   0.000000;0.000000;0.000000;;
+   0.000000;0.000000;0.000000;;
+   TextureFilename {
+    "C:\\Users\\student\\Downloads\\pikist.jpg";
+   }
+  }
+  Material {
+   0.781176;0.787451;0.800000;1.000000;;
+   5.000000;
+   0.000000;0.000000;0.000000;;
+   0.000000;0.000000;0.000000;;
   }
  }
  MeshNormals {

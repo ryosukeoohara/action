@@ -21,6 +21,7 @@
 #include "title.h"
 #include "light.h"
 #include "result.h"
+#include "tutorial.h"
 
 //================================================================
 //静的メンバ変数
@@ -447,25 +448,7 @@ void CManager::Update(void)
 		}
 	}
 
-	if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_pScene->GetMode() == CScene::MODE_TITLE)
-	{//ENTERキーを押したかつシーンがタイトルのとき
-
-		if (m_Fade->Get() != m_Fade->FADE_OUT)
-		{
-			//シーンをゲームに遷移
-			m_Fade->Set(CScene::MODE_GAME);
-		}
-	}
-	else if (m_InputKeyboard->GetTrigger(DIK_RETURN) == true && m_pScene->GetMode() == CScene::MODE_GAME)
-	{//ENTERキーを押したかつシーンがゲームのとき
-
-		if (m_Fade->Get() != m_Fade->FADE_OUT)
-		{
-			//シーンをタイトルに遷移
-			m_Fade->Set(CScene::MODE_RESULT);
-		}
-	}
-	else if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_pScene->GetMode() == CScene::MODE_RESULT)
+	if ((m_InputKeyboard->GetTrigger(DIK_RETURN) == true || m_InputJoyPad->GetTrigger(CInputJoyPad::BUTTON_A, 0) == true) && m_pScene->GetMode() == CScene::MODE_RESULT)
 	{//ENTERキーを押したかつシーンがゲームのとき
 
 		if (m_Fade->Get() != m_Fade->FADE_OUT)
@@ -584,7 +567,7 @@ HRESULT CScene::Init(void)
 
 		break;
 
-	/*case MODE_TUTORIAL:
+	case MODE_TUTORIAL:
 
 		if (m_Tutorial == NULL)
 		{
@@ -593,7 +576,7 @@ HRESULT CScene::Init(void)
 			m_Tutorial->Init();
 		}
 
-		break;*/
+		break;
 
 	case MODE_GAME:
 
@@ -641,7 +624,7 @@ void CScene::Uninit(void)
 
 		break;
 
-	/*case MODE_TUTORIAL:
+	case MODE_TUTORIAL:
 
 		if (m_Tutorial != NULL)
 		{
@@ -652,7 +635,7 @@ void CScene::Uninit(void)
 			m_Tutorial = NULL;
 		}
 
-		break;*/
+		break;
 
 	case MODE_GAME:
 
@@ -698,14 +681,14 @@ void CScene::Update(void)
 
 		break;
 
-	/*case MODE_TUTORIAL:
+	case MODE_TUTORIAL:
 
 		if (m_Tutorial != NULL)
 		{
 			m_Tutorial->Update();
 		}
 
-		break;*/
+		break;
 
 	case MODE_GAME:
 
@@ -743,14 +726,14 @@ void CScene::Draw(void)
 
 		break;
 
-	/*case MODE_TUTORIAL:
+	case MODE_TUTORIAL:
 
 		if (m_Tutorial != NULL)
 		{
 			m_Tutorial->Draw();
 		}
 
-		break;*/
+		break;
 
 	case MODE_GAME:
 

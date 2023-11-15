@@ -76,6 +76,8 @@ HRESULT CResult::Init(void)
 	//ランク表示
 	CUIManager::Create({ 300.0f, 380.0f, 0.0f }, CUIManager::TYPE_RANK);
 
+	
+
 	//ランキングの生成
 	CRanking::Create();
 

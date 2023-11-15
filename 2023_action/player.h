@@ -188,8 +188,8 @@ public:
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
 
-	void SetLife(int life) { m_nLife = life; }
-	int GetLife(void) { return m_nLife; }
+	void SetLife(int nLife) { m_nLife = nLife; }  //‘Ì—Í‚Ìİ’è
+	int GetLife(void) { return m_nLife; }		  //‘Ì—Í‚ğæ“¾
 
 	void Hit(void);
 
@@ -338,8 +338,8 @@ public:
 	void SetbRand(bool brand) { m_bRand = brand; }
 	bool GetbRand(void) { return m_bRand; }
 
-	void SetLife(int life) { m_nLife = life; }
-	int GetLife(void) { return m_nLife; }
+	void SetLife(int nLife) { m_nLife = nLife; }  //‘Ì—Í‚Ìİ’è
+	int GetLife(void) { return m_nLife; }		  //‘Ì—Í‚ğæ“¾
 
 	void Hit(void);
 

@@ -42,6 +42,7 @@ CEnemy::CEnemy()
 {
 	m_state = (STATE)0;
 	m_nidxID = -1;
+	m_nLife = 0;
 }
 
 //==============================================================================
@@ -169,7 +170,9 @@ void CEnemy::Update(void)
 	CFoot *pPlayerFoot = CGame::GetPlayerFoot();
 	CChibi *pPlayerChibi = CGame::GetPlayerChibi();
 
-	if (GetLife() <= 0)
+	int life = GetLife();
+
+	if (life <= 0)
 	{
 		int n = CGame::GetCounter();
 

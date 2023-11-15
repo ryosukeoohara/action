@@ -63,6 +63,8 @@ public:
 
 	void SetIdx(int idx) { m_nidxID = idx; }
 
+	
+
 	static int GetNumAll(void) { return m_nNumAll; }
 
 protected:
@@ -80,7 +82,7 @@ private:
 	D3DXVECTOR3 m_posOld;                      //前回の位置
 	D3DXVECTOR3 m_move;                        //移動
 	D3DXMATRIX m_mtxWorld;                     //ワールドマトリックス
-	
+	int m_nLife;
 	
 
 	//*=============================================================================
