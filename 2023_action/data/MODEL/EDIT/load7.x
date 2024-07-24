@@ -225,7 +225,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Downloads\\brick1_15_sume.jpg";
+    "data\\TEXTURE\\renga.jpg";
    }
   }
   Material {
